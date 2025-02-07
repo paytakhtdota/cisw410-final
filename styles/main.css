@@ -1,8 +1,12 @@
-*,body{
+*{
     box-sizing: border-box;
     padding: 0;
+    margin: 0;
 }
 
+body{
+    height: 4000px;
+}
 a{
     text-decoration: none;
 }
@@ -15,5 +19,5 @@ li{
     display: block;
     min-width: 800px;
     width: 100%;
-    overflow-x: auto;
+    min-height: min-content;
 }
