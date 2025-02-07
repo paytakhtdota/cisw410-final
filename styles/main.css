@@ -1,0 +1,18 @@
+*{
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+}
+
+li{
+    list-style-type: none;
+}
+
+#main-container{
+    display: block;
+    min-width: 800px;
+    width: 100%;
+    overflow-x: auto;
+}
