@@ -6,7 +6,7 @@ phpinfo();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>cisw 410 final</title>
 </head>
 <body>
     
