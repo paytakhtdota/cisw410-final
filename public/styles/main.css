@@ -1,23 +1,31 @@
-*{
+* {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
 }
 
-body{
+body {
     height: 4000px;
 }
-a{
+
+a {
     text-decoration: none;
 }
 
-li{
+li {
     list-style-type: none;
 }
 
-#main-container{
+#main-container {
     display: block;
     min-width: 800px;
     width: 100%;
     min-height: min-content;
+}
+
+#layout-adj {
+    width: 100%;
+    background-color: black;
+    height: 100vh;
+
 }

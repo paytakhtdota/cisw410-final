@@ -5,7 +5,7 @@
 		<!-- Radio -->
 		<input type="radio" name="css-fadeshow" id="slide-1" />
 		<input type="radio" name="css-fadeshow" id="slide-2" />
-		<input type="radio" name="css-fadeshow" id="slide-3" />
+		<input type="radio" name="css-fadeshow" id="slide-3" checked/>
 
 		<!-- Slides -->
 		<div class="fs-slides">

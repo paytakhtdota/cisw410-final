@@ -1,0 +1,18 @@
+#countdown-timer {
+    width: 100%;
+    background-color: #ece2ff;
+    height: 300px;
+    text-align: center;
+    padding-top: 4em;
+}
+#countdown-timer > h2{
+    font-family: Roboto ;
+    font-size: 3em;
+    line-height: 2;
+}
+
+#countdown-timer > h3{
+    font-family: Montserrat;
+    font-size: 3em;
+    line-height: 2;
+}
