@@ -1,6 +1,6 @@
 <nav>
     <div class="left-side">
-        <a href="#"><img src="images/logo2.png" alt="logo"></a>
+        <a href="#"><img src="public/images/logo2.png" alt="logo"></a>
         <a href="#">Home</a>
         <a href="#">Reservation</a>
         <a href="#">Contact</a>

@@ -58,7 +58,7 @@ height: 38px;
 
 .right-side{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     width: 100%;
     min-width: 190px;
     max-width: 280px;
@@ -87,7 +87,7 @@ height: 38px;
     min-width: 64px;
     outline: none;
     overflow: visible;
-    padding: 0 16px;
+    padding: 0 25px;
     position: relative;
     text-align: center;
     text-decoration: none;
