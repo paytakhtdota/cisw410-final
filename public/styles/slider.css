@@ -1,33 +1,7 @@
 @charset "UTF-8";
 /*
  * CSS Fadeshow by @alexerlandsson
- * This is a fadeshow built in CSS and with customization in focus.
- * Supports quick navigation, prev/next navigation and autoplay.
- * 
- * For better documentation and implementation guide, check out the GitHub repository:
- * https://github.com/alexerlandsson/css-fadeshow
 */
-/*
- * ===== VARIABLES =====
- *
- * Change these variables to match your preferences. For a more detailed
- * description of what each variable do, visit https://github.com/alexerlandsson/css-fadeshow
- */
-/*
- * ===== MIXINS =====
- *
- * This section contains mixin used
- * Do not change anything here unless you know what you are doing.
- */
-/* Mixins to handle prefixes */
-/* Mixins to handle Quick Navigation Button states */
-/*
- * ===== FADESHOW =====
- *
- * Base functionality for the fadeshow.
- * Do not change anything here unless you know what you are doing.
- */
-
 
 [data-am-fadeshow] {
   position: relative;

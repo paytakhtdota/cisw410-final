@@ -5,7 +5,7 @@
 }
 
 body {
-    height: 4000px;
+    height:min-content;
 }
 
 a {
@@ -25,7 +25,5 @@ li {
 
 #layout-adj {
     width: 100%;
-    background-color: black;
     height: 100vh;
-
 }
