@@ -1,6 +1,6 @@
 <div class="row primary">
         <div class="column about">
-          <h3>Foolish Developer</h3>
+          <h3>Lets Design</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
             voluptatem corporis error non,
@@ -65,10 +65,10 @@
                        <a href="">Home</a>
                        <a href="">About</a>
                        <a href="">Contact</a>
-                       <a href="">Blog</a>
+                       <a href="">Reservation</a>
      <a href="">Social</a>
 
 
                     </div>
-        <p>Copyright &copy; 2021 Foolish Developer</p>
+        <p>Copyright &copy; 2021 Lets Design</p>
       </div>
