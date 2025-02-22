@@ -6,7 +6,7 @@ nav {
     font-weight: 500;
     margin-top: 20px;
     padding: 10px 0 0 10px;
-    background-color: #ffffff64;
+    background-color: #ffffff20;
     min-height: 60px;
     width: 100%;
     backdrop-filter: blur(3px);
@@ -29,14 +29,14 @@ box-shadow: -3px 7px 32px -18px rgba(0,0,0,0.8);
 .left-side >a{
     display: inline-flex;
     width: 100px;
-    background-color: #6200ee00;
+    background-color: transparent;
     text-align: center;
     justify-content: center;
     align-content: center;
     padding: 8px;
     transition: 0.3s all;
     height: 38px;
-    color: #6200eeff;
+    color: #000000;
 }
 
 .left-side img{
@@ -58,7 +58,7 @@ height: 38px;
 }
 
 .left-side > a:visited{
-    color: #6200eeff;
+    color: none;
 }
 
 .right-side{

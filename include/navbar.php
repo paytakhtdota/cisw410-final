@@ -8,6 +8,6 @@
     </div>
     <div class="right-side">
 <button class="button-61">Sign Up</button>
-<button class="button-61">Log In</button>
+<a href="/final/user-login.php"><button class="button-61">Log In</button></a>
     </div>
 </nav>
