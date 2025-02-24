@@ -1,6 +1,54 @@
 <?php
-if (isset($_POST['email-signup']) && trim($_POST['email-signup']) != '') {
+session_start();
+function signinAction()
+{
+    $error = array();
+    $data_si = array();
 
+    $data_si['emailSI'] = trim($_POST['username-signin']);
+    $data_si['passwordSI'] = trim($_POST['password-signin']);
+
+
+    foreach ($data_si as $index => $input) {
+        if (!isset($input) || $input == '') {
+            $error[] = "You need to enter a $index";
+        }
+    }
+
+    if (empty($error)) {
+
+        $data_si['emailSI'] = strtolower($data_si['emailSI']);
+
+        require_once("connection.php");
+
+        $quiry = $pdo->prepare("SELECT * FROM users WHERE email = :emailSI");
+        $quiry->execute([":emailSI" => $data_si['emailSI']]);
+        if ($quiry->rowCount() > 0) {
+            echo 'record exist';
+            $userData = $quiry->fetch(PDO::FETCH_ASSOC);
+            if (password_verify($data_si['passwordSI'], $userData['password'])) {
+                $_SESSION['user_data'] = $userData;
+
+                header('Location: ../user/user-dash.php');
+                exit();
+            }else{
+                echo'password not match';
+            }
+
+        } else {
+            echo "Account Not Found!";
+
+        }
+
+
+    } else {
+        // redirect to fix error(s)
+        echo 'Fill all fields';
+    }
+}
+
+function singupAction()
+{
     $error = array();
     $data_su = array();
 
@@ -45,4 +93,13 @@ if (isset($_POST['email-signup']) && trim($_POST['email-signup']) != '') {
         // redirect to fix error(s)
         echo 'Error on the form';
     }
+}
+
+
+if  (isset($_POST['username-signin']) && trim($_POST['username-signin']) != ''){
+    signinAction();
+} elseif (isset($_POST['email-signup']) && trim($_POST['email-signup']) != ''){
+    singupAction();
+} else {
+    echo 'something is wrong';
 }

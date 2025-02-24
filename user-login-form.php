@@ -65,12 +65,12 @@
 
                                     <div class="form-group mb-3">
                                         <label class="label" for="username">E-mail</label>
-                                        <input type="text" name="username" id="username" class="form-control"
+                                        <input type="text" name="username-signin" id="username" class="form-control"
                                             placeholder="Username" required>
                                     </div>
                                     <div class="form-group mb-3">
                                         <label class="label" for="password">Password</label>
-                                        <input id="password" name="password" type="password" class="form-control"
+                                        <input id="password" name="password-signin" type="password" class="form-control"
                                             placeholder="Password" required>
                                     </div>
                                     <div class="form-group">
