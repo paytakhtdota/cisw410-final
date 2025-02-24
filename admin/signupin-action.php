@@ -31,8 +31,8 @@ function signinAction()
 
                 header('Location: ../user/user-dash.php');
                 exit();
-            }else{
-                echo'password not match';
+            } else {
+                echo 'password not match';
             }
 
         } else {
@@ -95,11 +95,25 @@ function singupAction()
     }
 }
 
+function logout()
+{
+    session_start();
+    session_unset();
+    session_destroy();
 
-if  (isset($_POST['username-signin']) && trim($_POST['username-signin']) != ''){
+    header("Location: ../index.php");
+    exit();
+}
+
+
+if (isset($_POST['username-signin']) && trim($_POST['username-signin']) != '') {
     signinAction();
-} elseif (isset($_POST['email-signup']) && trim($_POST['email-signup']) != ''){
+} elseif (isset($_POST['email-signup']) && trim($_POST['email-signup']) != '') {
     singupAction();
+} elseif (isset($_POST['leave'])){
+    session_destroy();
+    header("Location: ../index.php");
+    exit();
 } else {
     echo 'something is wrong';
 }

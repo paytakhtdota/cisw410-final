@@ -103,6 +103,44 @@ if (!isset($_SESSION['user_data'])) {
             pointer-events: none;
 
         }
+
+
+        .message-box {
+            width: 400px;
+            height: 140px;
+            border: 1px solid #000000;
+            font-size: 18px;
+            text-align: center;
+            padding-top: 25px 10px;
+            border-radius: 8px;
+            background-color: rgb(222, 222, 222);
+            margin: 150px auto;
+        }
+
+        .message-box>div {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        #leave , #cancel{
+            width: 100px;
+            height: min-content;
+            background-color: #fff;
+            padding: 10px 15px 10px 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #3498db;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid #3498db;
+        }
+
+        #leave:hover  , #cancel:hover {
+            color: rgb(255, 255, 255);
+            background-color: #3498db;
+        }
+
     </style>
 </head>
 
@@ -125,16 +163,24 @@ if (!isset($_SESSION['user_data'])) {
             } ?>
         </div>
         <div id="tickets" class="tab">
-        <div class="header">Tickets</div>
+            <div class="header">Tickets</div>
             <p>tickets content is displayed here.</p>
         </div>
         <div id="settings" class="tab">
-        <div class="header">Settings</div>
+            <div class="header">Settings</div>
             <p>Settings content is displayed here.</p>
         </div>
         <div id="logout" class="tab">
-        <div class="header">Exit</div>
-            <p>Logout content is displayed here.</p>
+            <div class="header">Exit</div>
+            <div class="message-box">
+                <p>Are you sure you want to log out?</p>
+                <div>
+                    <form action="../admin/signupin-action.php" method="POST" >
+                        <input id="leave" name="leave" type="submit" value="Log Out"></input>
+                    </form>
+                    <button onclick="showTab('home')" id="cancel" name="cancel">Back</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -143,6 +189,10 @@ if (!isset($_SESSION['user_data'])) {
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(tab => tab.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
+            if(tabId == "home"){
+                document.querySelector(".sidebar ul li:last-child").classList.remove("selected");
+                document.querySelector(".sidebar ul li:first-child").classList.add("selected");
+            }
         }
         let dashItems = document.querySelectorAll(".sidebar ul li");
         console.log(dashItems);
@@ -152,6 +202,7 @@ if (!isset($_SESSION['user_data'])) {
                 e.target.classList.add("selected");
             });
         });
+
     </script>
 </body>
 
