@@ -2,11 +2,6 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="public/styles/main.css">
-    <link rel="stylesheet" href="public/styles/nav.css">
-    <link rel="stylesheet" href="public/styles/slider.css">
-    <link rel="stylesheet" href="public/styles/timer.css">
-    <link rel="stylesheet" href="public/styles/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -16,7 +11,9 @@
     <title>cisw 410 final: user loging</title>
     <style>
 
-
+*{
+  box-sizing: border-box;
+}
 input {
   ::-webkit-input-placeholder {
      color: rgba(255,255,255,0.7);
@@ -74,12 +71,12 @@ input {
   padding: .5rem;
   transition: 250ms background ease-in;
   width: calc(100% - 3rem);
-  &:focus {
+}
+.login-username:focus, .login-password:focus{
     background: white;
     color: black;
     transition: 250ms background ease-in;
   }
-}
 
 .login-forgot-pass {
   //border-bottom: 1px solid white;
@@ -110,12 +107,15 @@ input {
   min-height: 35px;
   padding: .25rem;
   transition: 250ms background ease-in;
-  &:hover, &:focus {
+ 
+}
+
+.login-submit:hover, .login-submit:focus {
     background: white;
     color: black;
     transition: 250ms background ease-in;
+    cursor: pointer;
   }
-}
 
 
 
@@ -168,15 +168,15 @@ padding-top: 15%;
 <body>
     <div id="layout-adj">
         <div id="form-container">
-        <form class="login-form">
+        <form class="login-form" action="" method="POST">
             <p class="login-text">
                 <span class="fa-stack fa-lg">
                     <i class="fa fa-circle fa-stack-2x"></i>
                     <i class="fa fa-lock fa-stack-1x"></i>
                 </span>
             </p>
-            <input type="email" class="login-username" autofocus="true" required="true" placeholder="Email" />
-            <input type="password" class="login-password" required="true" placeholder="Password" />
+            <input name="email" type="email" class="login-username" autofocus="true" required="true" placeholder="Email" />
+            <input name="pasword" type="password" class="login-password" required="true" placeholder="Password" />
             <input type="submit" name="Login" value="Login" class="login-submit" />
         </form>
         </div>

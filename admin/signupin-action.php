@@ -24,7 +24,6 @@ function signinAction()
         $quiry = $pdo->prepare("SELECT * FROM users WHERE email = :emailSI");
         $quiry->execute([":emailSI" => $data_si['emailSI']]);
         if ($quiry->rowCount() > 0) {
-            echo 'record exist';
             $userData = $quiry->fetch(PDO::FETCH_ASSOC);
             if (password_verify($data_si['passwordSI'], $userData['password'])) {
                 $_SESSION['user_data'] = $userData;

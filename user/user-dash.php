@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// بررسی اینکه آیا کاربر لاگین کرده یا نه
+// login check
 if (!isset($_SESSION['user_data'])) {
     header("Location: ../user-login-form.php");
     exit();
