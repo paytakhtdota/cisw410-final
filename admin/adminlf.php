@@ -19,7 +19,7 @@ input {
      color: rgba(255,255,255,0.7);
   }
   ::-moz-placeholder {
-     color: rgba(255,255,255,0.7);  
+     color: rgba(255, 255, 255, 0.7);  
   }
   :-ms-input-placeholder {  
      color: rgba(255,255,255,0.7);  
@@ -55,6 +55,7 @@ input {
   max-width: 50%;
   padding: .5rem;
   text-align: center;
+  opacity: 0.8;
   //text-shadow: 1px -1px 0 rgba(0,0,0,0.3);
   .fa-stack-1x {
     color: black;
@@ -128,10 +129,9 @@ input {
   top: 0;
 }
 .underlay-photo {
-  animation: hue-rotate 6s infinite;
-  background: url('https://31.media.tumblr.com/41c01e3f366d61793e5a3df70e46b462/tumblr_n4vc8sDHsd1st5lhmo1_1280.jpg');
+  background: url('../public/images/login-bg2.jpg');
   background-size: cover;
-  -webkit-filter: grayscale(30%);
+  -webkit-filter: brightness(80%);
   z-index: -1;
 }
 .underlay-black {
@@ -139,14 +139,6 @@ input {
   z-index: -1;
 }
 
-@keyframes hue-rotate {
-  from {
-    -webkit-filter: grayscale(30%) hue-rotate(0deg);
-  }
-  to {
-    -webkit-filter: grayscale(30%) hue-rotate(360deg);
-  }
-}
 
 #layout-adj{
     display: flex;
@@ -174,9 +166,10 @@ padding-top: 15%;
                     <i class="fa fa-circle fa-stack-2x"></i>
                     <i class="fa fa-lock fa-stack-1x"></i>
                 </span>
+               
             </p>
             <input name="email" type="email" class="login-username" autofocus="true" required="true" placeholder="Email" />
-            <input name="pasword" type="password" class="login-password" required="true" placeholder="Password" />
+            <input name="password" type="password" class="login-password" required="true" placeholder="Password" />
             <input type="submit" name="Login" value="Login" class="login-submit" />
         </form>
         </div>
