@@ -28,14 +28,16 @@ function signinAction()
             if (password_verify($data_si['passwordSI'], $userData['password'])) {
                 $_SESSION['user_data'] = $userData;
 
-                header('Location: ../user/user-dash.php');
+                header('Location: user-dash.php');
                 exit();
             } else {
-                echo 'password not match';
+                header("Location: user-login-form.php?signin=true&emailorpass=true");
+                echo '<script>alert ("Email or Password is wrong")</script>';
             }
 
         } else {
-            echo "Account Not Found!";
+            header("Location: user-login-form.php?signin=true&emailorpass=true");
+                echo '<script>alert ("Email or Password is wrong.")</script>';
 
         }
 
@@ -75,7 +77,8 @@ function singupAction()
         $emailCheck = $pdo->prepare("SELECT email FROM users WHERE email = :emailSU");
         $emailCheck->execute([":emailSU" => $data_su['emailSU']]);
         if ($emailCheck->rowCount() > 0) {
-            echo "Email exist, already!";
+            header("Location: user-login-form.php?signup=true&emailexit=true");
+            echo '<script>alert ("The email you used for sign up already exist in database. Please use login page to log in to your account or use different email for sign up.")</script>';
         } else {
             $data_su['passwordSU'] = password_hash($data_su['passwordSU'], PASSWORD_DEFAULT);
             unset($data_su['confirmSU']);
@@ -83,13 +86,14 @@ function singupAction()
             require_once("connection.php");
             $query = $pdo->prepare("INSERT INTO users(fname, lname, email, password, phone) VALUES (:fNameSU,:lNameSU,:emailSU,:passwordSU,:phoneSU)");
             $query->execute($data_su);
-            echo 'Form inserted Successfully';
+            header("Location: user-login-form.php?signin=true&regestred=true");
+            echo '<script>alert ("You are successfully regestered. Now Log in to your account.")</script>';
 
         }
 
 
     } else {
-        // redirect to fix error(s)
+        // redirect to fix error(s) 
         echo 'Error on the form';
     }
 }
@@ -100,7 +104,7 @@ function logout()
     session_unset();
     session_destroy();
 
-    header("Location: ../index.php");
+    header("Location: index.php");
     exit();
 }
 
@@ -111,7 +115,7 @@ if (isset($_POST['username-signin']) && trim($_POST['username-signin']) != '') {
     singupAction();
 } elseif (isset($_POST['leave'])){
     session_destroy();
-    header("Location: ../index.php");
+    header("Location: index.php");
     exit();
 } else {
     echo 'something is wrong';

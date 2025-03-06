@@ -7,8 +7,16 @@
         <a href="about.php">About</a>
     </div>
     <div class="right-side">
-        <a class="signin-up" href="/final/user-login-form.php?signup=true">Sign Up</a>
-        <a class="signin-up" href="/final/user-login-form.php?signin=true">Log In</a>
+        <?php
+        if (!isset($_SESSION['user_data'])) {
+            echo '<a class="signin-up" href="user-login-form.php?signup=true">Sign Up</a>
+        <a class="signin-up" href="user-login-form.php?signin=true">Log In</a>';
+        } else {
+            echo '<a class="signin-up" href="user-dash.php">Dashboard</a>
+        <a class="signin-up" href="user-dash.php?logout=1">Sign Out</a>';
+        }
+        ?>
+
     </div>
     <script>
         const myLogo = document.getElementById("mylogo");

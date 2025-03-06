@@ -321,29 +321,29 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             border-color: #555;
         }
 
-        #upBTN,#delBTN{
+        #upBTN,
+        #delBTN {
             width: 40px;
             height: 20px;
             border: 1px solid rgb(145, 202, 240);
-            background-color:rgb(207, 215, 224);
+            background-color: rgb(207, 215, 224);
             border-radius: 2px;
             transition: all 200ms;
-            }
+        }
 
-            #delBTN:hover{
-                border: 1px solid #007bff;
-            background-color:#007bff;
+        #delBTN:hover {
+            border: 1px solid #007bff;
+            background-color: #007bff;
             cursor: pointer;
-            color:rgb(255, 255, 255);
-            }
+            color: rgb(255, 255, 255);
+        }
 
-            #upBTN:hover{
-                border: 1px solid rgb(255, 84, 84);
-            background-color:rgb(225, 84, 74);
+        #upBTN:hover {
+            border: 1px solid rgb(255, 84, 84);
+            background-color: rgb(225, 84, 74);
             cursor: pointer;
-            color:rgb(255, 255, 255);
-            }
-        
+            color: rgb(255, 255, 255);
+        }
     </style>
 </head>
 
@@ -364,9 +364,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         <div id="home" class="tab active">
             <div class="header">Welcome to the Dashboard</div>
             <p>Home content is displayed here.</p>
-            <?php foreach ($userData as $data) {
-                echo "$data <br>";
-            } ?>
+
         </div>
 
         <div id="tickets" class="tab">
@@ -383,7 +381,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             <div class="header">Users</div>
             <p>tickets content is displayed here.</p>
         </div>
-
+        <!-- Tab : Admins -->
         <div id="admins" class="tab">
             <div class="header">Admins</div>
             <p>tickets content is displayed here.</p>
@@ -406,6 +404,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                             <li>Delete</li>
                         </ul>
                     </div>
+                    <!-- A row for each record -->
                     <?php foreach ($users as $user) {
                         if ($user['privilege_level'] != 0) {
 
@@ -418,9 +417,9 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                             <li>" . $user['phone'] . "</li>
                             <li>" . $user['create_at'] . "</li>
                             <li>" . $user['privilege_level'] . "</li>
-                            <li><form action='config.php' method='POST'><input type='hidden' name='deleteAdmin' value=''><button id='delBTN' type='submit'>
+                            <li><form action='config.php' method='POST'><input type='hidden' name='updateAdmin' value='" . $user['id_user'] . "'><button id='upBTN' type='submit'>
                             <i class='fa-solid fa-pen-to-square'></i></button></form></li>
-                            <li><form action='config.php' method='POST'><input type='hidden' name='deleteAdmin' value=''><button id='upBTN' type='submit'>
+                            <li><form action='config.php' method='POST'><input type='hidden' name='deleteAdmin' value='" . $user['id_user'] . "'><button id='delBTN' type='submit'>
                             <i class='fa-solid fa-trash-can'></i></button></form></li>
                             </ul>
                             </div>";
@@ -428,6 +427,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     }
                     ?>
                 </div>
+                <!-- Add New Admin From -->
                 <div class="newAdminForm">
                     <h3>Add New Administrator</h3>
                     <form action="config.php" method="POST">
@@ -462,71 +462,78 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     </form>
 
                 </div>
-            </div>
-        </div>
+                <!-- Delete form -->
+                <div class="messageBox">
+                    <div class="qustion">
+                        <p>Are you sure you want to delete this record?</p>
+                    </div>
+                    <div class="conformBTN">
+                        <form action=""><input type="submit"></form>
+                    </div>
+                </div>
+                <!-- Tab : Settings -->
+                <div id="settings" class="tab">
+                    <div class="header">Settings</div>
+                    <p>Settings content is displayed here.</p>
+                </div>
 
-        <div id="settings" class="tab">
-            <div class="header">Settings</div>
-            <p>Settings content is displayed here.</p>
-        </div>
-
-        <div id="logout" class="tab">
-            <div class="header">Exit</div>
-            <div class="message-box">
-                <p>Are you sure you want to log out?</p>
-                <div>
-                    <form action="../admin/signupin-action.php" method="POST">
-                        <input id="leave" name="leave" type="submit" value="Log Out"></input>
-                    </form>
-                    <button onclick="showTab('home')" id="cancel" name="cancel">Back</button>
+                <div id="logout" class="tab">
+                    <div class="header">Exit</div>
+                    <div class="message-box">
+                        <p>Are you sure you want to log out?</p>
+                        <div>
+                            <form action="signupin-action.php" method="POST">
+                                <input id="leave" name="leave" type="submit" value="Log Out"></input>
+                            </form>
+                            <button onclick="showTab('home')" id="cancel" name="cancel">Back</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <script>
-        function showTab(tabId) {
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            if (tabId == "home") {
-                document.querySelector(".sidebar ul li:last-child").classList.remove("selected");
-                document.querySelector(".sidebar ul li:first-child").classList.add("selected");
-            }
-        }
-        let dashItems = document.querySelectorAll(".sidebar ul li");
-        console.log(dashItems);
-        dashItems.forEach(item => {
-            item.addEventListener("click", function (e) {
-                dashItems.forEach(i => i.classList.remove("selected"));
-                e.target.classList.add("selected");
-            });
-        });
+            <script>
+                function showTab(tabId) {
+                    const tabs = document.querySelectorAll('.tab');
+                    tabs.forEach(tab => tab.classList.remove('active'));
+                    document.getElementById(tabId).classList.add('active');
+                    if (tabId == "home") {
+                        document.querySelector(".sidebar ul li:last-child").classList.remove("selected");
+                        document.querySelector(".sidebar ul li:first-child").classList.add("selected");
+                    }
+                }
+                let dashItems = document.querySelectorAll(".sidebar ul li");
+                console.log(dashItems);
+                dashItems.forEach(item => {
+                    item.addEventListener("click", function (e) {
+                        dashItems.forEach(i => i.classList.remove("selected"));
+                        e.target.classList.add("selected");
+                    });
+                });
 
-        function tugglelist(key) {
-            if (key) {
-                document.querySelector(".newAdminForm").style.display = "block";
-                document.querySelector(".containerBudy").style.display = "none";
-            } else {
-                document.querySelector(".newAdminForm").style.display = "none";
-                document.querySelector(".containerBudy").style.display = "block";
-            }
-        }
+                function tugglelist(key) {
+                    if (key) {
+                        document.querySelector(".newAdminForm").style.display = "block";
+                        document.querySelector(".containerBudy").style.display = "none";
+                    } else {
+                        document.querySelector(".newAdminForm").style.display = "none";
+                        document.querySelector(".containerBudy").style.display = "block";
+                    }
+                }
 
-        const params = new URLSearchParams(window.location.search);
-        let success = params.get("success");
-        if (success) {
-            showTab('admins');
-            setTimeout(function () {
-                alert("New record successfully added.");
-            }, 500);
-        }
+                const params = new URLSearchParams(window.location.search);
+                let success = params.get("success");
+                if (success) {
+                    showTab('admins');
+                    setTimeout(function () {
+                        alert("New record successfully added.");
+                    }, 500);
+                }
 
 
-        // نمایش مقدار در صفحه
-        document.getElementById("output").textContent = "مقدار دریافت شده: " + message;
+                // نمایش مقدار در صفحه
+                document.getElementById("output").textContent = "مقدار دریافت شده: " + message;
 
-    </script>
+            </script>
 </body>
 
 </html>

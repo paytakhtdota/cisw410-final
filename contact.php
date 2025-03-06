@@ -18,12 +18,12 @@
 
 <body>
     <?php
-    include("include/navbar.php");
+    include("navbar.php");
     ?>
     <div id="layout-adj"></div>
     <footer>
         <?php
-        include("include/footer.php");
+        include("footer.php");
         ?>
     </footer>
 </body>

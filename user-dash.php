@@ -3,10 +3,11 @@ session_start();
 
 // login check
 if (!isset($_SESSION['user_data'])) {
-    header("Location: ../user-login-form.php");
+    header("Location: user-login-form.php");
     exit();
 } else {
     $userData = $_SESSION['user_data'];
+   
 }
 
 
@@ -21,7 +22,11 @@ if (!isset($_SESSION['user_data'])) {
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Simple Dashboard</title>
+    <link rel="stylesheet" href="public/styles/nav.css">
+    <link rel="stylesheet" href="public/styles/main.css">
+    <link rel="stylesheet" href="public/styles/footer.css">
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -29,16 +34,21 @@ if (!isset($_SESSION['user_data'])) {
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            display: flex;
+            display: block;
 
+        }
+        main{
+            display: flex;
+            width: 100%;
         }
 
         .sidebar {
             width: 250px;
-            background: rgb(28, 44, 60);
+            background: #121315;
             color: white;
             height: 100vh;
             padding: 20px;
+            margin-top: 75px;
         }
 
         .sidebar h2 {
@@ -70,6 +80,7 @@ if (!isset($_SESSION['user_data'])) {
         .content {
             flex: 1;
             padding: 20px;
+            margin-top: 75px;
         }
 
         .header {
@@ -115,6 +126,7 @@ if (!isset($_SESSION['user_data'])) {
             border-radius: 8px;
             background-color: rgb(222, 222, 222);
             margin: 150px auto;
+            padding-top: 25px;
         }
 
         .message-box>div {
@@ -141,14 +153,24 @@ if (!isset($_SESSION['user_data'])) {
             background-color: #3498db;
         }
 
+        footer{
+            display: block !important;
+        }
+
     </style>
+
+
 </head>
 
 <body>
+<?php
+    include("navbar.php");
+    ?>
+    <main>
     <div class="sidebar">
-        <h2>Dashboard</h2>
+        <h2>&nbsp;&nbsp;&nbsp;</h2>
         <ul>
-            <li class="selected" onclick="showTab('home')"><i class="fa-solid fa-house-user"> </i> Home</li>
+            <li class="selected" onclick="showTab('home')"><i class="fa-solid fa-house-user"> </i> Dashboard</li>
             <li class="" onclick="showTab('tickets')"><i class="fa-solid fa-ticket"> </i> Tickets</li>
             <li class="" onclick="showTab('settings')"><i class="fa-solid fa-gear"> </i> Settings</li>
             <li class="" onclick="showTab('logout')"><i class="fa-solid fa-arrow-right-from-bracket"> </i> Logout</li>
@@ -175,7 +197,7 @@ if (!isset($_SESSION['user_data'])) {
             <div class="message-box">
                 <p>Are you sure you want to log out?</p>
                 <div>
-                    <form action="../admin/signupin-action.php" method="POST" >
+                    <form action="signupin-action.php" method="POST" >
                         <input id="leave" name="leave" type="submit" value="Log Out"></input>
                     </form>
                     <button onclick="showTab('home')" id="cancel" name="cancel">Back</button>
@@ -183,7 +205,11 @@ if (!isset($_SESSION['user_data'])) {
             </div>
         </div>
     </div>
-
+    </main>
+    <footer>
+        <?php include("footer.php");
+        ?>
+    </footer>
     <script>
         function showTab(tabId) {
             const tabs = document.querySelectorAll('.tab');
@@ -203,6 +229,11 @@ if (!isset($_SESSION['user_data'])) {
             });
         });
 
+<?php 
+if (isset($_GET['logout'])){
+    echo "showTab('logout');";
+}
+?>
     </script>
 </body>
 

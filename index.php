@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,8 +19,8 @@
 
 <body>
     <?php
-    include("include/navbar.php");
-    include("include/slider.php");
+    include("navbar.php");
+    include("slider.php");
     ?>
     <div id="layout-adj"></div>
     <div id="countdown-timer" style="">
@@ -26,7 +29,7 @@
 
     </div>
     <footer>
-        <?php include("include/footer.php");
+        <?php include("footer.php");
         ?>
     </footer>
     <!-- scripts -->

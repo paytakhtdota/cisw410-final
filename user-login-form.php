@@ -32,7 +32,7 @@
 
 <body>
     <?php
-    include("include/navbar.php");
+    include("navbar.php");
     ?>
     <div id="layout-adj">
         <section class="ftco-section">
@@ -61,7 +61,7 @@
                                     </div>
                                 </div>
                                 <!-- sign-in form -->
-                                <form action="admin/signupin-action.php" class="signin-form" method="POST">
+                                <form action="signupin-action.php" class="signin-form" method="POST">
 
                                     <div class="form-group mb-3">
                                         <label class="label" for="username">E-mail</label>
@@ -115,7 +115,7 @@
                                     </div>
                                 </div>
                                 <!-- sign-up form -->
-                                <form action="admin/signupin-action.php" class="signin-form" method="POST">
+                                <form action="signupin-action.php" class="signin-form" method="POST">
                                     <div class="form-group mb-6">
 
                                         <label class="label" for="fname-singup">First Name:</label>
@@ -129,23 +129,23 @@
                                     </div>
                                     <div class="form-group mb-6">
                                         <label class="label" for="email-signup">E-mail:</label>
-                                        <input id="email-signup" name="email-signup" type="email" class="form-control" placeholder="Email"
-                                            required>
+                                        <input id="email-signup" name="email-signup" type="email" class="form-control"
+                                            placeholder="Email" required>
                                     </div>
                                     <div class="form-group mb-6">
                                         <label class="label" for="phone-signup">Phone:</label>
-                                        <input id="phone-signup" name="phone-signup"  type="tel" class="form-control" placeholder="Phone"
-                                            required>
+                                        <input id="phone-signup" name="phone-signup" type="tel" class="form-control"
+                                            placeholder="Phone" required>
                                     </div>
                                     <div class="form-group mb-6">
                                         <label class="label" for="password-signup">Password:</label>
-                                        <input id="password-signup" name="password-signup" type="password" class="form-control"
-                                            placeholder="Password" required>
+                                        <input id="password-signup" name="password-signup" type="password"
+                                            class="form-control" placeholder="Password" required>
                                     </div>
                                     <div class="form-group mb-6">
                                         <label class="label" for="confirm-signup">Confirm password:</label>
-                                        <input id="confirm-signup" name="confirm-signup" type="password" class="form-control"
-                                            placeholder="Repeat password" required>
+                                        <input id="confirm-signup" name="confirm-signup" type="password"
+                                            class="form-control" placeholder="Repeat password" required>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit"
@@ -167,7 +167,26 @@
             </div>
         </section>
         <?php
-        if (isset($_GET['signup'])) {
+        if (isset($_GET['signin']) && isset($_GET['regestred'])) {
+            echo '<script>
+            document.getElementById("singin-form-container").style.display="block";document.getElementById("singup-form-container").style.display="none";
+            setTimeout(function() {
+            alert("You are successfully regestered. Now Log in to your account.");
+            }, 500);
+            </script>';
+        } elseif (isset($_GET['signup']) && isset($_GET['emailexit'])) {
+            echo '<script>document.getElementById("singin-form-container").style.display="none";document.getElementById("singup-form-container").style.display="block";setTimeout(function() {
+                alert("The email you used for sign up for account already exist. Please use login page to log in to your account or use different email for sign up.");
+                }, 500);
+                </script>';
+        } elseif (isset($_GET['signin']) && isset($_GET['emailorpass'])) {
+            echo '<script>
+            document.getElementById("singin-form-container").style.display="block";document.getElementById("singup-form-container").style.display="none";
+            setTimeout(function() {
+            alert("Email or Password is wrong, Try again.");
+            }, 500);
+            </script>';
+        }   elseif (isset($_GET['signup'])) {
             echo '<script>document.getElementById("singin-form-container").style.display="none";document.getElementById("singup-form-container").style.display="block";</script>';
         } elseif (isset($_GET['signin'])) {
             echo '<script>document.getElementById("singin-form-container").style.display="block";document.getElementById("singup-form-container").style.display="none";</script>';
@@ -177,7 +196,7 @@
     </div>
     <footer>
         <?php
-        include("include/footer.php");
+        include("footer.php");
         ?>
     </footer>
 

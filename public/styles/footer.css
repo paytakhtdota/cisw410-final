@@ -3,6 +3,7 @@ footer {
     color: #a7a7a7;
     font-size: 16px;
     z-index: 1;
+    display: block;
   }
   footer * {
     font-family: "Poppins", sans-serif;
