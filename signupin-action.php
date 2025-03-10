@@ -78,7 +78,7 @@ function singupAction()
         $emailCheck->execute([":emailSU" => $data_su['emailSU']]);
         if ($emailCheck->rowCount() > 0) {
             header("Location: user-login-form.php?signup=true&emailexit=true");
-            echo '<script>alert ("The email you used for sign up already exist in database. Please use login page to log in to your account or use different email for sign up.")</script>';
+            echo '<script>alert ("The email you entered is already registered in our system. Please use the login page to access your account or enter a different email to sign up.")</script>';
         } else {
             $data_su['passwordSU'] = password_hash($data_su['passwordSU'], PASSWORD_DEFAULT);
             unset($data_su['confirmSU']);

@@ -118,9 +118,6 @@ input {
     cursor: pointer;
   }
 
-
-
-
 [class*=underlay] {
   left: 0;
   min-height: 100%;
@@ -129,7 +126,7 @@ input {
   top: 0;
 }
 .underlay-photo {
-  background: url('../public/images/login-bg2.jpg');
+  background: url('public/images/login-bg2.jpg');
   background-size: cover;
   -webkit-filter: brightness(80%);
   z-index: -1;

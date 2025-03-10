@@ -43,7 +43,22 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             margin: 0;
             font-family: Arial, sans-serif;
             display: flex;
+            transition: all 0.3s;
+        }
 
+        .btnBar button {
+            border-radius: 8px;
+            border: 1px solid #fff8e5;
+            height: 40px;
+            width: 120px;
+            background-color: #ffe39d;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        }
+
+        .btnBar button:hover {
+            cursor: pointer;
+            transition: all 0.3s;
+            background-color: rgba(227, 176, 75, 0.62)
         }
 
         .sidebar {
@@ -180,7 +195,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             justify-content: flex-start;
             align-content: center;
             gap: 15px;
-            padding: 7px;
+            padding: 7px 0 15px 7px;
         }
 
         .btnBar>button:hover {
@@ -190,11 +205,13 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         .admin-ul {
             display: flex;
             width: 100%;
-            justify-content: flex-start;
+            /* justify-content: flex-start; */
+            justify-content: space-between;
             text-align: center;
             padding: 10px 0 0 5px;
             align-content: center;
             align-items: center;
+            border-bottom: 1px solid #3498db;
 
         }
 
@@ -206,49 +223,41 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         .admin-ul li:first-child {
             width: 5%;
             min-width: 50px;
-            border-bottom: 1px solid #3498db;
         }
 
         .admin-ul li:nth-child(2) {
             width: 20%;
             min-width: 120px;
-            border-bottom: 1px solid #3498db;
         }
 
         .admin-ul li:nth-child(3) {
             width: 20%;
             min-width: 120px;
-            border-bottom: 1px solid #3498db;
         }
 
         .admin-ul li:nth-child(4) {
             width: 15%;
             min-width: 70px;
-            border-bottom: 1px solid #3498db;
         }
 
         .admin-ul li:nth-child(5) {
             width: 15%;
             min-width: 120px;
-            border-bottom: 1px solid #3498db;
         }
 
         .admin-ul li:nth-child(6) {
             width: 15%;
             min-width: 120px;
-            border-bottom: 1px solid #3498db;
         }
 
         .admin-ul li:nth-child(7) {
             width: 5%;
             min-width: 120px;
-            border-bottom: 1px solid #3498db;
         }
 
         .admin-ul li:nth-child(8) {
             width: 5%;
             min-width: 120px;
-            border-bottom: 1px solid #3498db;
         }
 
         .budyHeader .admin-ul {
@@ -256,6 +265,11 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             background-color: rgba(227, 176, 75, 0.62);
             font-weight: 600;
             padding-top: 10px;
+        }
+
+        .budyRow {
+            display: flex;
+            justify-content: space-between;
         }
 
         .budyRow:nth-child(even) {
@@ -269,7 +283,8 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         .addPaddingTop5px {}
 
         .newAdminForm,
-        .newUserForm {
+        .newUserForm,
+        .newEventForm {
             width: 420px;
             background: #fff;
             padding: 20px;
@@ -325,6 +340,8 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         .newAdminul input:hover {
             border-color: rgb(163, 119, 9);
         }
+
+
 
         .upBTN,
         .delBTN {
@@ -397,6 +414,19 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             border-radius: 5px;
             border: 2px solid #cdcdcd;
         }
+
+        /* ********** Event Tab Styles */
+
+        .time-select {
+            width: 75px;
+        }
+
+        .width-adj li:first-child {}
+
+        .newEventForm h4 {
+            line-height: 0.75;
+            margin-bottom: 0;
+        }
     </style>
 
 </head>
@@ -432,6 +462,85 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         <div id="events" class="tab">
             <div class="header">Events</div>
             <p>tickets content is displayed here.</p>
+            <div class="tabContainer">
+                <div class="btnBar">
+                    <button onclick="tugglelist(4)">Events List</button> <button onclick="tugglelist(5)">Add New
+                        Event</button>
+                </div>
+                <div class="containerBudy">
+                    <div class="budyHeader">
+                        <ul class="admin-ul width-adj">
+                            <li>ID</li>
+                            <li>Event Name</li>
+                            <li>Date</li>
+                            <li>Details</li>
+                        </ul>
+                    </div>
+                    <!-- A row for each record -->
+                    <!-- <?php foreach ($users as $index => $user) {
+                        if ($user['privilege_level'] == 0) {
+
+                            echo "" .
+                                "<div class='budyRow'>
+                            <ul class='admin-ul'>
+                            <li> " . $user['id_user'] . " </li>
+                            <li>" . $user['fname'] . " " . $user['lname'] . "</li>
+                            <li>" . $user['fname'] . "</li>
+                            <li><form action='admin.php' method='POST'><input type='hidden' name='deleteUser' value='" . $user['id_user'] . "'><button class='delBTN' type='submit'>
+                            <i class='fa-solid fa-folder-open'></i></button></form></li>
+                            </ul>
+                            </div>";
+                        }
+                    }
+                    ?> -->
+                </div>
+                <!-- Add New Event From -->
+                <div class="newEventForm">
+                    <h3>Add New Event</h3>
+                    <ul class="newAdminul">
+                        <form action="config.php" method="POST">
+                            <li><label for="newEname">Event Name </label>
+                                <input type="text" name="newEname" id="newEname" placeholder="Event Name" required>
+                            </li>
+                            <li><label for="newEDate">Date</label>
+                                <input name="newEDate" type="date" id="newEDate" placeholder="New Event Date" required>
+                            </li>
+                            <li><label for="newEStartTime">Start Time</label>
+                                <input type="time" id="newEStartTime" name="newEStartTime" min="07:00" max="23:59"
+                                    required />
+                            </li>
+                            <h4>Address:</h4>
+                            <li><label for="NewEstreet">Street</label>
+                                <input name="NewEstreet" type="text" id="NewEstreet" placeholder="Street" required>
+                            </li>
+                            <li><label for="NewEUnit">Unit</label>
+                                <input name="NewEUnit" type="text" id="NewEUnit" placeholder="Street" required>
+                            </li>
+                            <li><label for="passUser">Password</label>
+                                <input name="passUser" type="password" id="passUser" placeholder="Password" required>
+                            </li>
+                            <li><label for="repeatUser">Confirm-pass</label>
+                                <input name="repeatUser" type="password" id="repeatUser" placeholder="Repeat" required>
+                            </li>
+                            <li><label for="phoneUser">Phone#</label>
+                                <input name="phoneUser" type="tel" id="phoneUser" placeholder="Tel Number">
+                            </li>
+                            <li> <label for="privilegeUser">Access Level</label><select name="privilegeUser"
+                                    id="privilegeUser">
+                                    <option value="0">User</option>
+                                </select></li>
+                            <li><input name="addNewUser" type="submit" value="addNewUser"></li>
+                        </form>
+                        <li><button class="cancelUpdate" onclick="closeUpdateField(4)">Cancel</button></li>
+                    </ul>
+                </div>
+
+
+
+
+
+
+            </div>
         </div>
         <!-- ************************************************ user Tab Cantain -->
         <div id="users" class="tab">
@@ -694,7 +803,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             <div class="header">Settings</div>
             <p>Settings content is displayed here.</p>
         </div>
-        <!-- ************************************************************  Tab : Settings -->
+        <!-- ************************************************************  Tab : Logout -->
         <div id="logout" class="tab">
             <div class="header">Exit</div>
             <div class="message-box">
@@ -789,7 +898,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 dashItems.forEach(item => { item.classList.remove('selected'); });
                 document.querySelector('#adminli').className = 'selected';
                 window.onload = function () {
-                    alert("New record successfully added.");
+                    setTimeout(() => { alert("New record successfully added."); }, 500)
                 };
             }
 
@@ -798,7 +907,9 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 dashItems.forEach(item => { item.classList.remove('selected'); });
                 document.querySelector('#adminli').className = 'selected';
                 window.onload = function () {
-                    alert("Record successfully removed.");
+                    setTimeout(() => {
+                        alert("Record successfully removed.");
+                    }, 500)
                 };
             }
 
@@ -807,7 +918,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 dashItems.forEach(item => { item.classList.remove('selected'); });
                 document.querySelector('#adminli').className = 'selected';
                 window.onload = function () {
-                    alert("Admin record successfully updated.");
+                    setTimeout(() => { alert("Admin record successfully updated."); }, 500)
                 };
             }
 
@@ -816,7 +927,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 dashItems.forEach(item => { item.classList.remove('selected'); });
                 document.querySelector('#userli').className = 'selected';
                 window.onload = function () {
-                    alert("User record successfully updated.");
+                    setTimeout(() => { alert("User record successfully updated."); }, 500)
                 };
             }
 
@@ -825,7 +936,9 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 dashItems.forEach(item => { item.classList.remove('selected'); });
                 document.querySelector('#userli').className = 'selected';
                 window.onload = function () {
-                    alert("Record successfully removed.");
+                    setTimeout(() => {
+                        alert("Record successfully removed.");
+                    }, 500)
                 };
             }
 
@@ -834,7 +947,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 dashItems.forEach(item => { item.classList.remove('selected'); });
                 document.querySelector('#userli').className = 'selected';
                 window.onload = function () {
-                    alert("User record successfully added.");
+                    setTimeout(() => { alert("User record successfully added."); }, 500)
                 };
             }
         }
@@ -874,7 +987,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     dashItems.forEach(item => { item.classList.remove('selected'); });
                     document.querySelector('#userli').className = 'selected';
                     document.querySelector('.updateUserForm').style.display = 'block';
-                    document.querySelector('.containerBudy').style.display = 'none';
+                    document.querySelector('#users .containerBudy').style.display = 'none';
                     document.querySelector('.updateUserForm #userIDUpdate').value = '" . $users[$userIndex]['id_user'] . "';
                     document.querySelector('#fnameUpdate').value = '" . $users[$userIndex]['fname'] . "';
                     document.querySelector('#lnameUpdate').value = '" . $users[$userIndex]['lname'] . "';

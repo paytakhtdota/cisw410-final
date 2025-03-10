@@ -167,18 +167,21 @@
             </div>
         </section>
         <?php
+        // redirected from sugnupin-action.php - sign up success
         if (isset($_GET['signin']) && isset($_GET['regestred'])) {
-            echo '<script>
-            document.getElementById("singin-form-container").style.display="block";document.getElementById("singup-form-container").style.display="none";
-            setTimeout(function() {
+            echo '<script>';
+            echo 'document.getElementById("singin-form-container").style.display="block";document.getElementById("singup-form-container").style.display="none";';
+            echo 'setTimeout(function() {
             alert("You are successfully regestered. Now Log in to your account.");
-            }, 500);
-            </script>';
+            }, 500);';
+            echo '</script>';
+            // redirected from sugnupin-action.php - sign up failed - Email Exist
         } elseif (isset($_GET['signup']) && isset($_GET['emailexit'])) {
             echo '<script>document.getElementById("singin-form-container").style.display="none";document.getElementById("singup-form-container").style.display="block";setTimeout(function() {
                 alert("The email you used for sign up for account already exist. Please use login page to log in to your account or use different email for sign up.");
                 }, 500);
                 </script>';
+            // redirected from sugnupin-action.php - sign in failed - Email email or passwords is wrong
         } elseif (isset($_GET['signin']) && isset($_GET['emailorpass'])) {
             echo '<script>
             document.getElementById("singin-form-container").style.display="block";document.getElementById("singup-form-container").style.display="none";
@@ -186,7 +189,8 @@
             alert("Email or Password is wrong, Try again.");
             }, 500);
             </script>';
-        }   elseif (isset($_GET['signup'])) {
+            // redirected from sugnupin-action.php - select which from to display.
+        } elseif (isset($_GET['signup'])) {
             echo '<script>document.getElementById("singin-form-container").style.display="none";document.getElementById("singup-form-container").style.display="block";</script>';
         } elseif (isset($_GET['signin'])) {
             echo '<script>document.getElementById("singin-form-container").style.display="block";document.getElementById("singup-form-container").style.display="none";</script>';
