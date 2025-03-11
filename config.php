@@ -85,6 +85,8 @@ function delUser($userID)
     }
 }
 
+
+// update admin users
 function updateActionAdmin($data)
 {
     require_once("connection.php");
@@ -143,6 +145,7 @@ function updateActionUser($data)
     }
 }
 
+// Add new event
 function addNewEvent($newEventArray)
 {
     $error = array();
@@ -157,26 +160,57 @@ function addNewEvent($newEventArray)
 
         require_once("connection.php");
 
-        // to excute querty
-        $query1 = $pdo->prepare("INSERT INTO address(state, city, street, unit, zip_code) VALUES (:newEState,:newECity,:newEstreet,:newEUnit,:newEZip)");
-        $query1->execute([
-            ':newEState' => $newEventArray['newEState'],
-            ':newECity' => $newEventArray['newECity'],
-            ':newEstreet' => $newEventArray['newEstreet'],
-            ':newEUnit' => $newEventArray['newEUnit'],
-            ':newEZip' => $newEventArray['newEZip']
-        ]);
-        $location_id = $pdo->lastInsertId();
+        $uploadDir = "public/upload/";
+        $fileName = uniqid() . basename($_FILES["newEImg"]["name"]);
+        $filePath = $uploadDir . $fileName;
+        $fileType = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
 
-        $query2 = $pdo->prepare("INSERT INTO events(name, date, start_time, location_id, description) VALUES (:newEname,:newEDate,:newEStartTime,:location_id, :newEDes)");
+        $allowedTypes = ["jpg", "jpeg", "png", "gif"];
+        if (!in_array($fileType, $allowedTypes)) {
+            die("File Extention is not Valid");
+        }
 
-        $query2->execute([
-            ':newEname' => $newEventArray['newEname'],
-            ':newEDate' => $newEventArray['newEDate'],
-            ':newEStartTime' => $newEventArray['newEStartTime'],
-            ':location_id' => $location_id,
-            ':newEDes' => $newEventArray['newEDes']
-        ]);
+        if ($_FILES["newEImg"]["size"] > 5 * 1024 * 1024) {
+            die("File size is too big");
+        }
+
+        if (move_uploaded_file($_FILES["newEImg"]["tmp_name"], $filePath)) {
+            //save in database
+
+            // to excute querty
+            try{
+             
+            $query1 = $pdo->prepare("INSERT INTO address(state, city, street, unit, zip_code) VALUES (:newEState,:newECity,:newEstreet,:newEUnit,:newEZip)");
+            $query1->execute([
+                ':newEState' => $newEventArray['newEState'],
+                ':newECity' => $newEventArray['newECity'],
+                ':newEstreet' => $newEventArray['newEstreet'],
+                ':newEUnit' => $newEventArray['newEUnit'],
+                ':newEZip' => $newEventArray['newEZip']
+            ]);
+            $location_id = $pdo->lastInsertId();
+
+            $query2 = $pdo->prepare("INSERT INTO events(name, date, start_time, img, location_id, description) VALUES (:newEname, :newEDate, :newEStartTime, :newEImg, :location_id, :newEDes)");
+
+            $query2->execute([
+                ':newEname' => $newEventArray['newEname'],
+                ':newEDate' => $newEventArray['newEDate'],
+                ':newEStartTime' => $newEventArray['newEStartTime'],
+                ':newEImg' => $filePath,
+                ':location_id' => $location_id,
+                ':newEDes' => $newEventArray['newEDes']
+            ]);
+
+            header("Location: admin.php?successEventAdd=1");
+               
+        }catch(PDOException $e){
+            die('Query Faild:'. $e->getMessage());
+        }
+        } else {
+            echo "upload failed";
+        }
+
+
 
     } else {
         // redirect to fix error(s)

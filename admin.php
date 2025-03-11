@@ -37,6 +37,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         ol {
             padding: 0;
             margin: 0;
+            list-style: none;
         }
 
         body {
@@ -308,8 +309,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .newAdminul input,
-        .newAdminul select
-         {
+        .newAdminul select {
             width: 100%;
             padding: 10px;
             font-size: 14px;
@@ -319,8 +319,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             outline: none;
         }
 
-        .newAdminul textarea
-         {
+        .newAdminul textarea {
             width: 100%;
             padding: 10px;
             font-size: 14px;
@@ -438,8 +437,47 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             line-height: 0.75;
             margin-bottom: 0;
         }
-        .required-fields{
+
+        .required-fields {
             color: red;
+        }
+
+        .eventDetailsSec {
+            width: fit-content;
+            min-width: 700px;
+            border: solid 1px black;
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2%;
+        }
+
+        .eventDetailsSec label {
+            font-weight: 600;
+            display: inline-block;
+            width: 100px;
+        }
+
+        .eventDetailsSec ul {
+            width: 45%;
+        }
+
+        .eventDetailsSec  li{
+            height: min-content;
+            padding: 5px;
+        }
+
+        .eventDetailsSec  input,
+        .eventDetailsSec  select,
+        .eventDetailsSec  textarea{
+            width: 100%;
+        }
+
+        .event-detail-first-col img {
+            width: 220px;
+            border: 2px solid #ffe39d;
+            border-radius: 5px;
         }
     </style>
 
@@ -488,31 +526,32 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                             <li>Event Name</li>
                             <li>Date</li>
                             <li>Details</li>
+                            <li>Update</li>
                         </ul>
                     </div>
                     <!-- A row for each record -->
-                    <!-- <?php foreach ($users as $index => $user) {
-                        if ($user['privilege_level'] == 0) {
+                    <?php foreach ($events as $index => $event) {
 
-                            echo "" .
-                                "<div class='budyRow'>
+                        echo "" .
+                            "<div class='budyRow'>
                             <ul class='admin-ul'>
-                            <li> " . $user['id_user'] . " </li>
-                            <li>" . $user['fname'] . " " . $user['lname'] . "</li>
-                            <li>" . $user['fname'] . "</li>
-                            <li><form action='admin.php' method='POST'><input type='hidden' name='deleteUser' value='" . $user['id_user'] . "'><button class='delBTN' type='submit'>
+                            <li> " . $event['id_event'] . " </li>
+                            <li>" . $event['name'] . "</li>
+                            <li>" . $event['date'] . "</li>
+                            <li><form action='admin.php' method='POST' enctype='multipart/form-data'><input type='hidden' name='updateEvent' value='" . $index . "'><button class='upBTN' type='submit'>
+                            <i class='fa-solid fa-pen-to-square'></i></button></form></li>
+                            <li><form action='admin.php' method='POST'><input type='hidden' name='deleteEvent' value='" . $event['id_event'] . "'><button class='delBTN' type='submit'>
                             <i class='fa-solid fa-folder-open'></i></button></form></li>
                             </ul>
                             </div>";
-                        }
                     }
-                    ?> -->
+                    ?>
                 </div>
                 <!-- Add New Event From -->
                 <div class="newEventForm">
                     <h3>Add New Event</h3>
                     <ul class="newAdminul">
-                        <form action="config.php" method="POST">
+                        <form action="config.php" method="POST" enctype="multipart/form-data">
                             <li><label for="newEname">Event Name<i class="required-fields">*</i></label>
                                 <input type="text" name="newEname" id="newEname" placeholder="Event Name" required>
                             </li>
@@ -523,8 +562,13 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                                 <input type="time" id="newEStartTime" name="newEStartTime" min="07:00" max="23:59"
                                     required />
                             </li>
+                            <li>
+                                <label for="newEImg">Image</label>
+                                <input type="file" name="newEImg" id="newEImg" required>
+                            </li>
                             <li><label for="newEDes">Detials</label>
-                            <textarea name="newEDes" type="text-eara" id="newEDes" placeholder="New Event Date" rows="3"></textarea>
+                                <textarea name="newEDes" type="text-eara" id="newEDes" placeholder="New Event Date"
+                                    rows="3" maxlength="255"></textarea>
                             </li>
                             <h4>Address:</h4>
                             <li><label for="newEstreet">Street<i class="required-fields">*</i></label>
@@ -550,6 +594,51 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                         <li><button class="cancelUpdate" onclick="closeUpdateField(5)">Cancel</button></li>
                     </ul>
                 </div>
+
+                <!-- Event Detail window -->
+                <section class="eventDetailsSec">
+
+                    <ul class="event-detail-first-col">
+                        <li><img src="" alt=""></li>
+                        <input type="file" name="upEImg" id="newEImg" required>
+                        <li><label for="upEname">ID:</label><input type="" name="upEname" id="upEname"
+                                placeholder="Event Name" required></li>
+                        <li><label for="upEname">Title:</label><input type="text" name="upEname" id="upEname"
+                                placeholder="Event Name" required></li>
+                        <li><label for="upEDate">Date:</label><input name="upEDate" type="date" id="upEDate"
+                                placeholder="up Event Date" required></li>
+                        <li><label for="upEStartTime">Time:</label><input type="time" id="upEStartTime"
+                                name="upEStartTime" min="07:00" max="23:59" required /></li>
+                    </ul>
+                    <ul class="event-detail-second-col">
+                        <li><label for="">Details:</label><textarea name="newEDes" type="text-eara" id="newEDes"
+                                placeholder="New Event Date" rows="3" maxlength="255"></textarea>
+                        </li>
+                        <li><label for="">Address:</label>
+                            <Address>900 simon textarea</Address>
+                        </li>
+
+                        <li><label for="upEstreet">Street<i class="required-fields">*</i></label>
+                            <input name="upEstreet" type="text" id="upEstreet" placeholder="Street" required>
+                        </li>
+                        <li><label for="upEUnit">Unit</label>
+                            <input name="upEUnit" type="text" id="upEUnit" placeholder="Street">
+                        </li>
+                        <li><label for="upECity">City<i class="required-fields">*</i></label>
+                            <input name="upECity" type="text" id="upECity" placeholder="City" required>
+                        </li>
+                        <li><label for="upEState">State:<i class="required-fields">*</i></label>
+                            <select name="upEState" id="upEState" required>
+                                <option value="">-- Select a state --</option>
+                            </select>
+                        </li>
+                        <li><label for="upEZip">ZIP Code<i class="required-fields">*</i></label>
+                            <input type="text" id="upEZip" name="upEZip" pattern="^\d{5}$"
+                                title="Enter a valid ZIP Code (e.g., 12345 or 12345-6789)" required>
+                        </li>
+
+                    </ul>
+                </section>
 
 
 
@@ -873,11 +962,11 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 document.querySelector(".newUserForm").style.display = "none";
                 document.querySelector('#users .messageBoxUser').style.display = 'none';
                 document.querySelector("#users .containerBudy").style.display = "block";
-            }else if (key == 5) {
+            } else if (key == 5) {
                 document.querySelector(".newEventForm").style.display = "block";
                 document.querySelector("#events .containerBudy").style.display = "none";
                 document.querySelector('#events .messageBoxUser').style.display = 'none';
-            }else if (key == 4) {
+            } else if (key == 4) {
                 document.querySelector(".newEventForm").style.display = "none";
                 document.querySelector("#events .containerBudy").style.display = "block";
                 document.querySelector('#events .messageBoxUser').style.display = 'none';
@@ -898,7 +987,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             } else if (key == 3) {
                 document.querySelector('#users .updateUserForm').style.display = 'none';
                 document.querySelector('#users .containerBudy').style.display = 'block';
-            }else if (key == 5) {
+            } else if (key == 5) {
                 document.querySelector('#events .newEventForm').style.display = 'none';
                 document.querySelector('#events .containerBudy').style.display = 'block';
             }
@@ -977,6 +1066,17 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     setTimeout(() => { alert("User record successfully added."); }, 500)
                 };
             }
+
+            if (params.get("successEventAdd")) {
+                showTab('events');
+                dashItems.forEach(item => { item.classList.remove('selected'); });
+                document.querySelector('#eventli').className = 'selected';
+                window.onload = function () {
+                    setTimeout(() => {
+                        alert("New Event successfully added.");
+                    }, 500)
+                };
+            }
         }
 
         handleSuccessMessages();
@@ -1037,6 +1137,21 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     document.querySelector('#emailUpdate').value = '" . $users[$userIndex]['email'] . "';
                     document.querySelector('#phoneUpdate').value = '" . $users[$userIndex]['phone'] . "';
                     document.querySelector('#privilegeUpdate').value = '" . $users[$userIndex]['privilege_level'] . "';
+                    ";
+        }elseif (isset($_POST['updateEvent'])) {
+            // Display and fill out USER update form - Display Function
+            $userIndex = isset($_POST['updateEvent']) ? $_POST['updateEvent'] : "undefined";
+            echo "showTab('events');
+                    dashItems.forEach(item => { item.classList.remove('selected'); });
+                    document.querySelector('#eventli').className = 'selected';
+                    document.querySelector('.eventDetailsSec').style.display = 'block';
+                    document.querySelector('#events .containerBudy').style.display = 'none';
+                    // document.querySelector('.updateUserForm #userIDUpdate').value = '" . $users[$userIndex]['id_user'] . "';
+                    // document.querySelector('#fnameUpdate').value = '" . $users[$userIndex]['fname'] . "';
+                    // document.querySelector('#lnameUpdate').value = '" . $users[$userIndex]['lname'] . "';
+                    // document.querySelector('#emailUpdate').value = '" . $users[$userIndex]['email'] . "';
+                    // document.querySelector('#phoneUpdate').value = '" . $users[$userIndex]['phone'] . "';
+                    // document.querySelector('#privilegeUpdate').value = '" . $users[$userIndex]['privilege_level'] . "';
                     ";
         } elseif (isset($_POST['deleteUser'])) {
             // Confirm Message before Remove Action - USER - Display Function
