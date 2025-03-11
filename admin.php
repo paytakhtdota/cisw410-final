@@ -308,13 +308,24 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .newAdminul input,
-        .newAdminul select {
+        .newAdminul select
+         {
             width: 100%;
             padding: 10px;
             font-size: 14px;
             border: 2px solid #ddd;
             border-radius: 5px;
             transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .newAdminul textarea
+         {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
             outline: none;
         }
 
@@ -427,6 +438,9 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             line-height: 0.75;
             margin-bottom: 0;
         }
+        .required-fields{
+            color: red;
+        }
     </style>
 
 </head>
@@ -499,39 +513,41 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     <h3>Add New Event</h3>
                     <ul class="newAdminul">
                         <form action="config.php" method="POST">
-                            <li><label for="newEname">Event Name </label>
+                            <li><label for="newEname">Event Name<i class="required-fields">*</i></label>
                                 <input type="text" name="newEname" id="newEname" placeholder="Event Name" required>
                             </li>
-                            <li><label for="newEDate">Date</label>
+                            <li><label for="newEDate">Date<i class="required-fields">*</i></label>
                                 <input name="newEDate" type="date" id="newEDate" placeholder="New Event Date" required>
                             </li>
-                            <li><label for="newEStartTime">Start Time</label>
+                            <li><label for="newEStartTime">Start Time<i class="required-fields">*</i></label>
                                 <input type="time" id="newEStartTime" name="newEStartTime" min="07:00" max="23:59"
                                     required />
                             </li>
+                            <li><label for="newEDes">Detials</label>
+                            <textarea name="newEDes" type="text-eara" id="newEDes" placeholder="New Event Date" rows="3"></textarea>
+                            </li>
                             <h4>Address:</h4>
-                            <li><label for="NewEstreet">Street</label>
-                                <input name="NewEstreet" type="text" id="NewEstreet" placeholder="Street" required>
+                            <li><label for="newEstreet">Street<i class="required-fields">*</i></label>
+                                <input name="newEstreet" type="text" id="newEstreet" placeholder="Street" required>
                             </li>
-                            <li><label for="NewEUnit">Unit</label>
-                                <input name="NewEUnit" type="text" id="NewEUnit" placeholder="Street" required>
+                            <li><label for="newEUnit">Unit</label>
+                                <input name="newEUnit" type="text" id="newEUnit" placeholder="Street">
                             </li>
-                            <li><label for="passUser">Password</label>
-                                <input name="passUser" type="password" id="passUser" placeholder="Password" required>
+                            <li><label for="newECity">City<i class="required-fields">*</i></label>
+                                <input name="newECity" type="text" id="newECity" placeholder="City" required>
                             </li>
-                            <li><label for="repeatUser">Confirm-pass</label>
-                                <input name="repeatUser" type="password" id="repeatUser" placeholder="Repeat" required>
+                            <li><label for="newEState">State:<i class="required-fields">*</i></label>
+                                <select name="newEState" id="newEState" required>
+                                    <option value="">-- Select a state --</option>
+                                </select>
                             </li>
-                            <li><label for="phoneUser">Phone#</label>
-                                <input name="phoneUser" type="tel" id="phoneUser" placeholder="Tel Number">
+                            <li><label for="newEZip">ZIP Code<i class="required-fields">*</i></label>
+                                <input type="text" id="newEZip" name="newEZip" pattern="^\d{5}$"
+                                    title="Enter a valid ZIP Code (e.g., 12345 or 12345-6789)" required>
                             </li>
-                            <li> <label for="privilegeUser">Access Level</label><select name="privilegeUser"
-                                    id="privilegeUser">
-                                    <option value="0">User</option>
-                                </select></li>
-                            <li><input name="addNewUser" type="submit" value="addNewUser"></li>
+                            <li><input name="addNewEvent" type="submit" value="Add New Event"></li>
                         </form>
-                        <li><button class="cancelUpdate" onclick="closeUpdateField(4)">Cancel</button></li>
+                        <li><button class="cancelUpdate" onclick="closeUpdateField(5)">Cancel</button></li>
                     </ul>
                 </div>
 
@@ -857,6 +873,14 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 document.querySelector(".newUserForm").style.display = "none";
                 document.querySelector('#users .messageBoxUser').style.display = 'none';
                 document.querySelector("#users .containerBudy").style.display = "block";
+            }else if (key == 5) {
+                document.querySelector(".newEventForm").style.display = "block";
+                document.querySelector("#events .containerBudy").style.display = "none";
+                document.querySelector('#events .messageBoxUser').style.display = 'none';
+            }else if (key == 4) {
+                document.querySelector(".newEventForm").style.display = "none";
+                document.querySelector("#events .containerBudy").style.display = "block";
+                document.querySelector('#events .messageBoxUser').style.display = 'none';
             }
         }
 
@@ -874,6 +898,9 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             } else if (key == 3) {
                 document.querySelector('#users .updateUserForm').style.display = 'none';
                 document.querySelector('#users .containerBudy').style.display = 'block';
+            }else if (key == 5) {
+                document.querySelector('#events .newEventForm').style.display = 'none';
+                document.querySelector('#events .containerBudy').style.display = 'block';
             }
         }
 
@@ -954,6 +981,22 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
 
         handleSuccessMessages();
 
+        // create select input for states
+        const states = [
+            "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
+            "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland",
+            "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
+            "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
+            "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
+        ];
+
+        const select = document.getElementById("newEState");
+        states.forEach(state => {
+            const option = document.createElement("option");
+            option.value = state;
+            option.textContent = state;
+            select.appendChild(option);
+        });
 
         <?php
 

@@ -4,7 +4,7 @@
         <a href="index.php">Home</a>
         <a href="#">Reservation</a>
         <a href="contact.php">Contact</a>
-        <a href="about.php">About</a>
+        <a href="admin.php">Admin Panel</a>
     </div>
     <div class="right-side">
         <?php

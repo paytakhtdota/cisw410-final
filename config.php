@@ -143,6 +143,47 @@ function updateActionUser($data)
     }
 }
 
+function addNewEvent($newEventArray)
+{
+    $error = array();
+
+    foreach ($newEventArray as $index => $input) {
+        if (!(isset($input) || $input == '') && ($index != "newEUnit")) {
+            $error[] = "You need to enter a $index";
+        }
+    }
+
+    if (empty($error)) {
+
+        require_once("connection.php");
+
+        // to excute querty
+        $query1 = $pdo->prepare("INSERT INTO address(state, city, street, unit, zip_code) VALUES (:newEState,:newECity,:newEstreet,:newEUnit,:newEZip)");
+        $query1->execute([
+            ':newEState' => $newEventArray['newEState'],
+            ':newECity' => $newEventArray['newECity'],
+            ':newEstreet' => $newEventArray['newEstreet'],
+            ':newEUnit' => $newEventArray['newEUnit'],
+            ':newEZip' => $newEventArray['newEZip']
+        ]);
+        $location_id = $pdo->lastInsertId();
+
+        $query2 = $pdo->prepare("INSERT INTO events(name, date, start_time, location_id, description) VALUES (:newEname,:newEDate,:newEStartTime,:location_id, :newEDes)");
+
+        $query2->execute([
+            ':newEname' => $newEventArray['newEname'],
+            ':newEDate' => $newEventArray['newEDate'],
+            ':newEStartTime' => $newEventArray['newEStartTime'],
+            ':location_id' => $location_id,
+            ':newEDes' => $newEventArray['newEDes']
+        ]);
+
+    } else {
+        // redirect to fix error(s)
+        echo 'Error on the form' . $error[0];
+    }
+}
+
 
 if (isset($_POST['addNewAdmin'])) {
     $data_aa['fnameNA'] = trim($_POST['fnameAdmin']);
@@ -178,6 +219,17 @@ if (isset($_POST['addNewAdmin'])) {
     $newUser['phoneNA'] = ($_POST['phoneUser']);
     $newUser['privilegeNA'] = ($_POST['privilegeUser']);
     addNewAdmin($newUser);
+} elseif (isset($_POST['addNewEvent'])) {
+    $newEvent['newEname'] = ($_POST['newEname']);
+    $newEvent['newEDate'] = ($_POST['newEDate']);
+    $newEvent['newEStartTime'] = ($_POST['newEStartTime']);
+    $newEvent['newEstreet'] = ($_POST['newEstreet']);
+    $newEvent['newEUnit'] = ($_POST['newEUnit']);
+    $newEvent['newECity'] = ($_POST['newECity']);
+    $newEvent['newEState'] = ($_POST['newEState']);
+    $newEvent['newEZip'] = ($_POST['newEZip']);
+    $newEvent['newEDes'] = ($_POST['newEDes']);
+    addNewEvent($newEvent);
 } elseif (isset($_POST['delUserID'])) {
     delUser($_POST['delUserID']);
 } else {
