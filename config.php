@@ -266,6 +266,8 @@ if (isset($_POST['addNewAdmin'])) {
     addNewEvent($newEvent);
 } elseif (isset($_POST['delUserID'])) {
     delUser($_POST['delUserID']);
+} elseif (isset($_POST['event-update-submit'])) {
+    echo "<script>console.log('ok!');</script>";
 } else {
     echo "Error";
 }

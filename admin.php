@@ -9,7 +9,10 @@ $ticketsQuery = $pdo->prepare("SELECT * FROM tickets");
 $ticketsQuery->execute();
 $tickets = $ticketsQuery->fetchAll(PDO::FETCH_ASSOC);
 
-$eventsQuery = $pdo->prepare("SELECT * FROM events");
+$eventsQuery = $pdo->prepare("SELECT events.*, address.*
+    FROM events
+    JOIN address ON events.location_id = address.location_id
+");
 $eventsQuery->execute();
 $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
 
@@ -309,7 +312,8 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .newAdminul input,
-        .newAdminul select {
+        .newAdminul select,
+        .newAdminul textarea {
             width: 100%;
             padding: 10px;
             font-size: 14px;
@@ -320,12 +324,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .newAdminul textarea {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            outline: none;
+            transition: none;
         }
 
         .newAdminul input[type="submit"],
@@ -445,12 +444,13 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         .eventDetailsSec {
             width: fit-content;
             min-width: 700px;
-            border: solid 1px black;
-            display: flex;
+            border-radius: 8px;
+            display: none;
             gap: 20px;
             justify-content: space-between;
             align-items: center;
             padding: 2%;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
         }
 
         .eventDetailsSec label {
@@ -463,21 +463,77 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             width: 45%;
         }
 
-        .eventDetailsSec  li{
+        .eventDetailsSec li {
             height: min-content;
             padding: 5px;
         }
 
-        .eventDetailsSec  input,
-        .eventDetailsSec  select,
-        .eventDetailsSec  textarea{
+        .event-detail-second-col li:first-child {
+            visibility: hidden;
+        }
+
+        .eventDetailsSec input,
+        .eventDetailsSec select,
+        .eventDetailsSec textarea {
             width: 100%;
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .eventDetailsSec input:focus,
+        .eventDetailsSec textarea:focus {
+            background-color: rgb(239, 250, 255);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+        }
+
+        .eventDetailsSec textarea {
+            transition: none;
         }
 
         .event-detail-first-col img {
-            width: 220px;
+            width: 330px;
+            height: 200px;
             border: 2px solid #ffe39d;
             border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .eventDetailsSec button,
+        .eventDetailsSec input[type='submit'] {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            outline: none;
+            font-weight: 600;
+        }
+
+        #event-update-submit {
+            display: none;
+            margin-top: -10px;
+        }
+
+        .eventDetailsSec button:hover,
+        #event-update-submit:hover {
+            border: 2px solid #ffe39d;
+            cursor: pointer;
+            background-color: rgb(254, 249, 238);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+        }
+
+
+        .act-input {
+            border: 2px solid #ffebb5 !important;
         }
     </style>
 
@@ -531,14 +587,16 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <!-- A row for each record -->
                     <?php foreach ($events as $index => $event) {
-
+                        foreach ($event as $ind => $element) {
+                            echo "<script>console.log('" . $ind . "');</script>";
+                        }
                         echo "" .
                             "<div class='budyRow'>
                             <ul class='admin-ul'>
                             <li> " . $event['id_event'] . " </li>
                             <li>" . $event['name'] . "</li>
                             <li>" . $event['date'] . "</li>
-                            <li><form action='admin.php' method='POST' enctype='multipart/form-data'><input type='hidden' name='updateEvent' value='" . $index . "'><button class='upBTN' type='submit'>
+                            <li><form action='admin.php' method='POST'><input type='hidden' name='updateEvent' value='" . $index . "'><button class='upBTN' type='submit'>
                             <i class='fa-solid fa-pen-to-square'></i></button></form></li>
                             <li><form action='admin.php' method='POST'><input type='hidden' name='deleteEvent' value='" . $event['id_event'] . "'><button class='delBTN' type='submit'>
                             <i class='fa-solid fa-folder-open'></i></button></form></li>
@@ -599,51 +657,70 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 <section class="eventDetailsSec">
 
                     <ul class="event-detail-first-col">
-                        <li><img src="" alt=""></li>
-                        <input type="file" name="upEImg" id="newEImg" required>
-                        <li><label for="upEname">ID:</label><input type="" name="upEname" id="upEname"
-                                placeholder="Event Name" required></li>
-                        <li><label for="upEname">Title:</label><input type="text" name="upEname" id="upEname"
-                                placeholder="Event Name" required></li>
-                        <li><label for="upEDate">Date:</label><input name="upEDate" type="date" id="upEDate"
-                                placeholder="up Event Date" required></li>
-                        <li><label for="upEStartTime">Time:</label><input type="time" id="upEStartTime"
-                                name="upEStartTime" min="07:00" max="23:59" required /></li>
+                        <li>
+                            <h3>Event Details:</h3>
+                        </li>
+                        <li><img id="upEImg" src="" alt=""></li>
+                        <form action="config.php" method="POST" enctype="multipart/form-data">
+                            <li><label for="upEID">ID:</label>
+                                <input type="upEID" name="upEID" id="upEID" required readonly>
+                            </li>
+                            <li><label for="upEname">Title:</label>
+                                <input class="update-event" type="text" name="upEname" id="upEname" required>
+                            </li>
+                            <li><label for="upEDate">Date:</label>
+                                <input class="update-event" name="upEDate" type="date" id="upEDate"
+                                    placeholder="up Event Date" required>
+                            </li>
+                            <li><label for="upEStartTime">Time:</label>
+                                <input class="update-event" type="time" id="upEStartTime" name="upEStartTime"
+                                    min="07:00" max="23:59" required />
+                            </li>
+                            <li>
+                                <br>
+                                <button id="event-edit-btn" type="button" onclick="disableInputs(false)">Edit
+                                    Event</button>
+                            </li>
+                            <li><input type="submit" id="event-update-submit" name="event-update-submit" value="Submit">
+                            </li>
                     </ul>
                     <ul class="event-detail-second-col">
-                        <li><label for="">Details:</label><textarea name="newEDes" type="text-eara" id="newEDes"
-                                placeholder="New Event Date" rows="3" maxlength="255"></textarea>
+                        <li><label for="">New Image:</label><input type="file" name="upSelectEImg" id="upSelectEImg">
+                        </li>
+                        <li><label for="">Details:</label>
+                            <textarea name="upEDes" class="update-event" type="text-eara" id="upEDes" rows="3"
+                                maxlength="255"></textarea>
                         </li>
                         <li><label for="">Address:</label>
-                            <Address>900 simon textarea</Address>
                         </li>
 
                         <li><label for="upEstreet">Street<i class="required-fields">*</i></label>
-                            <input name="upEstreet" type="text" id="upEstreet" placeholder="Street" required>
+                            <input class="update-event" name="upEstreet" type="text" id="upEstreet" placeholder="Street"
+                                required>
                         </li>
                         <li><label for="upEUnit">Unit</label>
-                            <input name="upEUnit" type="text" id="upEUnit" placeholder="Street">
+                            <input class="update-event" name="upEUnit" type="text" id="upEUnit" placeholder="Street">
                         </li>
                         <li><label for="upECity">City<i class="required-fields">*</i></label>
-                            <input name="upECity" type="text" id="upECity" placeholder="City" required>
+                            <input class="update-event" name="upECity" type="text" id="upECity" placeholder="City"
+                                required>
                         </li>
                         <li><label for="upEState">State:<i class="required-fields">*</i></label>
-                            <select name="upEState" id="upEState" required>
-                                <option value="">-- Select a state --</option>
+                            <select class="update-event" name="upEState" id="upEState" required>
+                                <option id="First-option" value=""></option>
                             </select>
                         </li>
                         <li><label for="upEZip">ZIP Code<i class="required-fields">*</i></label>
-                            <input type="text" id="upEZip" name="upEZip" pattern="^\d{5}$"
+                            <input class="update-event" type="text" id="upEZip" name="upEZip" pattern="^\d{5}$"
                                 title="Enter a valid ZIP Code (e.g., 12345 or 12345-6789)" required>
                         </li>
-
+                        </form>
+                        <li>
+                            <br>
+                            <button type="button" onclick="closeUpdateField(6)">close</button>
+                        </li>
                     </ul>
                 </section>
-
-
-
-
-
 
             </div>
         </div>
@@ -990,6 +1067,9 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             } else if (key == 5) {
                 document.querySelector('#events .newEventForm').style.display = 'none';
                 document.querySelector('#events .containerBudy').style.display = 'block';
+            } else if (key == 6) {
+                document.querySelector('#events .eventDetailsSec').style.display = 'none';
+                document.querySelector('#events .containerBudy').style.display = 'block';
             }
         }
 
@@ -1089,14 +1169,58 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
             "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
         ];
+        function addStates(element) {
+            const select = document.getElementById(element);
+            states.forEach(state => {
+                const option = document.createElement("option");
+                option.value = state;
+                option.textContent = state;
+                select.appendChild(option);
+            });
+        }
+        addStates("newEState");
+        addStates("upEState");
 
-        const select = document.getElementById("newEState");
-        states.forEach(state => {
-            const option = document.createElement("option");
-            option.value = state;
-            option.textContent = state;
-            select.appendChild(option);
-        });
+        // active/deactive event update Form 
+        function disableInputs(value) {
+            let inputs = document.querySelectorAll(".update-event");
+            inputs.forEach(input => {
+                input.disabled = value;
+            });
+            if (value == false) {
+                document.querySelector(".event-detail-second-col li:first-child").style.visibility = "visible";
+                inputs.forEach(input => {
+                    input.classList.add("act-input");
+                    document.querySelector('.event-detail-first-col h3:first-child').innerHTML = "Update Form";
+                    document.querySelector('#event-edit-btn').style.display = "none";
+                    document.querySelector('#event-update-submit').style.display = "block";
+                });
+            }
+        }
+
+        // function update image on event update form
+        function initImagePreview(inputId, imgId) {
+            const inputElement = document.getElementById(inputId);
+            const imgElement = document.getElementById(imgId);
+
+            if (!inputElement || !imgElement) {
+                console.error("Id or pic not valid");
+                return;
+            }
+            inputElement.addEventListener("change", function (event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        imgElement.src = e.target.result;
+                        imgElement.style.display = "block";
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        initImagePreview("upSelectEImg", "upEImg");
 
         <?php
 
@@ -1138,21 +1262,36 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     document.querySelector('#phoneUpdate').value = '" . $users[$userIndex]['phone'] . "';
                     document.querySelector('#privilegeUpdate').value = '" . $users[$userIndex]['privilege_level'] . "';
                     ";
-        }elseif (isset($_POST['updateEvent'])) {
+        } elseif (isset($_POST['updateEvent'])) {
             // Display and fill out USER update form - Display Function
-            $userIndex = isset($_POST['updateEvent']) ? $_POST['updateEvent'] : "undefined";
+            $eventIndex = isset($_POST['updateEvent']) ? $_POST['updateEvent'] : "undefined";
+            if ($events[$eventIndex]['img'] == null || $events[$eventIndex]['img'] == '') {
+                $upDetImg = "public/upload/notset.jpg";
+            } else {
+                $upDetImg = $events[$eventIndex]['img'];
+            }
             echo "showTab('events');
                     dashItems.forEach(item => { item.classList.remove('selected'); });
                     document.querySelector('#eventli').className = 'selected';
-                    document.querySelector('.eventDetailsSec').style.display = 'block';
+                    document.querySelector('.eventDetailsSec').style.display = 'flex';
                     document.querySelector('#events .containerBudy').style.display = 'none';
-                    // document.querySelector('.updateUserForm #userIDUpdate').value = '" . $users[$userIndex]['id_user'] . "';
-                    // document.querySelector('#fnameUpdate').value = '" . $users[$userIndex]['fname'] . "';
-                    // document.querySelector('#lnameUpdate').value = '" . $users[$userIndex]['lname'] . "';
-                    // document.querySelector('#emailUpdate').value = '" . $users[$userIndex]['email'] . "';
-                    // document.querySelector('#phoneUpdate').value = '" . $users[$userIndex]['phone'] . "';
-                    // document.querySelector('#privilegeUpdate').value = '" . $users[$userIndex]['privilege_level'] . "';
+                    document.querySelector('#events .containerBudy').style.display = 'none';
+                    document.querySelector('#upEImg').src = '" . $upDetImg . "';
+                    document.querySelector('#upEID').value = '" . $events[$eventIndex]['id_event'] . "';
+                    document.querySelector('#upEname').value = '" . $events[$eventIndex]['name'] . "';
+                    document.querySelector('#upEDate').value = '" . $events[$eventIndex]['date'] . "';
+                    document.querySelector('#upEStartTime').value = '" . $events[$eventIndex]['start_time'] . "';
+                    document.querySelector('#upEDes').value = '" . $events[$eventIndex]['description'] . "';
+                    document.querySelector('#upEstreet').value = '" . $events[$eventIndex]['street'] . "';
+                    document.querySelector('#upEUnit').value = '" . $events[$eventIndex]['unit'] . "';
+                    document.querySelector('#upECity').value = '" . $events[$eventIndex]['city'] . "';
+                    document.querySelector('#First-option').value = '" . $events[$eventIndex]['state'] . "';
+                    document.querySelector('#First-option').innerHTML= '" . $events[$eventIndex]['state'] . "';
+                    document.querySelector('#upEZip').value = '" . $events[$eventIndex]['zip_code'] . "';
+                    disableInputs(true);
                     ";
+
+            echo "console.log('" . $_POST['updateEvent'] . "');";
         } elseif (isset($_POST['deleteUser'])) {
             // Confirm Message before Remove Action - USER - Display Function
             echo "showTab('users');
