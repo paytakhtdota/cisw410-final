@@ -28,7 +28,9 @@ box-shadow: -3px 7px 32px -18px rgba(0,0,0,0.8);
 
 .left-side >a{
     display: inline-flex;
-    width: 100px;
+    line-height: 1.5;
+    min-width: 110px;
+    max-width: 140px;
     background-color: transparent;
     text-align: center;
     justify-content: center;
@@ -63,10 +65,10 @@ height: 40px;
 
 .right-side{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
-    min-width: 190px;
-    max-width: 280px;
+    min-width: 200px;
+    max-width: 300px;
     margin-right: 3%;
     padding-top: 3px;
 }

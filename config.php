@@ -151,8 +151,10 @@ function addNewEvent($newEventArray)
     $error = array();
 
     foreach ($newEventArray as $index => $input) {
-        if (!(isset($input) || $input == '') && ($index != "newEUnit")) {
-            $error[] = "You need to enter a $index";
+        if (!isset($input) || $input == '') {
+            if (($index != "newEUnit") || ($index != "newEDes")) {
+                $error[] = "You need to enter a $index";
+            }
         }
     }
 
@@ -178,39 +180,144 @@ function addNewEvent($newEventArray)
             //save in database
 
             // to excute querty
-            try{
-             
-            $query1 = $pdo->prepare("INSERT INTO address(state, city, street, unit, zip_code) VALUES (:newEState,:newECity,:newEstreet,:newEUnit,:newEZip)");
-            $query1->execute([
-                ':newEState' => $newEventArray['newEState'],
-                ':newECity' => $newEventArray['newECity'],
-                ':newEstreet' => $newEventArray['newEstreet'],
-                ':newEUnit' => $newEventArray['newEUnit'],
-                ':newEZip' => $newEventArray['newEZip']
-            ]);
-            $location_id = $pdo->lastInsertId();
+            try {
 
-            $query2 = $pdo->prepare("INSERT INTO events(name, date, start_time, img, location_id, description) VALUES (:newEname, :newEDate, :newEStartTime, :newEImg, :location_id, :newEDes)");
+                $query1 = $pdo->prepare("INSERT INTO address(state, city, street, unit, zip_code) VALUES (:newEState,:newECity,:newEstreet,:newEUnit,:newEZip)");
+                $query1->execute([
+                    ':newEState' => $newEventArray['newEState'],
+                    ':newECity' => $newEventArray['newECity'],
+                    ':newEstreet' => $newEventArray['newEstreet'],
+                    ':newEUnit' => $newEventArray['newEUnit'],
+                    ':newEZip' => $newEventArray['newEZip']
+                ]);
+                $location_id = $pdo->lastInsertId();
 
-            $query2->execute([
-                ':newEname' => $newEventArray['newEname'],
-                ':newEDate' => $newEventArray['newEDate'],
-                ':newEStartTime' => $newEventArray['newEStartTime'],
-                ':newEImg' => $filePath,
-                ':location_id' => $location_id,
-                ':newEDes' => $newEventArray['newEDes']
-            ]);
+                $query2 = $pdo->prepare("INSERT INTO events(name, date, start_time, img, location_id, description) VALUES (:newEname, :newEDate, :newEStartTime, :newEImg, :location_id, :newEDes)");
 
-            header("Location: admin.php?successEventAdd=1");
-               
-        }catch(PDOException $e){
-            die('Query Faild:'. $e->getMessage());
-        }
+                $query2->execute([
+                    ':newEname' => $newEventArray['newEname'],
+                    ':newEDate' => $newEventArray['newEDate'],
+                    ':newEStartTime' => $newEventArray['newEStartTime'],
+                    ':newEImg' => $filePath,
+                    ':location_id' => $location_id,
+                    ':newEDes' => $newEventArray['newEDes']
+                ]);
+
+                header("Location: admin.php?successEventAdd=1");
+
+            } catch (PDOException $e) {
+                die('Query Faild:' . $e->getMessage());
+            }
         } else {
             echo "upload failed";
         }
 
 
+
+    } else {
+        // redirect to fix error(s)
+        echo 'Error on the form' . $error[0];
+    }
+}
+
+
+function updateEvents($updateEventArray)
+{
+    $error = array();
+
+    foreach ($updateEventArray as $index => $input) {
+        if (!isset($input) || $input == '') {
+            if (($index != "upEUnit") && ($index != "upEDes")) {
+                $error[] = "You need to enter a $index";
+            }
+        }
+    }
+
+    if (empty($error)) {
+        require_once("connection.php");
+        if ($_FILES["upSelectEImg"]["error"] === UPLOAD_ERR_NO_FILE) {
+            try {
+
+                $query1 = $pdo->prepare("UPDATE address SET state=:upEState, city=:upECity, street=:upEstreet, unit=:upEUnit, zip_code=:upEZip WHERE location_id=:location_id");
+                $query1->execute([
+                    ':location_id' => $updateEventArray['location_id'],
+                    ':upEState' => $updateEventArray['upEState'],
+                    ':upECity' => $updateEventArray['upECity'],
+                    ':upEstreet' => $updateEventArray['upEstreet'],
+                    ':upEUnit' => $updateEventArray['upEUnit'],
+                    ':upEZip' => $updateEventArray['upEZip']
+                ]);
+
+                $query2 = $pdo->prepare("UPDATE events SET name=:upEname, date=:upEDate, start_time=:upEStartTime, description=:upEDes WHERE id_event=:upEID");
+
+                $query2->execute([
+                    ':upEID' => $updateEventArray['upEID'],
+                    ':upEname' => $updateEventArray['upEname'],
+                    ':upEDate' => $updateEventArray['upEDate'],
+                    ':upEStartTime' => $updateEventArray['upEStartTime'],
+                    ':upEDes' => $updateEventArray['upEDes']
+                ]);
+
+                header("Location: admin.php?successEventUpdate=1");
+                exit();
+
+            } catch (PDOException $e) {
+                die('Query Faild:' . $e->getMessage());
+            }
+        } else {
+
+            $uploadDir = "public/upload/";
+            $fileName = uniqid() . basename($_FILES["upSelectEImg"]["name"]);
+            $filePath = $uploadDir . $fileName;
+            $fileType = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+
+            $allowedTypes = ["jpg", "jpeg", "png", "gif"];
+            if (!in_array($fileType, $allowedTypes)) {
+                header("Location: admin.php?successEventUpdate=2");
+                    exit();
+            }
+
+            if ($_FILES["upSelectEImg"]["size"] > 3 * 1024 * 1024) {
+                header("Location: admin.php?successEventUpdate=3");
+                    exit();
+            }
+
+            if (move_uploaded_file($_FILES["upSelectEImg"]["tmp_name"], $filePath)) {
+                //save in database
+
+                // to excute querty
+                try {
+                    $query1 = $pdo->prepare("UPDATE address SET state=:upEState, city=:upECity, street=:upEstreet, unit=:upEUnit, zip_code=:upEZip WHERE location_id=:location_id");
+                    $query1->execute([
+                        ':location_id' => $updateEventArray['location_id'],
+                        ':upEState' => $updateEventArray['upEState'],
+                        ':upECity' => $updateEventArray['upECity'],
+                        ':upEstreet' => $updateEventArray['upEstreet'],
+                        ':upEUnit' => $updateEventArray['upEUnit'],
+                        ':upEZip' => $updateEventArray['upEZip']
+                    ]);
+
+                    $query2 = $pdo->prepare("UPDATE events SET name=:upEname, date=:upEDate, start_time=:upEStartTime, img=:upEImg, description=:upEDes WHERE id_event=:upEID");
+
+                    $query2->execute([
+                        ':upEID' => $updateEventArray['upEID'],
+                        ':upEname' => $updateEventArray['upEname'],
+                        ':upEDate' => $updateEventArray['upEDate'],
+                        ':upEStartTime' => $updateEventArray['upEStartTime'],
+                        ':upEImg' => $filePath,
+                        ':upEDes' => $updateEventArray['upEDes']
+                    ]);
+
+                    header("Location: admin.php?successEventUpdate=1");
+                    exit();
+
+                } catch (PDOException $e) {
+                    die('Query Faild:' . $e->getMessage());
+                }
+            } else {
+                echo "upload failed";
+            }
+        }
 
     } else {
         // redirect to fix error(s)
@@ -267,7 +374,17 @@ if (isset($_POST['addNewAdmin'])) {
 } elseif (isset($_POST['delUserID'])) {
     delUser($_POST['delUserID']);
 } elseif (isset($_POST['event-update-submit'])) {
-    echo "<script>console.log('ok!');</script>";
+    $updateEvent['upEID'] = ($_POST['upEID']);
+    $updateEvent['upEname'] = ($_POST['upEname']);
+    $updateEvent['upEDate'] = ($_POST['upEDate']);
+    $updateEvent['upEStartTime'] = ($_POST['upEStartTime']);
+    $updateEvent['upEDes'] = ($_POST['upEDes']);
+    $updateEvent['upEstreet'] = ($_POST['upEstreet']);
+    $updateEvent['upEUnit'] = ($_POST['upEUnit']);
+    $updateEvent['upECity'] = ($_POST['upECity']);
+    $updateEvent['upEState'] = ($_POST['upEState']);
+    $updateEvent['upEZip'] = ($_POST['upEZip']);
+    updateEvents($updateEvent);
 } else {
     echo "Error";
 }

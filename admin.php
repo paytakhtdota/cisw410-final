@@ -587,9 +587,6 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <!-- A row for each record -->
                     <?php foreach ($events as $index => $event) {
-                        foreach ($event as $ind => $element) {
-                            echo "<script>console.log('" . $ind . "');</script>";
-                        }
                         echo "" .
                             "<div class='budyRow'>
                             <ul class='admin-ul'>
@@ -622,7 +619,8 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                             </li>
                             <li>
                                 <label for="newEImg">Image</label>
-                                <input type="file" name="newEImg" id="newEImg" required>
+                                <input type="file" name="newEImg" id="newEImg"
+                                    accept="image/png, image/jpeg, image/gif , image/jpg" required>
                             </li>
                             <li><label for="newEDes">Detials</label>
                                 <textarea name="newEDes" type="text-eara" id="newEDes" placeholder="New Event Date"
@@ -681,20 +679,23 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                                 <button id="event-edit-btn" type="button" onclick="disableInputs(false)">Edit
                                     Event</button>
                             </li>
-                            <li><input type="submit" id="event-update-submit" name="event-update-submit" value="Submit">
+                            <li>
+                                <!-- submit button to send update information to config.php -->
+                                <input type="submit" id="event-update-submit" name="event-update-submit" value="Submit">
                             </li>
                     </ul>
                     <ul class="event-detail-second-col">
-                        <li><label for="">New Image:</label><input type="file" name="upSelectEImg" id="upSelectEImg">
+                        <li><label for="upSelectEImg">New Image:</label><input type="file" name="upSelectEImg" id="upSelectEImg">
                         </li>
-                        <li><label for="">Details:</label>
+                        <li><label for="upEDes">Details:</label>
                             <textarea name="upEDes" class="update-event" type="text-eara" id="upEDes" rows="3"
                                 maxlength="255"></textarea>
                         </li>
-                        <li><label for="">Address:</label>
+                        <li><label>Address:</label>
                         </li>
 
                         <li><label for="upEstreet">Street<i class="required-fields">*</i></label>
+                            <input name="location_id" type="number" id="location_id" hidden>
                             <input class="update-event" name="upEstreet" type="text" id="upEstreet" placeholder="Street"
                                 required>
                         </li>
@@ -824,21 +825,21 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     <ul class="newAdminul">
                         <form action="config.php" method="POST">
                             <li><input type="text" name="userIDUpdate" id="userIDUpdate" value='' hidden></li>
-                            <li><label for="fnameUpdate">First Name </label><input type="text" name="fnameUpdateUser"
-                                    id="fnameUpdate" placeholder="First Name" required></li>
-                            <li><label for="lnameUpdate">Last Name </label><input name="lnameUpdateUser" type="text"
-                                    id="lnameUpdate" placeholder="Last Name" required></li>
+                            <li><label for="fnameUpdateUser">First Name </label><input type="text"
+                                    name="fnameUpdateUser" id="fnameUpdateUser" placeholder="First Name" required></li>
+                            <li><label for="lnameUpdateUser">Last Name </label><input name="lnameUpdateUser" type="text"
+                                    id="lnameUpdateUser" placeholder="Last Name" required></li>
                             <li><label for="prefixUpdate">Prefix</label><select name="prefixUpdateUser"
-                                    id="prefixUpdate" placeholder="Prefix" disabled>
+                                    id="prefixUpdateUser" placeholder="Prefix" disabled>
                                     <option value="option">option</option>
                                 </select>
                             </li>
-                            <li><label for="emailUpdate">E-mail</label><input name="emailUpdateUser" type="email"
-                                    id="emailUpdate" placeholder="E-Mail" disabled></li>
-                            <li><label for="phoneUpdate">Phone#</label><input name="phoneUpdateUser" type="tel"
-                                    id="phoneUpdate" placeholder="Tel Number"></li>
-                            <li> <label for="privilegeUpdate">Access Level</label><select name="privilegeUpdateUser"
-                                    id="privilegeUpdate">
+                            <li><label for="emailUpdateUser">E-mail</label><input name="emailUpdateUser" type="email"
+                                    id="emailUpdateUser" placeholder="E-Mail" disabled></li>
+                            <li><label for="phoneUpdateUser">Phone#</label><input name="phoneUpdateUser" type="tel"
+                                    id="phoneUpdateUser" placeholder="Tel Number"></li>
+                            <li> <label for="privilegeUpdateUser">Access Level</label><select name="privilegeUpdateUser"
+                                    id="privilegeUpdateUser">
                                     <option value="2">suspend</option>
                                     <option value="0">User</option>
                                 </select></li>
@@ -1042,11 +1043,11 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             } else if (key == 5) {
                 document.querySelector(".newEventForm").style.display = "block";
                 document.querySelector("#events .containerBudy").style.display = "none";
-                document.querySelector('#events .messageBoxUser').style.display = 'none';
+                document.querySelector('#events .eventDetailsSec').style.display = 'none';
             } else if (key == 4) {
-                document.querySelector(".newEventForm").style.display = "none";
                 document.querySelector("#events .containerBudy").style.display = "block";
-                document.querySelector('#events .messageBoxUser').style.display = 'none';
+                document.querySelector(".newEventForm").style.display = "none";
+                document.querySelector('#events .eventDetailsSec').style.display = 'none';
             }
         }
 
@@ -1157,6 +1158,24 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     }, 500)
                 };
             }
+
+            if (params.get("successEventUpdate")) {
+                let para = params.get("successEventUpdate");
+                showTab('events');
+                dashItems.forEach(item => { item.classList.remove('selected'); });
+                document.querySelector('#eventli').className = 'selected';
+                window.onload = function () {
+                    setTimeout(() => {
+                        if (para == 1) {
+                            alert("Event successfully Updated.");
+                        } else if (para == 2) {
+                            alert("Update Failed: Image type not valid.");
+                        } else if (para == 3) {
+                            alert("Update Failed: File is too big, select a file smaller than 5MB.");
+                        }
+                    }, 500)
+                };
+            }
         }
 
         handleSuccessMessages();
@@ -1256,11 +1275,11 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     document.querySelector('.updateUserForm').style.display = 'block';
                     document.querySelector('#users .containerBudy').style.display = 'none';
                     document.querySelector('.updateUserForm #userIDUpdate').value = '" . $users[$userIndex]['id_user'] . "';
-                    document.querySelector('#fnameUpdate').value = '" . $users[$userIndex]['fname'] . "';
-                    document.querySelector('#lnameUpdate').value = '" . $users[$userIndex]['lname'] . "';
-                    document.querySelector('#emailUpdate').value = '" . $users[$userIndex]['email'] . "';
-                    document.querySelector('#phoneUpdate').value = '" . $users[$userIndex]['phone'] . "';
-                    document.querySelector('#privilegeUpdate').value = '" . $users[$userIndex]['privilege_level'] . "';
+                    document.querySelector('#fnameUpdateUser').value = '" . $users[$userIndex]['fname'] . "';
+                    document.querySelector('#lnameUpdateUser').value = '" . $users[$userIndex]['lname'] . "';
+                    document.querySelector('#emailUpdateUser').value = '" . $users[$userIndex]['email'] . "';
+                    document.querySelector('#phoneUpdateUser').value = '" . $users[$userIndex]['phone'] . "';
+                    document.querySelector('#privilegeUpdateUser').value = '" . $users[$userIndex]['privilege_level'] . "';
                     ";
         } elseif (isset($_POST['updateEvent'])) {
             // Display and fill out USER update form - Display Function
@@ -1283,6 +1302,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     document.querySelector('#upEStartTime').value = '" . $events[$eventIndex]['start_time'] . "';
                     document.querySelector('#upEDes').value = '" . $events[$eventIndex]['description'] . "';
                     document.querySelector('#upEstreet').value = '" . $events[$eventIndex]['street'] . "';
+                    document.querySelector('#location_id').value = '" . $events[$eventIndex]['location_id'] . "';
                     document.querySelector('#upEUnit').value = '" . $events[$eventIndex]['unit'] . "';
                     document.querySelector('#upECity').value = '" . $events[$eventIndex]['city'] . "';
                     document.querySelector('#First-option').value = '" . $events[$eventIndex]['state'] . "';
