@@ -276,6 +276,13 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             justify-content: space-between;
         }
 
+        .budyRow li {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            height: fit-content;
+        }
+
         .budyRow:nth-child(even) {
             background-color: rgb(250, 250, 250);
         }
@@ -620,7 +627,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                             <li>
                                 <label for="newEImg">Image</label>
                                 <input type="file" name="newEImg" id="newEImg"
-                                    accept="image/png, image/jpeg, image/gif , image/jpg" required>
+                                    accept="image/jpeg,image/png,image/gif" required>
                             </li>
                             <li><label for="newEDes">Detials</label>
                                 <textarea name="newEDes" type="text-eara" id="newEDes" placeholder="New Event Date"
@@ -685,7 +692,8 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                             </li>
                     </ul>
                     <ul class="event-detail-second-col">
-                        <li><label for="upSelectEImg">New Image:</label><input type="file" name="upSelectEImg" id="upSelectEImg">
+                        <li><label for="upSelectEImg">New Image:</label><input type="file" name="upSelectEImg"
+                                id="upSelectEImg" accept="image/jpeg,image/png,image/gif">
                         </li>
                         <li><label for="upEDes">Details:</label>
                             <textarea name="upEDes" class="update-event" type="text-eara" id="upEDes" rows="3"

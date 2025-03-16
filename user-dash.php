@@ -6,8 +6,11 @@ if (!isset($_SESSION['user_data'])) {
     header("Location: user-login-form.php");
     exit();
 } else {
-    $userData = $_SESSION['user_data'];
-
+    $tempData = $_SESSION['user_data'];
+    require_once("connection.php");
+    $quiry = $pdo->prepare("SELECT * FROM users WHERE id_user=:id_user");
+    $quiry->execute([":id_user" => $tempData['id_user']]);
+    $userData = $quiry->fetch(PDO::FETCH_ASSOC);
 }
 
 
@@ -34,21 +37,24 @@ if (!isset($_SESSION['user_data'])) {
             margin: 0;
             font-family: Arial, sans-serif;
             display: block;
-
+            box-sizing: border-box;
         }
 
         main {
             display: flex;
             width: 100%;
+            min-height: 100vh;
         }
 
         .sidebar {
             width: 250px;
+            max-width: 250px;
             background: #121315;
             color: white;
-            height: 100vh;
             padding: 20px;
             margin-top: 75px;
+            flex-grow: 1;
+            max-width: 300px;
         }
 
         .sidebar h2 {
@@ -159,12 +165,12 @@ if (!isset($_SESSION['user_data'])) {
         .dash-cards {
             min-width: 500px;
             max-width: 700px;
-            background-color: #efefef;
-            ;
+            background-color: #f9f9f9;
             border: 1px solid #dddddd;
             border-radius: 8px;
-            padding-bottom: 10px;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            padding: 10px;
+            box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+            border-top: rgb(222, 222, 222) solid 2px;
         }
 
         .dash-cards>div {
@@ -216,6 +222,116 @@ if (!isset($_SESSION['user_data'])) {
         footer {
             display: block !important;
         }
+
+        /* button */
+
+        .button-1 {
+            background-color: linear-gradient(#B8860B88, #B8860Bcc);
+            background-image: linear-gradient(#B8860B88, #B8860Bcc);
+            border: 1px solid #2A8387;
+            border-radius: 4px;
+            box-shadow: rgba(0, 0, 0, 0.12) 0 1px 1px;
+            color: #FFFFFF;
+            cursor: pointer;
+            display: block;
+            font-family: -apple-system, ".SFNSDisplay-Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 17px;
+            line-height: 100%;
+            margin: 0;
+            outline: 0;
+            padding: 11px 15px 12px;
+            text-align: center;
+            transition: all 0.5s;
+            transition: box-shadow .05s ease-in-out, opacity .05s ease-in-out;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            width: 100%;
+        }
+
+        .button-1:hover {
+            box-shadow: rgba(255, 255, 255, 0.3) 0 0 2px inset, rgba(0, 0, 0, 0.4) 0 1px 2px;
+            text-decoration: none;
+            transition-duration: .15s, .15s;
+            background-color: linear-gradient(#B8860Baa, #B8860B);
+            background-image: linear-gradient(#B8860Baa, #B8860B);
+        }
+
+        .button-1:active {
+            box-shadow: rgba(0, 0, 0, 0.15) 0 2px 4px inset, rgba(0, 0, 0, 0.4) 0 1px 1px;
+        }
+
+        .button-1:disabled {
+            cursor: not-allowed;
+            opacity: .6;
+        }
+
+        .button-1:disabled:active {
+            pointer-events: none;
+        }
+
+        .button-1:disabled:hover {
+            box-shadow: none;
+        }
+
+        #updatePhotoBTN {
+            margin-bottom: 7px;
+        }
+
+        .container-small {
+            width: fit-content;
+            height: fit-content;
+            box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+            padding: 10px 10px 15px 10px;
+            margin: 20px auto;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            ;
+            border-top: rgb(222, 222, 222) solid 2px;
+        }
+
+        .container-small img {
+            border-radius: 8px;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+            width: 250px;
+            height: 250px;
+            margin: 25px calc(50% - 125px);
+        }
+
+        input[type='file'] {
+            width: 100%;
+            background-color: #fff5dc;
+            padding: 5px;
+            margin-top: 5px;
+        }
+
+        input:focus {
+            background-color: rgb(223, 235, 255);
+        }
+
+        #updatePhoto {
+            margin-bottom: 10px;
+        }
+
+        .updateUserForm {
+            display: block;
+            width: 480px;
+            padding: 15px 10px 15px 10px;
+            border-radius: 8px;
+            margin: 10px auto;
+            box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+            border-top: rgb(222, 222, 222) solid 2px;
+        }
+
+        .userul input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
     </style>
 
 
@@ -242,17 +358,18 @@ if (!isset($_SESSION['user_data'])) {
                 <div class="header">Welcome to the Dashboard</div>
                 <br>
 
-                <!-- <?php foreach ($userData as $data) {
-                    echo "$data <br>";
-                } ?> -->
+                <?php foreach ($userData as $data) {
+                    echo "<script> console.log('" . $data . "');</script>";
+                } ?>
 
                 <div class="dash-cards">
-                    <h3>User Info</h3>
                     <div>
                         <div class="img-containner">
-                            <img src="https://picsum.photos/75/75" alt="">
+                            <img src="<?php echo $userData['img_path'] ?>" alt="Profile Photo">
+                            <button class="button-1" onclick="toggleList(1)">Update Image</button>
                         </div>
                         <div class="info-containner">
+                            <h3>User Info</h3>
                             <ul class="cards-ul">
                                 <li>
                                     <label for="">Full Name:</label>
@@ -266,11 +383,54 @@ if (!isset($_SESSION['user_data'])) {
                                     <label for="">Email:</label>
                                     <p><?php echo $userData['email'] ?></p>
                                 </li>
+                                <li>
+                                    <button class="button-1" onclick="toggleList(4)">Edit Info</button>
+                                </li>
                             </ul>
                         </div>
+
                     </div>
                 </div>
 
+                <!-- Update Profile Photo Form -->
+                <div class="container-small" id="img-card">
+                    <img id="photoPreview" src="<?php echo $userData['img_path'] ?>" alt="Profile Photo">
+                    <form action="user-dashAction.php" method="POST" enctype="multipart/form-data" name="photoUploadForm">
+                    <input type="text" name="userIDUpdate" id="userIDUpdate2" value='<?php echo $userData['id_user'] ?>' hidden>
+                        <label for="updatePhoto">Select your Photo:</label>
+                        <input id="updatePhoto" type="file" name="updatePhoto" accept="image/jpeg,image/png,image/gif,image/jpg">
+                        <button id="updatePhotoBTN" class="button-1" type="submit" name="updatePhotoBTN" value="updatePhotoBTN">Upload</button>
+                        <button class="button-1 cancelBTN" type="button" onclick="toggleList(2)">Cancel</button>
+                    </form>
+                </div>
+
+                <!-- Update User Data Form -->
+                <div class="updateUserForm">
+                    <h3>Update User Information</h3>
+                    <ul class="userul">
+                        <form action="user-dashAction.php" method="POST">
+                            <li><input type="text" name="userIDUpdate" id="userIDUpdate" value='<?php echo $userData['id_user'] ?>' hidden></li>
+                            <li><label for="fnameUpdateUser">First Name </label>
+                                <input type="text" name="fnameUpdateUser" id="fnameUpdateUser" placeholder="First Name"
+                                    value="<?php echo $userData['fname'] ?>" required>
+                            </li>
+                            <li><label for="lnameUpdateUser">Last Name </label>
+                                <input name="lnameUpdateUser" type="text" id="lnameUpdateUser" placeholder="Last Name"
+                                    value="<?php echo $userData['lname'] ?>" required>
+                            </li>
+                            <li><label for="emailUpdateUser">E-mail</label>
+                                <input name="emailUpdateUser" type="email" id="emailUpdateUser" placeholder="E-Mail"
+                                     value="<?php echo $userData['email'] ?>" hidden>
+                            </li>
+                            <li><label for="phoneUpdateUser">Phone#</label>
+                                <input name="phoneUpdateUser" type="tel" id="phoneUpdateUser" placeholder="Tel Number"
+                                    value="<?php echo $userData['phone'] ?>">
+                            </li>
+                            <li><button class="button-1" name="updateUserSubmit" type="submit">Update Info</button></li>
+                        </form>
+                        <li><button class="button-1 cancelBTN" onclick="toggleList(3)">Cancel</button></li>
+                    </ul>
+                </div>
 
 
             </div>
@@ -318,6 +478,50 @@ if (!isset($_SESSION['user_data'])) {
                 e.target.classList.add("selected");
             });
         });
+
+        function toggleList(key) {
+            if (key == 1) {
+                document.querySelector("#home .dash-cards").style.display = "none";
+                document.querySelector("#home #img-card").style.display = "block";
+            }
+            if (key == 2) {
+                document.querySelector("#home .dash-cards").style.display = "block";
+                document.querySelector("#home #img-card").style.display = "none";
+            }
+            if (key == 3) {
+                document.querySelector("#home .dash-cards").style.display = "block";
+                document.querySelector("#home .updateUserForm").style.display = "none";
+            }
+            if (key == 4) {
+                document.querySelector("#home .dash-cards").style.display = "none";
+                document.querySelector("#home .updateUserForm").style.display = "block";
+            }
+        }
+
+
+                // function update image on event update form
+                function initImagePreview(inputId, imgId) {
+            const inputElement = document.getElementById(inputId);
+            const imgElement = document.getElementById(imgId);
+
+            if (!inputElement || !imgElement) {
+                console.error("Id or pic not valid");
+                return;
+            }
+            inputElement.addEventListener("change", function (event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        imgElement.src = e.target.result;
+                        imgElement.style.display = "block";
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        initImagePreview("updatePhoto", "photoPreview");
 
         <?php
         if (isset($_GET['logout'])) {
