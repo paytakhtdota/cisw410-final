@@ -152,8 +152,10 @@ function addNewEvent($newEventArray)
 
     foreach ($newEventArray as $index => $input) {
         if (!isset($input) || $input == '') {
-            if (($index != "newEUnit") || ($index != "newEDes")) {
-                $error[] = "You need to enter a $index";
+            if ($index != "newEUnit") {
+                if ($index != "newEDes") {
+                    $error[] = "You need to enter a $index";
+                }
             }
         }
     }
@@ -192,11 +194,12 @@ function addNewEvent($newEventArray)
                 ]);
                 $location_id = $pdo->lastInsertId();
 
-                $query2 = $pdo->prepare("INSERT INTO events(name, date, start_time, img, location_id, description) VALUES (:newEname, :newEDate, :newEStartTime, :newEImg, :location_id, :newEDes)");
+                $query2 = $pdo->prepare("INSERT INTO events(name, date, start_time, img, location_id, description, base_price) VALUES (:newEname, :newEDate, :newEStartTime, :newEImg, :location_id, :newEDes, :newEprice)");
 
                 $query2->execute([
                     ':newEname' => $newEventArray['newEname'],
                     ':newEDate' => $newEventArray['newEDate'],
+                    ':newEprice' => $newEventArray['newEprice'],
                     ':newEStartTime' => $newEventArray['newEStartTime'],
                     ':newEImg' => $filePath,
                     ':location_id' => $location_id,
@@ -274,12 +277,12 @@ function updateEvents($updateEventArray)
             $allowedTypes = ["jpg", "jpeg", "png", "gif"];
             if (!in_array($fileType, $allowedTypes)) {
                 header("Location: admin.php?successEventUpdate=2");
-                    exit();
+                exit();
             }
 
             if ($_FILES["upSelectEImg"]["size"] > 3 * 1024 * 1024) {
                 header("Location: admin.php?successEventUpdate=3");
-                    exit();
+                exit();
             }
 
             if (move_uploaded_file($_FILES["upSelectEImg"]["tmp_name"], $filePath)) {
@@ -364,12 +367,13 @@ if (isset($_POST['addNewAdmin'])) {
     $newEvent['newEname'] = ($_POST['newEname']);
     $newEvent['newEDate'] = ($_POST['newEDate']);
     $newEvent['newEStartTime'] = ($_POST['newEStartTime']);
+    $newEvent['newEprice'] = ($_POST['newEprice']);
     $newEvent['newEstreet'] = ($_POST['newEstreet']);
     $newEvent['newEUnit'] = ($_POST['newEUnit']);
     $newEvent['newECity'] = ($_POST['newECity']);
     $newEvent['newEState'] = ($_POST['newEState']);
     $newEvent['newEZip'] = ($_POST['newEZip']);
-    $newEvent['newEDes'] = ($_POST['newEDes']);
+    $newEvent['newEDes'] = ($_POST['neweditorDelta']);
     addNewEvent($newEvent);
 } elseif (isset($_POST['delUserID'])) {
     delUser($_POST['delUserID']);
@@ -378,7 +382,7 @@ if (isset($_POST['addNewAdmin'])) {
     $updateEvent['upEname'] = ($_POST['upEname']);
     $updateEvent['upEDate'] = ($_POST['upEDate']);
     $updateEvent['upEStartTime'] = ($_POST['upEStartTime']);
-    $updateEvent['upEDes'] = ($_POST['upEDes']);
+    $updateEvent['upEDes'] = ($_POST['upeditorDelta']);
     $updateEvent['upEstreet'] = ($_POST['upEstreet']);
     $updateEvent['upEUnit'] = ($_POST['upEUnit']);
     $updateEvent['upECity'] = ($_POST['upECity']);

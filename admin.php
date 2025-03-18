@@ -30,6 +30,8 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Simple Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -361,12 +363,15 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
 
         .upBTN,
         .delBTN {
-            width: 40px;
-            height: 20px;
+            width: 70px;
+            height: 30px;
             border: 1px solid rgb(145, 202, 240);
             background-color: rgb(207, 215, 224);
             border-radius: 2px;
             transition: all 200ms;
+            margin-bottom: 10px;
+            font-size: 16px;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
         }
 
         .upBTN:hover {
@@ -374,6 +379,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             background-color: rgba(227, 176, 75, 0.55);
             cursor: pointer;
             color: rgb(255, 255, 255);
+            box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
         }
 
         .delBTN:hover {
@@ -381,6 +387,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             background-color: rgb(225, 84, 74);
             cursor: pointer;
             color: rgb(255, 255, 255);
+            box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
         }
 
         .messageBox,
@@ -579,7 +586,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             <p>tickets content is displayed here.</p>
             <div class="tabContainer">
                 <div class="btnBar">
-                    <button onclick="tugglelist(4)">Events List</button> <button onclick="tugglelist(5)">Add New
+                    <button onclick="tugglelist(4)">Events List</button><button onclick="tugglelist(5)">Add New
                         Event</button>
                 </div>
                 <div class="containerBudy">
@@ -588,8 +595,8 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                             <li>ID</li>
                             <li>Event Name</li>
                             <li>Date</li>
-                            <li>Details</li>
-                            <li>Update</li>
+                            <li>Details / Update</li>
+                            <li>Delete</li>
                         </ul>
                     </div>
                     <!-- A row for each record -->
@@ -600,10 +607,15 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                             <li> " . $event['id_event'] . " </li>
                             <li>" . $event['name'] . "</li>
                             <li>" . $event['date'] . "</li>
-                            <li><form action='admin.php' method='POST'><input type='hidden' name='updateEvent' value='" . $index . "'><button class='upBTN' type='submit'>
-                            <i class='fa-solid fa-pen-to-square'></i></button></form></li>
+                            <li><form action='admin.php' method='POST'>
+                            <input type='hidden' name='updateEvent' value='" . $index . "'>
+                            <button class='upBTN' type='submit'>
+                            <i class='fa-solid fa-pen-to-square'></i>
+                            </button>
+                            </form>
+                            </li>
                             <li><form action='admin.php' method='POST'><input type='hidden' name='deleteEvent' value='" . $event['id_event'] . "'><button class='delBTN' type='submit'>
-                            <i class='fa-solid fa-folder-open'></i></button></form></li>
+                            <i class='fa-regular fa-trash-can'></i></button></form></li>
                             </ul>
                             </div>";
                     }
@@ -613,7 +625,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 <div class="newEventForm">
                     <h3>Add New Event</h3>
                     <ul class="newAdminul">
-                        <form action="config.php" method="POST" enctype="multipart/form-data">
+                        <form action="config.php" method="POST" enctype="multipart/form-data" id="formNewEvent">
                             <li><label for="newEname">Event Name<i class="required-fields">*</i></label>
                                 <input type="text" name="newEname" id="newEname" placeholder="Event Name" required>
                             </li>
@@ -624,14 +636,18 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                                 <input type="time" id="newEStartTime" name="newEStartTime" min="07:00" max="23:59"
                                     required />
                             </li>
+                            <li><label for="newEprice">Base Price<i class="required-fields">*</i></label>
+                                <input type="number" id="newEprice" name="newEprice" placeholder="0.00"
+                                    title="Enter a valid Price (e.g., 100 or 99.99)" required>
+                            </li>
                             <li>
                                 <label for="newEImg">Image</label>
-                                <input type="file" name="newEImg" id="newEImg"
-                                    accept="image/jpeg,image/png,image/gif" required>
+                                <input type="file" name="newEImg" id="newEImg" accept="image/jpeg,image/png,image/gif"
+                                    required>
                             </li>
-                            <li><label for="newEDes">Detials</label>
-                                <textarea name="newEDes" type="text-eara" id="newEDes" placeholder="New Event Date"
-                                    rows="3" maxlength="255"></textarea>
+                            <li><label for="newEeditor">Details</label>
+                                <div id="newEeditor"></div>
+                                <input type="hidden" name="neweditorDelta" id="neweditorDelta">
                             </li>
                             <h4>Address:</h4>
                             <li><label for="newEstreet">Street<i class="required-fields">*</i></label>
@@ -652,7 +668,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                                 <input type="text" id="newEZip" name="newEZip" pattern="^\d{5}$"
                                     title="Enter a valid ZIP Code (e.g., 12345 or 12345-6789)" required>
                             </li>
-                            <li><input name="addNewEvent" type="submit" value="Add New Event"></li>
+                            <li><input id="addNewEvent" name="addNewEvent" type="submit" value="Add New Event"></li>
                         </form>
                         <li><button class="cancelUpdate" onclick="closeUpdateField(5)">Cancel</button></li>
                     </ul>
@@ -666,7 +682,8 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                             <h3>Event Details:</h3>
                         </li>
                         <li><img id="upEImg" src="" alt=""></li>
-                        <form action="config.php" method="POST" enctype="multipart/form-data">
+                        <form action="config.php" method="POST" enctype="multipart/form-data"
+                            id="eventDetailsUpdateForm">
                             <li><label for="upEID">ID:</label>
                                 <input type="upEID" name="upEID" id="upEID" required readonly>
                             </li>
@@ -680,6 +697,10 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                             <li><label for="upEStartTime">Time:</label>
                                 <input class="update-event" type="time" id="upEStartTime" name="upEStartTime"
                                     min="07:00" max="23:59" required />
+                            </li>
+                            <li><label for="upEprice">Base Price<i class="required-fields">*</i></label>
+                                <input type="number" id="upEprice" name="upEprice" placeholder="0.00"
+                                    title="Enter a valid Price (e.g., 100 or 99.99)" required>
                             </li>
                             <li>
                                 <br>
@@ -695,13 +716,12 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                         <li><label for="upSelectEImg">New Image:</label><input type="file" name="upSelectEImg"
                                 id="upSelectEImg" accept="image/jpeg,image/png,image/gif">
                         </li>
-                        <li><label for="upEDes">Details:</label>
-                            <textarea name="upEDes" class="update-event" type="text-eara" id="upEDes" rows="3"
-                                maxlength="255"></textarea>
+                        <li><label for="upEeditor">Details</label>
+                            <div id="upEeditor"></div>
+                            <input type="hidden" name="upeditorDelta" id="upeditorDelta">
                         </li>
                         <li><label>Address:</label>
                         </li>
-
                         <li><label for="upEstreet">Street<i class="required-fields">*</i></label>
                             <input name="location_id" type="number" id="location_id" hidden>
                             <input class="update-event" name="upEstreet" type="text" id="upEstreet" placeholder="Street"
@@ -1052,6 +1072,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 document.querySelector(".newEventForm").style.display = "block";
                 document.querySelector("#events .containerBudy").style.display = "none";
                 document.querySelector('#events .eventDetailsSec').style.display = 'none';
+                editorEvent();
             } else if (key == 4) {
                 document.querySelector("#events .containerBudy").style.display = "block";
                 document.querySelector(".newEventForm").style.display = "none";
@@ -1206,9 +1227,10 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             });
         }
         addStates("newEState");
+        // add State in event update form
         addStates("upEState");
 
-        // active/deactive event update Form 
+        // active/deactive event update Form to wirte in the form
         function disableInputs(value) {
             let inputs = document.querySelectorAll(".update-event");
             inputs.forEach(input => {
@@ -1223,6 +1245,10 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     document.querySelector('#event-update-submit').style.display = "block";
                 });
             }
+            // ----------------------  copy from editor to a hidden Input form @ "event-update-submit" in "eventDetailsUpdateForm"
+            document.getElementById("event-update-submit").addEventListener("mouseenter", function () {
+                document.getElementById('upeditorDelta').value = JSON.stringify(quill2.getContents());
+            });
         }
 
         // function update image on event update form
@@ -1297,6 +1323,8 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             } else {
                 $upDetImg = $events[$eventIndex]['img'];
             }
+            echo "const quill2 = new Quill('#upEeditor', {theme: 'snow'});";
+            // fill out event update form from datebase data
             echo "showTab('events');
                     dashItems.forEach(item => { item.classList.remove('selected'); });
                     document.querySelector('#eventli').className = 'selected';
@@ -1308,7 +1336,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     document.querySelector('#upEname').value = '" . $events[$eventIndex]['name'] . "';
                     document.querySelector('#upEDate').value = '" . $events[$eventIndex]['date'] . "';
                     document.querySelector('#upEStartTime').value = '" . $events[$eventIndex]['start_time'] . "';
-                    document.querySelector('#upEDes').value = '" . $events[$eventIndex]['description'] . "';
+                    document.querySelector('#upEprice').value = '" . $events[$eventIndex]['base_price'] . "';
                     document.querySelector('#upEstreet').value = '" . $events[$eventIndex]['street'] . "';
                     document.querySelector('#location_id').value = '" . $events[$eventIndex]['location_id'] . "';
                     document.querySelector('#upEUnit').value = '" . $events[$eventIndex]['unit'] . "';
@@ -1318,8 +1346,14 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     document.querySelector('#upEZip').value = '" . $events[$eventIndex]['zip_code'] . "';
                     disableInputs(true);
                     ";
+            // since Quill only accept Obj to insert - if it be null it would not fill the editor 
+            if (!empty($events[$eventIndex]['description'])) {
+                echo "let desJSON = " . $events[$eventIndex]['description'] . ";";
+                echo "if (typeof desJSON === 'object') {";
+                echo "quill2.setContents(desJSON);";
+                echo "};";
+            }
 
-            echo "console.log('" . $_POST['updateEvent'] . "');";
         } elseif (isset($_POST['deleteUser'])) {
             // Confirm Message before Remove Action - USER - Display Function
             echo "showTab('users');
@@ -1329,6 +1363,22 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 document.querySelector('#users .containerBudy').style.display = 'none';";
         }
         ?>
+
+        const quill = new Quill('#newEeditor', {
+            theme: 'snow'
+        });
+
+        function upEditorEvent() {
+
+        }
+
+        function editorEvent() {
+            document.getElementById("addNewEvent").addEventListener("mouseenter", function () {
+                document.getElementById('neweditorDelta').value = JSON.stringify(quill.getContents());
+                console.log(JSON.stringify(quill.getContents()));
+            });
+        }
+
     </script>
 </body>
 

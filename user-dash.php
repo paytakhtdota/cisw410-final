@@ -286,7 +286,7 @@ if (!isset($_SESSION['user_data'])) {
             margin: 20px auto;
             border-radius: 8px;
             background-color: #f9f9f9;
-            ;
+            display: none;
             border-top: rgb(222, 222, 222) solid 2px;
         }
 
@@ -314,7 +314,7 @@ if (!isset($_SESSION['user_data'])) {
         }
 
         .updateUserForm {
-            display: block;
+            display: none;
             width: 480px;
             padding: 15px 10px 15px 10px;
             border-radius: 8px;
@@ -345,10 +345,14 @@ if (!isset($_SESSION['user_data'])) {
         <div class="sidebar">
             <h2>&nbsp;&nbsp;&nbsp;</h2>
             <ul>
-                <li class="selected" onclick="showTab('home')"><i class="fa-solid fa-house-user"> </i> Dashboard</li>
-                <li class="" onclick="showTab('tickets')"><i class="fa-solid fa-ticket"> </i> Tickets</li>
-                <li class="" onclick="showTab('settings')"><i class="fa-solid fa-gear"> </i> Settings</li>
-                <li class="" onclick="showTab('logout')"><i class="fa-solid fa-arrow-right-from-bracket"> </i> Logout
+                <li id="homeli" class="selected" onclick="showTab('home')"><i class="fa-solid fa-house-user"> </i>
+                    Dashboard</li>
+                <li id="ticketsli" class="" onclick="showTab('tickets')"><i class="fa-solid fa-ticket"> </i> Tickets
+                </li>
+                <li id="settingsli" class="" onclick="showTab('settings')"><i class="fa-solid fa-gear"> </i> Settings
+                </li>
+                <li id="logoutli" class="" onclick="showTab('logout')"><i class="fa-solid fa-arrow-right-from-bracket">
+                    </i> Logout
                 </li>
             </ul>
         </div>
@@ -395,11 +399,15 @@ if (!isset($_SESSION['user_data'])) {
                 <!-- Update Profile Photo Form -->
                 <div class="container-small" id="img-card">
                     <img id="photoPreview" src="<?php echo $userData['img_path'] ?>" alt="Profile Photo">
-                    <form action="user-dashAction.php" method="POST" enctype="multipart/form-data" name="photoUploadForm">
-                    <input type="text" name="userIDUpdate" id="userIDUpdate2" value='<?php echo $userData['id_user'] ?>' hidden>
+                    <form action="user-dashAction.php" method="POST" enctype="multipart/form-data"
+                        name="photoUploadForm">
+                        <input type="text" name="userIDUpdate2" id="userIDUpdate2"
+                            value='<?php echo $userData['id_user'] ?>' hidden>
                         <label for="updatePhoto">Select your Photo:</label>
-                        <input id="updatePhoto" type="file" name="updatePhoto" accept="image/jpeg,image/png,image/gif,image/jpg">
-                        <button id="updatePhotoBTN" class="button-1" type="submit" name="updatePhotoBTN" value="updatePhotoBTN">Upload</button>
+                        <input id="updatePhoto" type="file" name="updatePhoto"
+                            accept="image/jpeg,image/png,image/gif,image/jpg">
+                        <button id="updatePhotoBTN" class="button-1" type="submit" name="updatePhotoBTN"
+                            value="updatePhotoBTN">Upload</button>
                         <button class="button-1 cancelBTN" type="button" onclick="toggleList(2)">Cancel</button>
                     </form>
                 </div>
@@ -409,7 +417,8 @@ if (!isset($_SESSION['user_data'])) {
                     <h3>Update User Information</h3>
                     <ul class="userul">
                         <form action="user-dashAction.php" method="POST">
-                            <li><input type="text" name="userIDUpdate" id="userIDUpdate" value='<?php echo $userData['id_user'] ?>' hidden></li>
+                            <li><input type="text" name="userIDUpdate" id="userIDUpdate"
+                                    value='<?php echo $userData['id_user'] ?>' hidden></li>
                             <li><label for="fnameUpdateUser">First Name </label>
                                 <input type="text" name="fnameUpdateUser" id="fnameUpdateUser" placeholder="First Name"
                                     value="<?php echo $userData['fname'] ?>" required>
@@ -418,11 +427,11 @@ if (!isset($_SESSION['user_data'])) {
                                 <input name="lnameUpdateUser" type="text" id="lnameUpdateUser" placeholder="Last Name"
                                     value="<?php echo $userData['lname'] ?>" required>
                             </li>
-                            <li><label for="emailUpdateUser">E-mail</label>
+                            <li>
                                 <input name="emailUpdateUser" type="email" id="emailUpdateUser" placeholder="E-Mail"
-                                     value="<?php echo $userData['email'] ?>" hidden>
+                                    value="<?php echo $userData['email'] ?>" hidden>
                             </li>
-                            <li><label for="phoneUpdateUser">Phone#</label>
+                            <li><label for="phoneUpdateUser">Phone</label>
                                 <input name="phoneUpdateUser" type="tel" id="phoneUpdateUser" placeholder="Tel Number"
                                     value="<?php echo $userData['phone'] ?>">
                             </li>
@@ -499,8 +508,8 @@ if (!isset($_SESSION['user_data'])) {
         }
 
 
-                // function update image on event update form
-                function initImagePreview(inputId, imgId) {
+        // function update image on event update form
+        function initImagePreview(inputId, imgId) {
             const inputElement = document.getElementById(inputId);
             const imgElement = document.getElementById(imgId);
 
@@ -528,6 +537,56 @@ if (!isset($_SESSION['user_data'])) {
             echo "showTab('logout');";
         }
         ?>
+
+        function handleSuccessMessages() {
+            const params = new URLSearchParams(window.location.search);
+
+            if (params.get("successUpUser") == 1) {
+                showTab('home');
+                dashItems.forEach(item => { item.classList.remove('selected'); });
+                document.querySelector('#homeli').className = 'selected';
+                window.onload = function () {
+                    setTimeout(() => { alert("Information successfully Updated."); }, 500)
+                };
+            } else if (params.get("successUpUser") == 2) {
+                showTab('home');
+                dashItems.forEach(item => { item.classList.remove('selected'); });
+                document.querySelector('#homeli').className = 'selected';
+                window.onload = function () {
+                    setTimeout(() => { alert("Update Failed: Database error."); }, 500)
+                };
+            } else if (params.get("successUpUser") == 3) {
+                showTab('home');
+                dashItems.forEach(item => { item.classList.remove('selected'); });
+                document.querySelector('#homeli').className = 'selected';
+                window.onload = function () {
+                    setTimeout(() => { alert("Update Failed: File type not valid. (Only .png , .jpg , gif)"); }, 500)
+                };
+            } else if (params.get("successUpUser") == 4) {
+                showTab('home');
+                dashItems.forEach(item => { item.classList.remove('selected'); });
+                document.querySelector('#homeli').className = 'selected';
+                window.onload = function () {
+                    setTimeout(() => { alert("File size is too big, select file smaller than 3MB"); }, 500)};
+                } else if (params.get("successUpUser") == 5) {
+                    showTab('home');
+                    dashItems.forEach(item => { item.classList.remove('selected'); });
+                    document.querySelector('#homeli').className = 'selected';
+                    window.onload = function () {
+                        setTimeout(() => { alert("Profile photo successfully updated."); }, 500)
+                    };
+                } else if (params.get("successUpUser") == 6) {
+                    showTab('home');
+                    dashItems.forEach(item => { item.classList.remove('selected'); });
+                    document.querySelector('#homeli').className = 'selected';
+                    window.onload = function () {
+                        setTimeout(() => { alert("Select a Image before submit."); }, 500)
+                    };
+                }
+
+            }
+
+            handleSuccessMessages();
     </script>
 </body>
 

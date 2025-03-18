@@ -11,6 +11,8 @@ function updateUserInfo($dataArray)
         }
     }
 
+   
+
     if (empty($error)) {
         try {
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -42,11 +44,16 @@ function updateUserInfo($dataArray)
 
 function updatePhoto()
 {
+
+    if($_FILES["updatePhoto"]["error"] === UPLOAD_ERR_NO_FILE){
+        header("Location: user-dash.php?successUpUser=6");
+        exit();
+    }
     $uploadDir = "public/upload/";
     $fileName = uniqid() . basename($_FILES["updatePhoto"]["name"]);
     $filePath = $uploadDir . $fileName;
     $fileType = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
-
+    echo "<script>console.log(" . $filePath . ");</script>";
     $allowedTypes = ["jpg", "jpeg", "png", "gif"];
     if (!in_array($fileType, $allowedTypes)) {
         header("Location: user-dash.php?successUpUser=3");
@@ -76,7 +83,8 @@ function updatePhoto()
             die('Query Faild:' . $e->getMessage());
         }
     } else {
-        echo "upload failed";
+        header("Location: user-dash.php?successUpUser=2");
+            exit();
     }
 }
 
