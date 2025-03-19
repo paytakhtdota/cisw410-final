@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=DM+Serif+Display:ital@0;1&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+#countdown-timer {
+    width: 100%;
+    background-color: #ece2ff;
+    height: 300px;
+    text-align: center;
+    padding-top: 4em;
+}
+
+#countdown-timer>h2 {
+    font-family: Roboto;
+    font-size: 3em;
+    line-height: 2;
+}
+
+#countdown-timer>h3 {
+    font-family: Montserrat;
+    font-size: 3em;
+    line-height: 2;
+}
+
+/* Event List Styles */
+.incomingH2 {
+    font-size: 3em;
+    line-height: 3;
+    text-align: center;
+    background-color: #202020;
+    color: #ffffff;
+    padding-top: 75px;
+    font-family: Roboto, sans-serif;
+}
+
+.eventsList {
+    display: flex;
+    padding: 30px 1% 30px 1%;
+    background-color: #202020;
+    gap: 2%;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.eventsList a{
+    width: 800px;
+    color: #303030;
+    margin-bottom: 25px;
+
+}
+
+.eventsList a:visited{
+    color: #303030;
+
+}
+
+.eventsList a:hover{
+    color: #000000;
+
+}
+
+.eventCard {
+    display: flex;
+    border-bottom: #898989 solid 1px;
+    transition: all 0.4s;
+    width: 43%;
+    margin-bottom: 20px;
+    min-width: 800px;
+    background-color: #D3D3D3;
+    border-radius: 10px;
+    box-shadow: rgba(50, 50, 93, 0.20) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.2) 0px 18px 36px -18px inset;
+}
+
+.eventCard::before {
+    content: '';
+    position: absolute;
+    width: 795px;
+    height: 7px;
+    background-color: #B8860B;
+    transition: transform 0.3s;
+    transform: scaleX(0);
+    border-radius: 10px 10px 0 0 ;
+    margin-left: 2px;
+}
+
+.eventCard:hover::before {
+    transform: scaleX(1);
+}
+
+
+.eventCard:hover {
+    border-bottom: #ffffff solid 1px;
+    
+}
+
+.eventCard:hover > img {
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+
+}
+.eventContext {
+    display: flex;
+    flex-direction: column;
+    margin: 15px;
+    flex-grow: 1;
+    align-content: space-between;
+    justify-content: space-between;
+    
+}
+
+.eventContext h3,
+.eventContext h4,
+.more-info-link {
+    text-align: center;
+}
+
+.eventContext h3 {
+    font-size: 2em;
+    line-height: 1.2;
+    font-family: "DM Serif Display", serif;
+    padding-top: 20px;
+    text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.2),
+        0px 8px 13px rgba(0, 0, 0, 0.1),
+        0px 18px 23px rgba(0, 0, 0, 0.1);
+}
+
+.eventContext h4 {
+    font-size: 18px;
+    font-size: 1.7em;
+    font-weight: 200;
+    line-height: 1.2;
+    margin-top: 15px;
+    font-family: "Chivo", sans-serif;
+}
+
+.eventCard img {
+    margin: 15px;
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    transition: all 0.3s;
+}

@@ -27,7 +27,6 @@ function signinAction()
             $userData = $quiry->fetch(PDO::FETCH_ASSOC);
             if (password_verify($data_si['passwordSI'], $userData['password'])) {
                 $_SESSION['user_data'] = $userData;
-
                 header('Location: user-dash.php');
                 exit();
             } else {

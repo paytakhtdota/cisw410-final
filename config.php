@@ -329,6 +329,30 @@ function updateEvents($updateEventArray)
 }
 
 
+function delEvent($value)
+{
+    require_once("connection.php");
+    try {
+
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $delQuery = $pdo->prepare("DELETE FROM events WHERE id_event = :eventID");
+        if ($delQuery->execute([":eventID" => intval($value)])) {
+            header("Location: admin.php?successDelEvent=1");
+            exit();
+        } else {
+            header("Location: admin.php?successdelEvent=0");
+            exit();
+        }
+
+    } catch (PDOException $e) {
+        // header("Location: admin.php?erorr=". $e->getMessage()); 
+        echo "fail" . $e->getMessage();
+    }
+}
+
+
+
+
 if (isset($_POST['addNewAdmin'])) {
     $data_aa['fnameNA'] = trim($_POST['fnameAdmin']);
     $data_aa['lnameNA'] = trim($_POST['lnameAdmin']);
@@ -389,6 +413,8 @@ if (isset($_POST['addNewAdmin'])) {
     $updateEvent['upEState'] = ($_POST['upEState']);
     $updateEvent['upEZip'] = ($_POST['upEZip']);
     updateEvents($updateEvent);
+} elseif (isset($_POST['delEventID'])) {
+    delEvent($_POST['delEventID']);
 } else {
     echo "Error";
 }

@@ -614,7 +614,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                             </button>
                             </form>
                             </li>
-                            <li><form action='admin.php' method='POST'><input type='hidden' name='deleteEvent' value='" . $event['id_event'] . "'><button class='delBTN' type='submit'>
+                            <li><form action='admin.php' method='POST'><input type='hidden' id='deleteEvent' name='deleteEvent' value='" . $event['id_event'] . "'><button class='delBTN' type='submit'>
                             <i class='fa-regular fa-trash-can'></i></button></form></li>
                             </ul>
                             </div>";
@@ -750,6 +750,19 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                         </li>
                     </ul>
                 </section>
+
+                 <!-- Delete Event Message Box -->
+                 <div class="messageBoxUser">
+                    <div class="qustion">
+                        <p>Are you sure you want to delete this record?</p>
+                    </div>
+                    <div class="conformBTN">
+                        <form action="config.php" method="POST"><input type='hidden' name='delEventID'
+                                value='<?php echo $_POST['deleteEvent']; ?>'><input type="submit" value="Remove"></form>
+                        <!-- cancel button -->
+                        <button id="delEventCancel">Cancle</button>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -1115,6 +1128,12 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             document.querySelector('#users .containerBudy').style.display = 'block';
         });
 
+        // Cancel Button on Confirm message - User remove - Display Fucntion
+        document.querySelector('#delEventCancel').addEventListener("click", () => {
+            document.querySelector('#events .messageBoxUser').style.display = 'none';
+            document.querySelector('#events .containerBudy').style.display = 'block';
+        });
+
 
         function handleSuccessMessages() {
             const params = new URLSearchParams(window.location.search);
@@ -1163,7 +1182,26 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 document.querySelector('#userli').className = 'selected';
                 window.onload = function () {
                     setTimeout(() => {
-                        alert("Record successfully removed.");
+                        if (params.get("successDelUser") == 1) {
+                            alert("Record successfully removed.");
+                        }else{
+                            alert("Query Failed: User not removed.");
+                        }
+                    }, 500)
+                };
+            }
+
+            if (params.get("successDelEvent")) {
+                showTab('events');
+                dashItems.forEach(item => { item.classList.remove('selected'); });
+                document.querySelector('#eventli').className = 'selected';
+                window.onload = function () {
+                    setTimeout(() => {
+                        if (params.get("successDelEvent") == 1) {
+                            alert("Event successfully removed.");
+                        }else{
+                            alert("Query Failed: Event not removed.");
+                        }
                     }, 500)
                 };
             }
@@ -1359,8 +1397,17 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             echo "showTab('users');
                 dashItems.forEach(item => { item.classList.remove('selected'); });
                 document.querySelector('#userli').className = 'selected';
-                document.querySelector('.messageBoxUser').style.display = 'block';
+                document.querySelector('#users .messageBoxUser').style.display = 'block';
                 document.querySelector('#users .containerBudy').style.display = 'none';";
+        }
+
+        if (isset($_POST['deleteEvent'])) {
+            // Confirm Message before Remove Action - Event - Display Function
+            echo "showTab('events');
+                dashItems.forEach(item => { item.classList.remove('selected'); });
+                document.querySelector('#eventli').className = 'selected';
+                document.querySelector('#events .messageBoxUser').style.display = 'block';
+                document.querySelector('#events .containerBudy').style.display = 'none';";
         }
         ?>
 
