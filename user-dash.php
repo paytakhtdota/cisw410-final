@@ -11,6 +11,11 @@ if (!isset($_SESSION['user_data'])) {
     $quiry = $pdo->prepare("SELECT * FROM users WHERE id_user=:id_user");
     $quiry->execute([":id_user" => $tempData['id_user']]);
     $userData = $quiry->fetch(PDO::FETCH_ASSOC);
+
+    // query events
+    $eventsQuery = $pdo->prepare("SELECT * FROM events");
+    $eventsQuery->execute();
+    $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
 }
 
 
@@ -332,6 +337,115 @@ if (!isset($_SESSION['user_data'])) {
             transition: all 0.3s ease;
             outline: none;
         }
+
+        /* Events tab style */
+        #tab-container-event {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        .searchbar-div {
+            height: 70px;
+            box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+            padding-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .searchbar-div label {
+            font-size: 1.6em;
+            padding-right: 15px;
+        }
+
+        .searchbar-div input {
+            width: 50%;
+            height: 50px;
+            font-size: 1.4em;
+        }
+
+        .event-card {
+            width: 320px;
+            padding: 15px;
+            height: 580px;
+            background-color: #202020;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+            margin-bottom: 20px;
+            transition: all 0.5s;
+        }
+
+        .event-card:hover {
+            box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+                }
+
+        #event-card-img {
+            width: 289px;
+            height: 289px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .labels-details {
+            display: block;
+            font-size: 16px;
+            font-style: normal;
+            color: hsl(43, 92.00%, 48.80%);
+        }
+
+        .event-details {
+            flex-grow: 1;
+        }
+
+        .ul-details {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .ul-details li {}
+
+        .ul-details button {
+            width: 100%;
+            height: 40px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 3px solid #b8860b;
+            background-color: #b8860b;
+            color: rgb(255, 255, 255);
+            font-size: 18px;
+            font-family: "Roboto", serif;
+            transition: all 0.4s;
+        }
+
+        .ul-details button:hover {
+            width: 100%;
+            height: 40px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border-color: #B8860B;
+            background-color: #b8860b00;
+            color: #B8860B;
+            cursor: pointer;
+        }
+
+        .note-details {
+            font-family: "DM Serif Display", serif;
+            font-style: normal;
+            font-size: 18px;
+            color: white;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            letter-spacing: 1px;
+        }
     </style>
 
 
@@ -348,6 +462,8 @@ if (!isset($_SESSION['user_data'])) {
                 <li id="homeli" class="selected" onclick="showTab('home')"><i class="fa-solid fa-house-user"> </i>
                     Dashboard</li>
                 <li id="ticketsli" class="" onclick="showTab('tickets')"><i class="fa-solid fa-ticket"> </i> Tickets
+                </li>
+                <li id="eventsli" class="" onclick="showTab('events')"><i class="fa-solid fa-calendar-week"></i> Events
                 </li>
                 <li id="settingsli" class="" onclick="showTab('settings')"><i class="fa-solid fa-gear"> </i> Settings
                 </li>
@@ -447,6 +563,31 @@ if (!isset($_SESSION['user_data'])) {
                 <div class="header">Tickets</div>
                 <p>tickets content is displayed here.</p>
             </div>
+            <!-- ********list of events************list of events**********list of events************** list of events -->
+            <div id="events" class="tab">
+                <div class="header">Up coming events</div>
+                <div class="searchbar-div">
+                    <label for="searchBar-event">Search</label><input id="searchBar-event" name="searchBar-event"
+                        type="text">
+                </div>
+                <div class="tab-container" id="tab-container-event">
+
+                    <!-- <div class="event-card">
+                        <img id="event-card-img" src="url from database" alt="">
+                        <div class="event-details">
+                            <ul class="ul-details">
+                                <li><i class="labels-details">Event Title:</i><i id="event-title"
+                                        class="note-details">here context from database</i></li>
+                                <li><i class="labels-details">Date and Time:</i><i id="event-title"
+                                        class="note-details">here context from database</i></li>
+                                <li><a href="eventdetails.php?event_id=1"><button>More Info</button></a></li>
+                            </ul>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+
             <div id="settings" class="tab">
                 <div class="header">Settings</div>
                 <p>Settings content is displayed here.</p>
@@ -567,26 +708,93 @@ if (!isset($_SESSION['user_data'])) {
                 dashItems.forEach(item => { item.classList.remove('selected'); });
                 document.querySelector('#homeli').className = 'selected';
                 window.onload = function () {
-                    setTimeout(() => { alert("File size is too big, select file smaller than 3MB"); }, 500)};
-                } else if (params.get("successUpUser") == 5) {
-                    showTab('home');
-                    dashItems.forEach(item => { item.classList.remove('selected'); });
-                    document.querySelector('#homeli').className = 'selected';
-                    window.onload = function () {
-                        setTimeout(() => { alert("Profile photo successfully updated."); }, 500)
-                    };
-                } else if (params.get("successUpUser") == 6) {
-                    showTab('home');
-                    dashItems.forEach(item => { item.classList.remove('selected'); });
-                    document.querySelector('#homeli').className = 'selected';
-                    window.onload = function () {
-                        setTimeout(() => { alert("Select a Image before submit."); }, 500)
-                    };
-                }
-
+                    setTimeout(() => { alert("File size is too big, select file smaller than 3MB"); }, 500)
+                };
+            } else if (params.get("successUpUser") == 5) {
+                showTab('home');
+                dashItems.forEach(item => { item.classList.remove('selected'); });
+                document.querySelector('#homeli').className = 'selected';
+                window.onload = function () {
+                    setTimeout(() => { alert("Profile photo successfully updated."); }, 500)
+                };
+            } else if (params.get("successUpUser") == 6) {
+                showTab('home');
+                dashItems.forEach(item => { item.classList.remove('selected'); });
+                document.querySelector('#homeli').className = 'selected';
+                window.onload = function () {
+                    setTimeout(() => { alert("Select a Image before submit."); }, 500)
+                };
             }
 
-            handleSuccessMessages();
+        }
+
+        handleSuccessMessages();
+
+        // functio to add event cards
+        function createEventCard(event) {
+
+            const eventCard = document.createElement("div");
+            eventCard.classList.add("event-card");
+
+            const eventImg = document.createElement("img");
+            eventImg.id = "event-card-img";
+            eventImg.src = event.imageUrl;
+            eventImg.alt = "Event Image";
+
+            const eventDetails = document.createElement("div");
+            eventDetails.classList.add("event-details");
+
+            const ulDetails = document.createElement("ul");
+            ulDetails.classList.add("ul-details");
+
+            const titleLi = document.createElement("li");
+            titleLi.innerHTML = `<i class="labels-details">Event Title:</i> <i class="note-details">${event.title}</i>`;
+
+            const dateLi = document.createElement("li");
+            dateLi.innerHTML = `<i class="labels-details">Date and Time:</i> <i class="note-details">${event.dateTime}</i>`;
+
+            const moreInfoLi = document.createElement("li");
+            const moreInfoLink = document.createElement("a");
+            moreInfoLink.href = `eventdetails.php?event_id=${event.id}`;
+
+            const moreInfoButton = document.createElement("button");
+            moreInfoButton.textContent = "More Info";
+
+            moreInfoLink.appendChild(moreInfoButton);
+            moreInfoLi.appendChild(moreInfoLink);
+
+            ulDetails.appendChild(titleLi);
+            ulDetails.appendChild(dateLi);
+            ulDetails.appendChild(moreInfoLi);
+
+            eventDetails.appendChild(ulDetails);
+            eventCard.appendChild(eventImg);
+            eventCard.appendChild(eventDetails);
+
+            document.getElementById('tab-container-event').appendChild(eventCard);
+        }
+
+        let eventData = {
+            id: 1,
+            imageUrl: "url from database",
+            title: "here context from database",
+            dateTime: "here context from database"
+        };
+
+        <?php
+        foreach ($events as $index => $event) {
+            $date = new DateTime($event['date']);
+            $time = new DateTime($event['start_time']);
+            echo "eventData = {
+                id: " . $event['id_event'] . ",
+                imageUrl: '" . $event['img'] . "',
+                title: '" . $event['name'] . "',
+                dateTime: '" . $date->format('F jS') . " at " . $time->format('g:i a') . "'
+            };";
+            echo "createEventCard(eventData);";
+        }
+        ?>
+
     </script>
 </body>
 

@@ -32,8 +32,10 @@ function addNewAdmin($data_aa)
             $query->execute($data_aa);
             if ($data_aa['privilegeNA'] == 0) {
                 header("Location: admin.php?successUserAdd=1");
+                exit();
             } else {
                 header("Location: admin.php?successAdd=1");
+                exit();
             }
 
         }

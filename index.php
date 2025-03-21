@@ -122,7 +122,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         <?php foreach ($events as $index => $event) {
             $date = new DateTime($event['date']);
             $time = new DateTime($event['start_time']);
-            echo "newEventCard = createEventCard('".$event['name']."', '".$date->format("F jS")."', '".$time->format("g:i a")."', '".$event['img']."', '#');";
+            echo "newEventCard = createEventCard('".$event['name']."', '".$date->format("F jS")."', '".$time->format("g:i a")."', '".$event['img']."', 'eventdetails.php?event_id=".$event['id_event']."');";
             echo "eventContainer.appendChild(newEventCard);";
         }
         ?>

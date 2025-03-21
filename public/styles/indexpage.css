@@ -1,8 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=DM+Serif+Display:ital@0;1&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 #countdown-timer {
     width: 100%;
-    background-color: #ece2ff;
+    background-color: #fff2d0;
     height: 300px;
     text-align: center;
     padding-top: 4em;
