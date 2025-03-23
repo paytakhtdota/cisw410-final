@@ -1,18 +1,29 @@
 <?php
 session_start();
-$eventId = isset($_GET['event_id']) ? intval($_GET['event_id']) : 0;
-if ($eventId > 0) {
-    require_once("connection.php");
-    $eventsQuery = $pdo->prepare("SELECT events.*, address.*
+
+if (!isset($_SESSION['user_data'])) {
+    header("Location: user-login-form.php");
+    exit();
+} else {
+
+    $eventId = isset($_GET['event_id']) ? intval($_GET['event_id']) : 0;
+    if ($eventId > 0) {
+        require_once("connection.php");
+        $eventsQuery = $pdo->prepare("SELECT events.*, address.*
         FROM events
         JOIN address ON events.location_id = address.location_id
         WHERE events.id_event = :event_id
     ");
-    $eventsQuery->bindParam(':event_id', $eventId, PDO::PARAM_INT);
-    $eventsQuery->execute();
-    $event = $eventsQuery->fetch(PDO::FETCH_ASSOC);
-} else {
-    // header("Location: index.php");
+        $eventsQuery->bindParam(':event_id', $eventId, PDO::PARAM_INT);
+        $eventsQuery->execute();
+        $event = $eventsQuery->fetch(PDO::FETCH_ASSOC);
+        if ($event['id_event'] != $eventId) {
+            header("Location: error.php");
+        }
+    } else {
+        header("Location: error.php");
+    }
+
 }
 
 ?>
@@ -263,7 +274,7 @@ if ($eventId > 0) {
 
     <div class="seat-main" id="seat-main">
         <div class="event-information">
-            <img src="public/upload/67d7ac1333326night2.jpg" alt="">
+            <img src="<?php echo $event['img'] ?>" alt="">
 
             <ul class="event-information-ul">
                 <li>
@@ -273,29 +284,29 @@ if ($eventId > 0) {
                 <li>
                     <label for="">Date and Time:</label>
                     <h4><?php
-                            $date = new DateTime($event['date']);
-                            $time = new DateTime($event['start_time']);
-                            echo $date->format("F jS") . " start at " . $time->format('g:i a');
-                            ?></h4>
+                    $date = new DateTime($event['date']);
+                    $time = new DateTime($event['start_time']);
+                    echo $date->format("F jS") . " start at " . $time->format('g:i a');
+                    ?></h4>
                 </li>
                 <li>
                     <label for="Address">Address:</label>
                     <h4><?php
-                            $unit_add = '';
-                            if (!empty($event['unit'])) {
-                                $unit_add = $event['unit'] . ", ";
-                            }
-                            echo $event['street'] . ", " . $unit_add . $event['city'] . ", " . $event['state'] . " - " . $event['zip_code'];
-                            ?></h4>
+                    $unit_add = '';
+                    if (!empty($event['unit'])) {
+                        $unit_add = $event['unit'] . ", ";
+                    }
+                    echo $event['street'] . ", " . $unit_add . $event['city'] . ", " . $event['state'] . " - " . $event['zip_code'];
+                    ?></h4>
                 </li>
                 <li>
                     <span>
                         <label for="Address">Classic Price:</label>
-                        <h4><?php echo $event['base_price']."$"?></h4>
+                        <h4><?php echo $event['base_price'] . "$" ?></h4>
                     </span>
                     <span>
                         <label for="Address">VIP Price:</label>
-                        <h4><?php echo $event['base_price']*2 ."$"?></h4>
+                        <h4><?php echo $event['base_price'] * 2 . "$" ?></h4>
                     </span>
 
                 </li>

@@ -338,7 +338,7 @@ if (!isset($_SESSION['user_data'])) {
             outline: none;
         }
 
-        /* Events tab style */
+        /* Events tab style **************** Events tab style ********/
         #tab-container-event {
             display: flex;
             gap: 25px;
@@ -347,13 +347,14 @@ if (!isset($_SESSION['user_data'])) {
         }
 
         .searchbar-div {
-            height: 70px;
-            box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-            padding-top: 10px;
+            min-height: 70px;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+            padding-top: 20px;
+            padding-bottom : 25px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
         }
 
         .searchbar-div label {
@@ -370,7 +371,7 @@ if (!isset($_SESSION['user_data'])) {
         .event-card {
             width: 320px;
             padding: 15px;
-            height: 580px;
+            height: 600px;
             background-color: #202020;
             border-radius: 8px;
             display: flex;
@@ -758,14 +759,27 @@ if (!isset($_SESSION['user_data'])) {
             moreInfoLink.href = `eventdetails.php?event_id=${event.id}`;
 
             const moreInfoButton = document.createElement("button");
+            moreInfoButton.style.marginBottom = "-7px";
             moreInfoButton.textContent = "More Info";
+
+            const bookNowLi = document.createElement("li");
+            const bookNowLink = document.createElement("a");
+            bookNowLink.href = `seatselection.php?event_id=${event.id}`;
+
+            const bookNowButton = document.createElement("button");
+            bookNowButton.style.marginTop = "-7px";
+            bookNowButton.textContent = "Book Now";
 
             moreInfoLink.appendChild(moreInfoButton);
             moreInfoLi.appendChild(moreInfoLink);
 
+            bookNowLink.appendChild(bookNowButton);
+            bookNowLi.appendChild(bookNowLink);
+
             ulDetails.appendChild(titleLi);
             ulDetails.appendChild(dateLi);
             ulDetails.appendChild(moreInfoLi);
+            ulDetails.appendChild(bookNowLi);
 
             eventDetails.appendChild(ulDetails);
             eventCard.appendChild(eventImg);

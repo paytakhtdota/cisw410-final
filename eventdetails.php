@@ -11,8 +11,11 @@ if ($eventId > 0) {
     $eventsQuery->bindParam(':event_id', $eventId, PDO::PARAM_INT);
     $eventsQuery->execute();
     $event = $eventsQuery->fetch(PDO::FETCH_ASSOC);
+    if($event['id_event'] != $eventId) {
+        header("Location: error.php");
+    }
 } else {
-    // header("Location: index.php");
+    header("Location: error.php");
 }
 
 ?>
@@ -163,7 +166,7 @@ if ($eventId > 0) {
         <div class="detailContainer">
             <div>
                 <img class="eventImg" src="<?php echo $event['img'] ?>" alt="">
-                <button id="book-now">Book Now</button>
+                <a href="seatselection.php?event_id=<?php echo $event['id_event'] ?>"><button id="book-now">Book Now</button></a>
             </div>
 
             <div class="detailContainer1">
