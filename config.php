@@ -253,12 +253,13 @@ function updateEvents($updateEventArray)
                     ':upEZip' => $updateEventArray['upEZip']
                 ]);
 
-                $query2 = $pdo->prepare("UPDATE events SET name=:upEname, date=:upEDate, start_time=:upEStartTime, description=:upEDes WHERE id_event=:upEID");
+                $query2 = $pdo->prepare("UPDATE events SET name=:upEname, date=:upEDate, base_price=:upEprice, start_time=:upEStartTime, description=:upEDes WHERE id_event=:upEID");
 
                 $query2->execute([
                     ':upEID' => $updateEventArray['upEID'],
                     ':upEname' => $updateEventArray['upEname'],
                     ':upEDate' => $updateEventArray['upEDate'],
+                    ':upEprice' => $updateEventArray['upEprice'],
                     ':upEStartTime' => $updateEventArray['upEStartTime'],
                     ':upEDes' => $updateEventArray['upEDes']
                 ]);
@@ -407,6 +408,7 @@ if (isset($_POST['addNewAdmin'])) {
     $updateEvent['upEID'] = ($_POST['upEID']);
     $updateEvent['upEname'] = ($_POST['upEname']);
     $updateEvent['upEDate'] = ($_POST['upEDate']);
+    $updateEvent['upEprice'] = ($_POST['upEprice']);
     $updateEvent['upEStartTime'] = ($_POST['upEStartTime']);
     $updateEvent['upEDes'] = ($_POST['upeditorDelta']);
     $updateEvent['upEstreet'] = ($_POST['upEstreet']);

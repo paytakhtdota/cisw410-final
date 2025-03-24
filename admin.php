@@ -637,7 +637,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                                     required />
                             </li>
                             <li><label for="newEprice">Base Price<i class="required-fields">*</i></label>
-                                <input type="number" id="newEprice" name="newEprice" placeholder="0.00"
+                                <input type="number" step="0.01" id="newEprice" name="newEprice" placeholder="0.00"
                                     title="Enter a valid Price (e.g., 100 or 99.99)" required>
                             </li>
                             <li>
@@ -699,7 +699,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                                     min="07:00" max="23:59" required />
                             </li>
                             <li><label for="upEprice">Base Price<i class="required-fields">*</i></label>
-                                <input type="number" id="upEprice" name="upEprice" placeholder="0.00"
+                                <input type="number" step="0.01"  id="upEprice" name="upEprice" placeholder="0.00"
                                     title="Enter a valid Price (e.g., 100 or 99.99)" required>
                             </li>
                             <li>
