@@ -1,10 +1,12 @@
 <?php
 session_start();
-
+$seats = null;
 if (!isset($_SESSION['user_data'])) {
     header("Location: user-login-form.php");
     exit();
 } else {
+    $userSession = $_SESSION['user_data'];
+
     $eventId = isset($_GET['event_id']) ? intval($_GET['event_id']) : 0;
     if ($eventId > 0) {
         require_once("connection.php");
@@ -22,8 +24,6 @@ if (!isset($_SESSION['user_data'])) {
 
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['seats'])) {
             $seats = $_POST['seats'];
-            foreach ($seats as $seatID => $seatName) {
-            }
         }
 
     } else {
@@ -31,6 +31,10 @@ if (!isset($_SESSION['user_data'])) {
     }
 }
 
+
+$date = new DateTime($event['date']);
+$time = new DateTime($event['start_time']);
+$dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
 ?>
 
 <!DOCTYPE html>
@@ -208,7 +212,7 @@ if (!isset($_SESSION['user_data'])) {
             display: flex;
             flex-wrap: wrap;
             padding-top: 20px;
-            gap: 12px;
+            gap: 16px;
             align-content: flex-start;
 
         }
@@ -295,6 +299,7 @@ if (!isset($_SESSION['user_data'])) {
         }
 
         .ticket-info-container-tail {
+            display: flex;
             font-family: "Chivo", "Roboto";
             min-width: 100%;
             min-height: 60px;
@@ -303,10 +308,18 @@ if (!isset($_SESSION['user_data'])) {
             font-size: 18px;
             padding: 10px 10px 0 10px;
             text-align: center;
-
+            justify-content: center;
+            align-items: center;
         }
-        .ticket-info-container-tail p{
+
+        .ticket-info-container-tail p {
             font-size: 32px;
+        }
+
+        .ticket-info-container-tail img {
+            width: 40px;
+            height: 42px;
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -326,11 +339,7 @@ if (!isset($_SESSION['user_data'])) {
                 </li>
                 <li>
                     <label for="">Date and Time:</label>
-                    <h4><?php
-                    $date = new DateTime($event['date']);
-                    $time = new DateTime($event['start_time']);
-                    echo $date->format("F jS") . " start at " . $time->format('g:i a');
-                    ?></h4>
+                    <h4><?php echo $dateForEcho; ?></h4>
                 </li>
                 <li>
                     <label for="Address">Address:</label>
@@ -360,7 +369,7 @@ if (!isset($_SESSION['user_data'])) {
         <ul class="selected-seats-info">
             <li>Your Ticket(s):</li>
             <li class="ticket-list" id="ticket-list-li">
-                <div class="ticket-container">
+                <!-- <div class="ticket-container">
                     <div class="ticket-card">
                         <div class="ticket-title-container">Music Festival</div>
                         <div class="ticket-info-container">
@@ -368,27 +377,22 @@ if (!isset($_SESSION['user_data'])) {
                                 <li class="ticket-info-container-label">Guest Name:</li>
                                 <li class="ticket-info-container-information">First and Last Name</li>
                                 <li class="ticket-info-container-label">Date and Time:</li>
-                                <li class="ticket-info-container-information"><?php
-                                $date = new DateTime($event['date']);
-                                $time = new DateTime($event['start_time']);
-                                echo $date->format("F jS") . " start at " . $time->format('g:i a');
-                                ?></li>
+                                <li class="ticket-info-container-information"><?php echo $dateForEcho; ?></li>
                                 <li class="ticket-info-container-label">Event:</li>
                                 <li class="ticket-info-container-information"><?php echo $event['name'] ?></li>
                             </ul>
 
                         </div>
                         <div class="ticket-info-container-tail">
-                            <img src="" alt="seat-icon"><p>VIP-1</p>
+                            <img src="public/images/classic-icon-white.png" alt="seat-icon">
+                            <p>VIP-1</p>
                         </div>
                     </div>
                     <div class="round-corners-container">
                         <span class="left-corner"></span>
                         <span class="right-corner"></span>
                     </div>
-                </div>
-
-
+                </div> -->
             </li>
             <li></li>
 
@@ -407,7 +411,7 @@ if (!isset($_SESSION['user_data'])) {
     </footer>
 
     <script>
-        function createTicket(eventData) {
+        function createTicket(guestName, date, name, seatSelectedID, seatName) {
 
             const ticketListItem = document.getElementById("ticket-list-li");
 
@@ -431,11 +435,19 @@ if (!isset($_SESSION['user_data'])) {
             const ticketInfoList = document.createElement("ul");
             ticketInfoList.className = "ticket-info-container-ul";
 
+            const seatIcon = document.createElement("img");
+            if (seatSelectedID <= 15) {
+                seatIcon.src = "public/images/vip-icon-white.png";
+            } else {
+                seatIcon.src = "public/images/classic-icon-white.png";
+            }
+            seatIcon.alt = "Seat-Icon";
+
 
             const ticketDetails = [
-                { label: "Guest Name:", value: eventData.guestName },
-                { label: "Date and Time:", value: eventData.date },
-                { label: "Event:", value: eventData.name }
+                { label: "Guest Name:", value: guestName },
+                { label: "Date and Time:", value: date },
+                { label: "Event:", value: name }
             ];
 
             ticketDetails.forEach(detail => {
@@ -447,6 +459,7 @@ if (!isset($_SESSION['user_data'])) {
                 valueLi.className = "ticket-info-container-information";
                 valueLi.textContent = detail.value;
 
+
                 ticketInfoList.appendChild(labelLi);
                 ticketInfoList.appendChild(valueLi);
             });
@@ -454,8 +467,12 @@ if (!isset($_SESSION['user_data'])) {
             ticketInfoContainer.appendChild(ticketInfoList);
 
             const ticketTail = document.createElement("div");
+            const seatNameP = document.createElement("p");
+            seatNameP.textContent = seatName;
             ticketTail.className = "ticket-info-container-tail";
-            ticketTail.innerHTML = "<p></p>";
+
+            ticketTail.appendChild(seatIcon);
+            ticketTail.appendChild(seatNameP);
 
             ticketCard.appendChild(ticketTitleContainer);
             ticketCard.appendChild(ticketInfoContainer);
@@ -479,23 +496,9 @@ if (!isset($_SESSION['user_data'])) {
             ticketListItem.appendChild(ticketContainer);
         }
 
-
-        const eventData = {
-            name: '<?php echo $event['name'] ?>',
-            guestName: "John Doe",
-            date: "<?php
-            $date = new DateTime($event['date']);
-            $time = new DateTime($event['start_time']);
-            echo $date->format("F jS") . " start at " . $time->format('g:i a');
-            ?>"
-        };
-
-
-        createTicket(eventData);
-        createTicket(eventData);
-        createTicket(eventData);
-
-
+        <?php foreach ($seats as $seatID => $P) {
+        echo "createTicket('".$userSession['fname']." ".$userSession['lname']."', '". $dateForEcho ."', '".$event['name']."', '".$seatID . "', '".$P . "');";
+    } ?>
 
     </script>
 </body>
