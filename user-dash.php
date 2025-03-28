@@ -95,12 +95,17 @@ if (!isset($_SESSION['user_data'])) {
         }
 
         .header {
-            background: #3498db;
-            color: white;
+            background: rgb(32, 32, 32);
+            background: linear-gradient(90deg, rgba(32, 32, 32, 0) 5%, rgba(32, 32, 32, 1) 41%, rgba(32, 32, 32, 1) 60%, rgba(32, 32, 32, 0) 95%);
+            color: rgb(255, 255, 255);
+            border-bottom: none;
             padding: 15px;
             text-align: center;
-            font-size: 20px;
+            font-size: 24px;
             border-radius: 8px;
+            font-family: 'DM Serif Display';
+            letter-spacing: 2px;
+            font-weight: 600;
         }
 
         .tab {
@@ -170,10 +175,9 @@ if (!isset($_SESSION['user_data'])) {
         .dash-cards {
             min-width: 500px;
             max-width: 700px;
-            background-color: #f9f9f9;
-            border: 1px solid #dddddd;
+            background-color: #202020;
             border-radius: 8px;
-            padding: 10px;
+            padding: 20px;
             box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
             border-top: rgb(222, 222, 222) solid 2px;
         }
@@ -183,45 +187,60 @@ if (!isset($_SESSION['user_data'])) {
             justify-content: space-evenly;
         }
 
-        .dash-cards>h3 {
+        .dash-cards h3 {
+            display: block;
+            font-family: 'DM Serif Display';
+            letter-spacing: 1px;
             text-align: center;
-            line-height: 2;
-            font-size: 1.6em;
-            padding: 10px 0 15px 0;
+            line-height: 0.8;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            color: #B8860B;
+            padding-bottom: 15px;
         }
 
         .dash-cards .img-containner {
-            width: 30%;
-
+            width: 40%;
+            min-width: 230px;
         }
 
         .dash-cards .info-containner {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             width: 64%;
-            padding: 1% 0 1% 3%;
+            padding: 1% 0 0 3%;
             font-size: 1.2em;
+            min-width: 260px;
         }
 
         .dash-cards img {
-            border: 2px solid #ffffff;
             width: 100%;
             border-radius: 5px;
+            margin-bottom: 5px;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
         }
 
         .dash-cards p {
-            display: inline-block;
-
+            display: block;
+            font-family: "DM Serif Display", serif, "Poppins", sans-serif;
+            letter-spacing: 1px;
+            font-weight: 400;
+            font-size: 19px;
+            margin-bottom: 20px;
+            color: #ffffff;
         }
 
-        .dash-cards ul li {
-            border-top: 1px solid #9acdef;
-            display: flex;
-            align-items: center;
-            padding-top: 15px;
-        }
+        .dash-cards ul li {}
 
         .cards-ul li label {
-            width: 120px;
-            display: inline-block;
+            font-family: "Arial", "Poppins", sans-serif;
+            display: block;
+            color: #efae0a;
+            font-size: 16px;
+            margin: 0;
+            padding-bottom: 10px;
+            line-height: 0.3;
         }
 
         footer {
@@ -231,52 +250,27 @@ if (!isset($_SESSION['user_data'])) {
         /* button */
 
         .button-1 {
-            background-color: linear-gradient(#B8860B88, #B8860Bcc);
-            background-image: linear-gradient(#B8860B88, #B8860Bcc);
-            border: 1px solid #2A8387;
-            border-radius: 4px;
-            box-shadow: rgba(0, 0, 0, 0.12) 0 1px 1px;
-            color: #FFFFFF;
-            cursor: pointer;
-            display: block;
-            font-family: -apple-system, ".SFNSDisplay-Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-size: 17px;
-            line-height: 100%;
-            margin: 0;
-            outline: 0;
-            padding: 11px 15px 12px;
-            text-align: center;
-            transition: all 0.5s;
-            transition: box-shadow .05s ease-in-out, opacity .05s ease-in-out;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
             width: 100%;
+            height: 40px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 3px solid #b8860b;
+            background-color: #b8860b;
+            color: rgb(255, 255, 255);
+            font-size: 18px;
+            font-family: "Roboto", serif;
+            transition: all 0.4s;
         }
 
         .button-1:hover {
-            box-shadow: rgba(255, 255, 255, 0.3) 0 0 2px inset, rgba(0, 0, 0, 0.4) 0 1px 2px;
-            text-decoration: none;
-            transition-duration: .15s, .15s;
-            background-color: linear-gradient(#B8860Baa, #B8860B);
-            background-image: linear-gradient(#B8860Baa, #B8860B);
-        }
-
-        .button-1:active {
-            box-shadow: rgba(0, 0, 0, 0.15) 0 2px 4px inset, rgba(0, 0, 0, 0.4) 0 1px 1px;
-        }
-
-        .button-1:disabled {
-            cursor: not-allowed;
-            opacity: .6;
-        }
-
-        .button-1:disabled:active {
-            pointer-events: none;
-        }
-
-        .button-1:disabled:hover {
-            box-shadow: none;
+            width: 100%;
+            height: 40px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border-color: #B8860B;
+            background-color: #b8860b00;
+            color: #B8860B;
+            cursor: pointer;
         }
 
         #updatePhotoBTN {
@@ -350,7 +344,7 @@ if (!isset($_SESSION['user_data'])) {
             min-height: 70px;
             box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
             padding-top: 20px;
-            padding-bottom : 25px;
+            padding-bottom: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -383,7 +377,7 @@ if (!isset($_SESSION['user_data'])) {
 
         .event-card:hover {
             box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
-                }
+        }
 
         #event-card-img {
             width: 289px;
@@ -484,6 +478,7 @@ if (!isset($_SESSION['user_data'])) {
                 } ?>
 
                 <div class="dash-cards">
+
                     <div>
                         <div class="img-containner">
                             <img src="<?php echo $userData['img_path'] ?>" alt="Profile Photo">
@@ -494,20 +489,26 @@ if (!isset($_SESSION['user_data'])) {
                             <ul class="cards-ul">
                                 <li>
                                     <label for="">Full Name:</label>
+                                </li>
+                                <li>
                                     <p><?php echo $userData['fname'] . " " . $userData['lname'] ?></p>
                                 </li>
                                 <li>
                                     <label for="">Tel Number:</label>
-                                    <p><?php echo $userData['phone'] ?></p>
                                 </li>
                                 <li>
-                                    <label for="">Email:</label>
+                                    <p><?php echo $userData['phone'] ?></p>
+                                </li>
+                                <li><label for="">Email:</label>
+                                </li>
+                                <li>
                                     <p><?php echo $userData['email'] ?></p>
                                 </li>
                                 <li>
-                                    <button class="button-1" onclick="toggleList(4)">Edit Info</button>
+
                                 </li>
                             </ul>
+                            <button class="button-1" onclick="toggleList(4)">Edit Info</button>
                         </div>
 
                     </div>
