@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2025 at 06:32 AM
+-- Generation Time: Mar 28, 2025 at 08:47 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -248,7 +248,7 @@ INSERT INTO `users` (`id_user`, `fname`, `lname`, `prefix`, `email`, `password`,
 (31, 'Mohammad', 'Ansari2', NULL, 'paytsadfasdfakhtdota@gmail.com', '$2y$10$oOzrfO79/E1kdgLYe62T.ukCcMBr1SzfiUiO/2CyNVdJNJzpiw4t.', '2076151337', '2025-03-07 08:05:23', 0, 'public/upload/notset2.png'),
 (32, 'Mohammad', 'Ansari', NULL, 'takhtasddota@gmail.com', '$2y$10$1JlUqBY7qAhhyNSnwsnjEu4MuHIwqW67.7ekIKmCedOvd3NxAO0YW', '2076151337', '2025-03-07 08:10:15', 0, 'public/upload/notset2.png'),
 (35, 'Test', 'Test', NULL, 'user@user.com', '$2y$10$hglBCThy2NaE9.dJyjU2m.cp55XX0LvOvTvgmuyw4nGLGZJ6ppl3q', '1', '2025-03-09 19:32:39', 0, 'public/upload/notset2.png'),
-(36, 'User', 'Test', NULL, 'test@test', '$2y$10$gdJV0Wj.kLde8Mgm3IwLrOtylIEyiDwkW8bhtrH.FclVq8bH2HHV6', '207222123123', '2025-03-15 20:33:01', 0, 'public/upload/67d7c045ef58bpngtree-cartoon-color-simple-male-avatar-png-image_5230557.jpg');
+(36, 'User', 'Test', NULL, 'test@test', '$2y$10$gdJV0Wj.kLde8Mgm3IwLrOtylIEyiDwkW8bhtrH.FclVq8bH2HHV6', '207222123123', '2025-03-15 20:33:01', 0, 'public/upload/67e64da19a547profile-2.jpg');
 
 --
 -- Indexes for dumped tables
