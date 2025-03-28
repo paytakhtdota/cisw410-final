@@ -5,7 +5,6 @@ footer {
   z-index: 1;
   display: block;
   width: 100%;
-  font-size: 18px;
 }
 
 footer * {
@@ -161,8 +160,8 @@ footer button:hover {
 }
 
 #strip-footer{
-  height: 80px;
-  padding: 0 40px 5px 25px;
+  height: 65px;
+  padding: 10px 40px 5px 25px;
   background-color: #18191c;
   display: flex;
   justify-content: space-between;
