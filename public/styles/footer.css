@@ -1,154 +1,215 @@
 footer {
-    background-color: #121315;
-    color: #a7a7a7;
-    font-size: 16px;
-    z-index: 1;
-    display: block;
-    width: 100%;
-  }
-  footer * {
-    font-family: "Poppins", sans-serif;
-    box-sizing: border-box;
-    border: none;
-    outline: none;
-  }
-  .row {
-    padding: 1em 1em;
-  }
-  .row.primary {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 2fr;
-    align-items: stretch;
-  }
-  .column {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 0 2em;
-    min-height: 15em;
-  }
-  footer h3 {
-    width: 100%;
-    text-align: left;
-    color: white;
-    font-size: 1.4em;
-    white-space: nowrap;
-    margin-top: 20px;
-    margin-bottom: 20px;
+  background-color: #121315;
+  color: #a7a7a7;
+  font-size: 16px;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  font-size: 18px;
+}
+
+footer * {
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+}
+
+footer a{
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+footer a:visited{
+  color: #a7a7a7;
+}
+
+footer a:hover{
+  color: #ffffff;
+}
+
+
+.footer-main-container {
+  display: flex;
+  gap: 2%;
+  padding: 40px;
+  font-family: "Poppins", sans-serif;
+  flex-wrap: wrap;
+}
+
+.footer-main-container>div {
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-bottom: 20px;
+}
+
+.first-column {
+  width: 31%;
+  min-width: 290px;
+}
+
+.second-column {
+  width: 16%;
+  min-width: 183px;
+}
+
+.third-column {
+  width: 16%;
+  min-width: 183px;
+}
+
+.forth-column {
+  width: 31%;
+  min-width: 290px;
+}
+
+.second-column li,
+.third-column li {
+  margin-bottom: 5px;
+}
+
+#heading h3 {
+  line-height: 2;
+  margin-bottom: 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.4em;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+#readme {
+  text-align: justify;
+  font-weight: 300;
+  letter-spacing: 1px;
+  padding-right: 10px;
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+footer input,
+footer button {
+  width: 100%;
+  border-radius: 7px;
+  height: 60px;
+  margin-bottom: 10px;
+}
+
+footer input {
+  padding: 5px 5px 0 25px;
+  font-size: 18px;
+}
+
+footer input::placeholder {
+  font-size: 18px;
+  letter-spacing: 1px;
+  font-weight: 300;
+}
+
+footer button {
+  font-size: 18px;
+  background-color: #B8860B;
+  color: #ffffff;
+  transition: all 0.3s;
+}
+
+footer button:hover {
+  background-color: #D4AF37;
+  color: #000000;
+  cursor: pointer;
+}
+
+#social-logo {
+  display: flex;
+  justify-content: space-evenly;
+  max-width: 500px;
+  margin-top: 15px;
+}
+
+.social-logo i {
+  font-style: normal;
+  display: inline-flex;
+
+}
+
+.fa-brands {
+  font-size: 2.3em;
+  transition: all 0.3s;
+}
+
+.fa-brands {
+  cursor: pointer;
+}
+
+.fa-youtube-square:hover {
+  color: rgb(198, 0, 0);
+}
+
+.fa-whatsapp-square:hover {
+  color: #44c153;
+}
+
+.fa-square-github:hover {
+  color: #a758b7;
+}
+
+.fa-square-x-twitter:hover {
+  color: #ffffff;
+}
+
+.fa-facebook-square:hover {
+  color: #529dff;
+}
+
+#strip-footer{
+  height: 80px;
+  padding: 0 40px 5px 25px;
+  background-color: #18191c;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#strip-footer ul{
+  display: flex;
+  justify-content: space-around;
+  width: 500px;
+}
+
+.letsdesign:hover{
+  color: #ff7700;
+  cursor:pointer;
+
+}
+
+/* **************** Media queries  **************** Media queries */
+ @media (max-width: 1240px) {
+  .first-column {
+    width: 45%;
+    min-width: 290px;
+    flex-grow: 1;
   }
 
-  footer p{
-    margin-top: 15px;
-    margin-bottom: 15px;
-  }
-  footer ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    margin: 0;
-  }
-  footer li:not(:first-child) {
-    margin-top: 0.8em;
-  }
-  footer ul li a {
-    color: #a7a7a7;
-    text-decoration: none;
-  }
-  footer ul li a:hover {
-    color: #ffffff;
-  }
-  footer .about p {
-    text-align: justify;
-    line-height: 2;
-    margin: 0;
-  }
-  footer input,
-  footer button {
-    font-size: 1em;
-    padding: 1em;
-    width: 100%;
-    border-radius: 5px;
-    margin-bottom: 5px;
-  }
-  footer button {
-    background-color: #B8860B;
-    color: #ffffff;
-    transition: all 0.4s;
-    font-family: Roboto, sans-serif;
+  .second-column {
+    width: 45%;
+    min-width: 183px;
+    flex-grow: 1;
   }
 
-  footer button:hover{
-    color: #001F3F;
-    box-shadow: rgba(0, 0, 0, .2) 0 2px 4px -1px, rgba(0, 0, 0, .14) 0 4px 5px 0, rgba(0, 0, 0, .12) 0 1px 10px 0;
-    cursor: pointer;
-    background-color: #D4AF37;
-  }
-  footer div.social {
-    display: flex;
-    justify-content: space-around;
-    font-size: 2.4em;
-    flex-direction: row;
-    margin-top: 0.5em;
-  }
-  .social i {
-    color: #bac6d9;
-  }
-  
-  .copyright {
-    padding: 0.3em 1em;
-    background-color: #25262e;
-  }
-  .footer-menu{
-    float: left;
-      margin-top: 10px;
-  }
-  
-  .footer-menu a{
-    color: #cfd2d6;
-    padding: 6px;
-  
-    text-decoration: none;
-  }
-  .footer-menu a:hover{
-    color: #ffffff;
-  }
-  .copyright p {
-    font-size: 0.9em;
-    text-align: right;
-  }
-  @media screen and (max-width: 850px) {
-    .row.primary {
-      grid-template-columns: 1fr;
-    }
-  
+  .third-column {
+    width: 45%;
+    min-width: 183px;
+    flex-grow: 1;
   }
 
-  footer .fa-brands{
-    transition: all 0.3s;
+  .forth-column {
+    width: 45%;
+    min-width: 290px;
+    flex-grow: 1;
   }
 
-  .fa-youtube-square:hover{
-    color: red;
-    cursor: pointer;
+  .footer-main-container {
+    gap: 4%;
   }
 
-  .fa-whatsapp-square:hover{
-    color: #44c153;
-    cursor: pointer;
-  }
-
-  .fa-square-x-twitter:hover{
-    color: #ffffff;
-    cursor: pointer;
-  }
-
-  .fa-instagram-square:hover{
-    color: #ff8800;
-    cursor: pointer;
-  }
-
-  .fa-facebook-square:hover{
-    color: #1b7eff;
-    cursor: pointer;
-  }
+}

@@ -70,13 +70,13 @@ input {
   display: block;
   margin: 1rem;
   padding: .5rem;
-  transition: 250ms background ease-in;
+  transition: 250ms ease-in;
   width: calc(100% - 3rem);
 }
 .login-username:focus, .login-password:focus{
     background: white;
     color: black;
-    transition: 250ms background ease-in;
+    transition: 250ms  ease-in;
   }
 
 .login-forgot-pass {
@@ -107,14 +107,14 @@ input {
   min-width: 100px;
   min-height: 35px;
   padding: .25rem;
-  transition: 250ms background ease-in;
+  transition: 250ms  ease-in;
  
 }
 
 .login-submit:hover, .login-submit:focus {
     background: white;
     color: black;
-    transition: 250ms background ease-in;
+    transition: 250ms ease-in;
     cursor: pointer;
   }
 

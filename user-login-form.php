@@ -51,12 +51,7 @@
                                     </div>
                                     <div class="w-100">
                                         <p class="social-media d-flex justify-content-end">
-                                            <a href="#"
-                                                class="social-icon d-flex align-items-center justify-content-center"><span
-                                                    class="fa fa-facebook"></span></a>
-                                            <a href="#"
-                                                class="social-icon d-flex align-items-center justify-content-center"><span
-                                                    class="fa fa-twitter"></span></a>
+
                                         </p>
                                     </div>
                                 </div>
@@ -203,11 +198,6 @@
         include("footer.php");
         ?>
     </footer>
-
-    <script src="public/loging-js/jquery.min.js"></script>
-    <script src="public/loging-js/popper.js"></script>
-    <script src="public/loging-js/bootstrap.min.js"></script>
-    <script src="public/loging-js/main.js"></script>
     <script>
         document.getElementById("signup-link").addEventListener("click", function () {
             document.getElementById("singin-form-container").style.display = "none"; document.getElementById("singup-form-container").style.display = "block";

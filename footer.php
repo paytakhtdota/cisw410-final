@@ -1,76 +1,59 @@
+<div class="footer-main-container">
+  <div class="first-column">
+    <ul>
+      <li id="heading">
+        <h3>Lets Design</h3>
+      </li>
+      <li id="readme">This website is my final for CISW 410 Datavase-Driven Web Apps. For additional information please
+        read the "README.md" file.</li>
+      <li id="social-logo">
+        <i class="fa-brands fa-facebook-square"></i>
+        <i class="fa-brands fa-square-github"></i>
+        <i class="fa-brands fa-square-x-twitter"></i>
+        <i class="fa-brands fa-youtube-square"></i>
+        <i class="fa-brands fa-whatsapp-square"></i>
+      </li>
+    </ul>
+  </div>
+  <div class="second-column">
+    <ul>
+      <li id="heading">
+        <h3>Useful Links</h3>
+      </li>
+      <li><a href="">link1</a></li>
+      <li><a href="">link2</a></li>
+      <li><a href="">link3</a></li>
+    </ul>
+  </div>
+  <div class="third-column">
+    <ul>
+      <li id="heading">
+        <h3>Useful Links</h3>
+      </li>
+      <li><a href="">link1</a></li>
+      <li><a href="">link2</a></li>
+      <li><a href="">link3</a></li>
+    </ul>
+  </div>
+  <div class="forth-column">
+    <ul>
+      <li id="heading">
+        <h3>Newsletter</h3>
+      </li>
+      <form id="newslatterForm">
+        <li><input type="email" placeholder="Your email here"></li>
+        <li><button>Subscribe</button></li>
+      </form>
+    </ul>
+  </div>
 
-<div class="row primary">
-        <div class="column about">
-          <h3>Lets Design</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
-            voluptatem corporis error non,
-          </p>
-                    <div class="social">
-                      <i class="fa-brands fa-facebook-square"></i>
-                      <i class="fa-brands fa-instagram-square"></i>
-                      <i class="fa-brands fa-square-x-twitter"></i>
-          <i class="fa-brands fa-youtube-square"></i>
-            <i class="fa-brands fa-whatsapp-square"></i>
-                    </div>
-        </div>
-        <div class="column links">
-          <h3>Some Links</h3>
-          <ul>
-            <li>
-              <a href="#faq">F.A.Q</a>
-            </li>
-            <li>
-              <a href="#cookies-policy">Cookies Policy</a>
-            </li>
-            <li>
-              <a href="#terms-of-services">Terms Of Service</a>
-            </li>
-            <li>
-              <a href="#support">Support</a>
-            </li>
-
-          </ul>
-        </div>
-          <div class="column links">
-            <h3>Some Links</h3>
-            <ul>
-              <li>
-                <a href="#faq">F.A.Q</a>
-              </li>
-              <li>
-                <a href="#cookies-policy">Cookies Policy</a>
-              </li>
-              <li>
-                <a href="#terms-of-services">Terms Of Service</a>
-              </li>
-              <li>
-                <a href="#support">Support</a>
-              </li>
-
-            </ul>
-          </div>
-        <div class="column subscribe">
-          <h3>Newsletter</h3>
-          <div>
-            <input type="email" placeholder="Your email id here" />
-            <button>Subscribe</button>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="row copyright">
-         <div class="footer-menu">
-
-                       <a href="">Home</a>
-                       <a href="">About</a>
-                       <a href="">Contact</a>
-                       <a href="">Reservation</a>
-     <a href="">Social</a>
-
-
-                    </div>
-        <p>Copyright &copy; 2021 Lets Design</p>
-        <script></script>
-      </div>
+</div>
+<div id="strip-footer">
+  <ul>
+    <li><a href="">Home</a></li>
+    <li><a href="">Sign-in</a></li>
+    <li><a href="">Sign-up</a></li>
+    <li><a href="">Admin Access</a></li>
+  </ul>
+  <p>Copyright © 2025 <i class="letsdesign">Lets Design</i></p>
+</div>
