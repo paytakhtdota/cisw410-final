@@ -356,7 +356,7 @@ function delEvent($value)
 
 
 
-if (isset($_POST['addNewAdmin'])) {
+if (isset($_POST['emailAdmin'])) {
     $data_aa['fnameNA'] = trim($_POST['fnameAdmin']);
     $data_aa['lnameNA'] = trim($_POST['lnameAdmin']);
     $data_aa['emailNA'] = trim($_POST['emailAdmin']);
@@ -381,7 +381,7 @@ if (isset($_POST['addNewAdmin'])) {
     $updateUser['priv'] = ($_POST['privilegeUpdateUser']);
     $updateUser['id'] = ($_POST['userIDUpdate']);
     updateActionUser($updateUser);
-} elseif (isset($_POST['addNewUser'])) {
+} elseif (isset($_POST['emailUser'])) {
     $newUser['fnameNA'] = ($_POST['fnameUser']);
     $newUser['lnameNA'] = ($_POST['lnameUser']);
     $newUser['emailNA'] = ($_POST['emailUser']);
@@ -390,7 +390,7 @@ if (isset($_POST['addNewAdmin'])) {
     $newUser['phoneNA'] = ($_POST['phoneUser']);
     $newUser['privilegeNA'] = ($_POST['privilegeUser']);
     addNewAdmin($newUser);
-} elseif (isset($_POST['addNewEvent'])) {
+} elseif (isset($_POST['newEname'])) {
     $newEvent['newEname'] = ($_POST['newEname']);
     $newEvent['newEDate'] = ($_POST['newEDate']);
     $newEvent['newEStartTime'] = ($_POST['newEStartTime']);
@@ -404,7 +404,7 @@ if (isset($_POST['addNewAdmin'])) {
     addNewEvent($newEvent);
 } elseif (isset($_POST['delUserID'])) {
     delUser($_POST['delUserID']);
-} elseif (isset($_POST['event-update-submit'])) {
+} elseif (isset($_POST['upEID'])) {
     $updateEvent['upEID'] = ($_POST['upEID']);
     $updateEvent['upEname'] = ($_POST['upEname']);
     $updateEvent['upEDate'] = ($_POST['upEDate']);

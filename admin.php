@@ -52,26 +52,49 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             transition: all 0.3s;
         }
 
+        .btnBar {
+            width: 100%;
+            min-height: 75px;
+            display: flex;
+            justify-content: flex-start;
+            align-content: center;
+            gap: 15px;
+            padding: 7px 0 15px 7px;
+        }
+
         .btnBar button {
-            border-radius: 8px;
-            border: 1px solid #fff8e5;
+            width: 100%;
+            max-width: 300px;
             height: 40px;
-            width: 120px;
-            background-color: #ffe39d;
-            box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 3px solid #b8860b;
+            background-color: #b8860b;
+            color: rgb(255, 255, 255);
+            font-size: 18px;
+            font-family: "Roboto", serif;
+            transition: all 0.3s;
         }
 
         .btnBar button:hover {
+            width: 100%;
+            height: 40px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border-color: #B8860B;
+            background-color: #b8860b00;
+            color: #B8860B;
             cursor: pointer;
-            transition: all 0.3s;
-            background-color: rgba(227, 176, 75, 0.62)
         }
 
         .sidebar {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            min-height: 100vh;
             width: 250px;
-            background: rgb(28, 44, 60);
+            background: #121315;
             color: white;
-            height: 100vh;
             padding: 20px;
         }
 
@@ -104,15 +127,22 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         .content {
             flex: 1;
             padding: 20px;
+            height: fit-content;
+            background-color: #ffffff;
         }
 
         .header {
-            background: #B8860B;
-            color: white;
+            background: rgb(32, 32, 32);
+            background: linear-gradient(90deg, rgba(32, 32, 32, 0) 5%, rgba(32, 32, 32, 1) 41%, rgba(32, 32, 32, 1) 60%, rgba(32, 32, 32, 0) 95%);
+            color: rgb(255, 255, 255);
+            border-bottom: none;
             padding: 15px;
             text-align: center;
-            font-size: 20px;
+            font-size: 24px;
             border-radius: 8px;
+            font-family: 'DM Serif Display';
+            letter-spacing: 2px;
+            font-weight: 600;
         }
 
         .tab {
@@ -140,85 +170,114 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
 
 
         .message-box {
-            width: 400px;
-            height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            width: 500px;
+            height: 200px;
             border: 1px solid #000000;
-            font-size: 18px;
+            font-size: 24px;
             text-align: center;
             padding-top: 25px 10px;
             border-radius: 8px;
-            background-color: rgb(222, 222, 222);
+            background-color: #202020;
             margin: 150px auto;
+            color: #ffffff;
+            font-family: "Poppins", "Roboto", sans-serif;
+            box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
         }
 
         .message-box>div {
             margin-top: 30px;
             display: flex;
             justify-content: space-around;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .message-box form {
+            display: flex;
+            width: 100%;
+            justify-content: space-evenly;
         }
 
         #leave,
         #cancel {
-            width: 100px;
-            height: min-content;
-            background-color: #fff;
-            padding: 10px 15px 10px 15px;
-            border-radius: 10px;
-            text-decoration: none;
-            color: #3498db;
-            transition: all 0.3s;
-            cursor: pointer;
-            border: 1px solid #3498db;
+            width: 45%;
+            max-width: 300px;
+            height: 40px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 3px solid #b8860b;
+            background-color: #b8860b;
+            color: rgb(255, 255, 255);
+            font-size: 18px;
+            font-family: "Roboto", serif;
+            transition: all 0.4s;
         }
 
         #leave:hover,
         #cancel:hover {
-            color: rgb(255, 255, 255);
-            background-color: #3498db;
+            width: 45%;
+            height: 40px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border-color: #B8860B;
+            background-color: #b8860b00;
+            color: #B8860B;
+            cursor: pointer;
+            transition: all 0.3s;
         }
+
+
+        #leave:hover .fa-person-walking-arrow-right {
+            padding-left: 10px;
+        }
+
+        #cancel:hover .fa-arrow-left {
+            padding-right: 10px;
+        }
+
 
         .tabContainer {
             width: 100%;
-            min-height: 300px;
-            padding: 5px;
+            min-height: fit-content;
+            padding: 5px 15px 10px 15px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-content: center;
             gap: 5px;
+            background-color: rgb(40, 40, 40);
+            border-radius: 8px;
+            margin-top: 50px;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        }
+
+        .tabContainer input['text'] {
+            height: 48px;
+            padding: 6px 12px;
         }
 
         .containerBudy {
             width: 100%;
-            min-height: 300px;
-            padding: 0;
+            min-height: fit-content;
+            padding-bottom: 8px;
+
         }
 
-        .btnBar {
-            width: 100%;
-            min-height: 50px;
-            display: flex;
-            justify-content: flex-start;
-            align-content: center;
-            gap: 15px;
-            padding: 7px 0 15px 7px;
-        }
-
-        .btnBar>button:hover {
-            scale: 1.1;
-        }
 
         .admin-ul {
             display: flex;
             width: 100%;
-            /* justify-content: flex-start; */
+            height: 50px;
             justify-content: space-between;
             text-align: center;
             padding: 10px 0 0 5px;
             align-content: center;
             align-items: center;
-            border-bottom: 1px solid #3498db;
-
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
         }
 
         .admin-ul li {
@@ -229,6 +288,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         .admin-ul li:first-child {
             width: 5%;
             min-width: 50px;
+            height: ;
         }
 
         .admin-ul li:nth-child(2) {
@@ -268,14 +328,33 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
 
         .budyHeader .admin-ul {
 
-            background-color: rgba(227, 176, 75, 0.62);
+            background-color: #B8860B;
             font-weight: 600;
             padding-top: 10px;
+        }
+
+        .budyHeader .admin-ul li {
+            color: #ffffff;
+            cursor: default;
         }
 
         .budyRow {
             display: flex;
             justify-content: space-between;
+            transition: 0.3s all;
+            border-left: 8px solid #B8860B;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            padding-left: 15px;
+            border-radius: 2px;
+        }
+
+        .budyRow:hover {
+            background-color: rgb(255, 255, 255);
+            border-radius: 3px;
+            border-left: 4px solid rgb(244, 194, 65);
+            box-shadow: rgba(50, 50, 93, 0.1) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.12) 0px 18px 36px -18px inset;
+            /* box-shadow: rgba(0, 0, 0, 0.15) 0px -50px 36px -28px inset; */
         }
 
         .budyRow li {
@@ -285,6 +364,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             height: fit-content;
         }
 
+
         .budyRow:nth-child(even) {
             background-color: rgb(250, 250, 250);
         }
@@ -293,12 +373,18 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             background-color: rgb(247, 247, 247);
         }
 
+
+
+        .budyRow:hover+.budyRow: {
+            background-color: rgb(123, 14, 14);
+        }
+
         .addPaddingTop5px {}
 
         .newAdminForm,
         .newUserForm,
         .newEventForm {
-            width: 420px;
+            width: 840px;
             background: #fff;
             padding: 20px;
             border-radius: 10px;
@@ -307,57 +393,101 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             margin: 10px auto;
         }
 
-        .newAdminul {
+        .ul-container {
             list-style-type: none;
         }
 
-        .newAdminul label {
+        #formNewEvent,
+        #form-new-user,
+        #formNewAdmin,
+        #form-user-update {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2%;
+            width: 100%;
+        }
+
+        #form-user-update {
+            justify-content: space-between;
+            padding: 5px;
+        }
+
+        .ul-container li {
+            width: 47%;
+            min-height: fit-content;
+        }
+
+        .ul-container label {
             display: inline-block;
             width: 120px;
             font-size: 14px;
             font-weight: bold;
             color: #333;
-            margin: 10px 0 0 5px;
+            margin: 15px 0 10px 5px;
+            font-family: 'Lato';
         }
 
-        .newAdminul input,
-        .newAdminul select,
-        .newAdminul textarea {
+        .ul-container input,
+        .ul-container select,
+        .ul-container textarea {
             width: 100%;
-            padding: 10px;
-            font-size: 14px;
+            height: 48px;
+            padding: 6px 12px;
+            font-size: 16px;
             border: 2px solid #ddd;
             border-radius: 5px;
             transition: all 0.3s ease;
             outline: none;
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
-        .newAdminul textarea {
+        .ul-container textarea {
             transition: none;
         }
 
-        .newAdminul input[type="submit"],
+        #addNewEvent,
         .cancelUpdate {
-            margin-top: 15px;
-            font-weight: 600;
+            width: 100%;
+            height: 48px;
+            margin-top: 25px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            border: 3px solid #b8860b;
+            background-color: #b8860b;
+            color: rgb(255, 255, 255);
+            font-size: 18px;
+            font-family: "Roboto", serif;
+            transition: all 0.4s;
         }
 
-        .newAdminul input[type="submit"]:hover,
+        #addNewEvent:hover,
         .cancelUpdate:hover {
-            background-color: rgba(184, 135, 11, 0.15);
             border-color: #B8860B;
+            background-color: #b8860b00;
+            color: #B8860B;
             cursor: pointer;
+            box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+        }
+
+        .ul-container input:hover {
+            border-color: #fcc32c;
+        }
+
+        .ul-container input:focus {
+            border-color: #fcb711;
+        }
+
+        #newEImg {
+            min-height: 160px;
+        }
+
+        #newEeditor {
+            height: 116px;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
         }
 
 
-        .newAdminul input:focus {
-            border-color: #B8860B;
-            box-shadow: 0 0 5px #B8860B55;
-        }
-
-        .newAdminul input:hover {
-            border-color: rgb(163, 119, 9);
-        }
 
 
 
@@ -422,8 +552,8 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         .updateAdminForm,
         .updateUserForm {
             display: none;
-            width: 480px;
-            border: 1px solid #cdcdcd;
+            width: 800px;
+            background-color: #ffffff;
             padding: 10px 15px;
             border-radius: 8px;
             margin: 10px auto;
@@ -431,12 +561,9 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         }
 
 
-        .cancelUpdate {
-            width: 100%;
-            height: 38px;
-            border-radius: 5px;
-            border: 2px solid #cdcdcd;
-        }
+
+
+
 
         /* ********** Event Tab Styles */
 
@@ -456,30 +583,46 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         }
 
         .eventDetailsSec {
-            width: fit-content;
-            min-width: 700px;
-            border-radius: 8px;
             display: none;
-            gap: 20px;
+            width: 840px;
+            border-radius: 8px;
+            gap: 15px;
             justify-content: space-between;
             align-items: center;
-            padding: 2%;
+            padding: 24px;
             box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+            background-color: #ffffff;
         }
 
         .eventDetailsSec label {
-            font-weight: 600;
-            display: inline-block;
-            width: 100px;
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin: 15px 0 10px 5px;
+            font-family: 'Lato';
         }
 
         .eventDetailsSec ul {
-            width: 45%;
+            width: 100%;
         }
 
         .eventDetailsSec li {
+            width: 49%;
             height: min-content;
             padding: 5px;
+        }
+
+        #event-detail-liID {
+            width: 10%;
+        }
+
+        #event-detail-liTitle {
+            width: 88%;
+        }
+
+        #li-UpEeditor {
+            width: 100%;
         }
 
         .event-detail-second-col li:first-child {
@@ -490,13 +633,14 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         .eventDetailsSec select,
         .eventDetailsSec textarea {
             width: 100%;
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
+            height: 48px;
+            padding: 6px 12px;
+            font-size: 16px;
             border: 2px solid #ddd;
             border-radius: 5px;
             transition: all 0.3s ease;
             outline: none;
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .eventDetailsSec input:focus,
@@ -509,27 +653,23 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             transition: none;
         }
 
-        .event-detail-first-col img {
-            width: 330px;
-            height: 200px;
+        .event-detail-ul {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .event-detail-ul img {
+            width: 100%;
+            height: auto;
             border: 2px solid #ffe39d;
             border-radius: 5px;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-        }
-
-        .eventDetailsSec button,
-        .eventDetailsSec input[type='submit'] {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            outline: none;
-            font-weight: 600;
+            margin-top: 15px;
         }
 
         #event-update-submit {
@@ -537,17 +677,13 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             margin-top: -10px;
         }
 
-        .eventDetailsSec button:hover,
-        #event-update-submit:hover {
-            border: 2px solid #ffe39d;
-            cursor: pointer;
-            background-color: rgb(254, 249, 238);
-            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-        }
-
 
         .act-input {
             border: 2px solid #ffebb5 !important;
+        }
+        .hidden-lis{
+            visibility: hidden;
+            height: 1px;
         }
     </style>
 
@@ -572,18 +708,19 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         <!-- ************************************************Home Tab Cantain -->
         <div id="home" class="tab active">
             <div class="header">Welcome to the Dashboard</div>
-            <p>Home content is displayed here.</p>
+            <p> </p>
 
         </div>
         <!-- ************************************************Tickets Tab Cantain -->
         <div id="tickets" class="tab">
             <div class="header">Tickets</div>
-            <p>tickets content is displayed here.</p>
+            <p> </p>
         </div>
-        <!-- ************************************************event Tab Cantain -->
+        <!-- ************************************ event Tab Cantain ************ event Tab Cantain -->
+        <!-- ************************************ event Tab Cantain ************ event Tab Cantain -->
         <div id="events" class="tab">
             <div class="header">Events</div>
-            <p>tickets content is displayed here.</p>
+            <p> </p>
             <div class="tabContainer">
                 <div class="btnBar">
                     <button onclick="tugglelist(4)">Events List</button><button onclick="tugglelist(5)">Add New
@@ -614,7 +751,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                             </button>
                             </form>
                             </li>
-                            <li><form action='admin.php' method='POST'><input type='hidden' id='deleteEvent' name='deleteEvent' value='" . $event['id_event'] . "'><button class='delBTN' type='submit'>
+                            <li><form action='admin.php' method='POST'><input type='hidden' id='deleteEvent" . $event['id_event'] . "' name='deleteEvent' value='" . $event['id_event'] . "'><button class='delBTN' type='submit'>
                             <i class='fa-regular fa-trash-can'></i></button></form></li>
                             </ul>
                             </div>";
@@ -624,9 +761,9 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 <!-- Add New Event From -->
                 <div class="newEventForm">
                     <h3>Add New Event</h3>
-                    <ul class="newAdminul">
+                    <ul class="ul-container">
                         <form action="config.php" method="POST" enctype="multipart/form-data" id="formNewEvent">
-                            <li><label for="newEname">Event Name<i class="required-fields">*</i></label>
+                            <li id="liID"><label for="newEname">Event Name<i class="required-fields">*</i></label>
                                 <input type="text" name="newEname" id="newEname" placeholder="Event Name" required>
                             </li>
                             <li><label for="newEDate">Date<i class="required-fields">*</i></label>
@@ -649,12 +786,12 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                                 <div id="newEeditor"></div>
                                 <input type="hidden" name="neweditorDelta" id="neweditorDelta">
                             </li>
-                            <h4>Address:</h4>
+                            <!-- <li><h4>Address:</h4></li> -->
                             <li><label for="newEstreet">Street<i class="required-fields">*</i></label>
                                 <input name="newEstreet" type="text" id="newEstreet" placeholder="Street" required>
                             </li>
                             <li><label for="newEUnit">Unit</label>
-                                <input name="newEUnit" type="text" id="newEUnit" placeholder="Street">
+                                <input name="newEUnit" type="text" id="newEUnit" placeholder="Unit, Apt, Floor">
                             </li>
                             <li><label for="newECity">City<i class="required-fields">*</i></label>
                                 <input name="newECity" type="text" id="newECity" placeholder="City" required>
@@ -668,26 +805,25 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                                 <input type="text" id="newEZip" name="newEZip" pattern="^\d{5}$"
                                     title="Enter a valid ZIP Code (e.g., 12345 or 12345-6789)" required>
                             </li>
-                            <li><input id="addNewEvent" name="addNewEvent" type="submit" value="Add New Event"></li>
+                            <li></li>
+                            <!-- <li><input id="addNewEvent" name="addNewEvent" type="submit" value="Add New Event"></li> -->
+                            <li><button type="button" class="cancelUpdate" onclick="closeUpdateField(5)">Cancel</button>
+                            <li><button type="submit" id="addNewEvent" name="addNewEvent" value="Add New Event">Add New
+                                    Event</button></li>
+                            </li>
                         </form>
-                        <li><button class="cancelUpdate" onclick="closeUpdateField(5)">Cancel</button></li>
                     </ul>
                 </div>
 
-                <!-- Event Detail window -->
+                <!-- Event Detail window / update -->
                 <section class="eventDetailsSec">
-
-                    <ul class="event-detail-first-col">
-                        <li>
-                            <h3>Event Details:</h3>
-                        </li>
-                        <li><img id="upEImg" src="" alt=""></li>
-                        <form action="config.php" method="POST" enctype="multipart/form-data"
-                            id="eventDetailsUpdateForm">
-                            <li><label for="upEID">ID:</label>
+                    <h3>Event Details:</h3>
+                    <form action="config.php" method="POST" enctype="multipart/form-data" id="eventDetailsUpdateForm">
+                        <ul class="event-detail-ul">
+                            <li id="event-detail-liID"><label for="upEID">ID:</label>
                                 <input type="upEID" name="upEID" id="upEID" required readonly>
                             </li>
-                            <li><label for="upEname">Title:</label>
+                            <li id="event-detail-liTitle"><label for="upEname">Title:</label>
                                 <input class="update-event" type="text" name="upEname" id="upEname" required>
                             </li>
                             <li><label for="upEDate">Date:</label>
@@ -699,60 +835,60 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                                     min="07:00" max="23:59" required />
                             </li>
                             <li><label for="upEprice">Base Price<i class="required-fields">*</i></label>
-                                <input type="number" step="0.01"  id="upEprice" name="upEprice" placeholder="0.00"
+                                <input type="number" step="0.01" id="upEprice" name="upEprice" placeholder="0.00"
                                     title="Enter a valid Price (e.g., 100 or 99.99)" required>
                             </li>
+
+                            </li>
+                            <li><label for="upEstreet">Street<i class="required-fields">*</i></label>
+                                <input name="location_id" type="number" id="location_id" hidden>
+                                <input class="update-event" name="upEstreet" type="text" id="upEstreet"
+                                    placeholder="Street" required>
+                            </li>
+                            <li><label for="upEUnit">Unit</label>
+                                <input class="update-event" name="upEUnit" type="text" id="upEUnit"
+                                    placeholder="Unit, Apt, Floor">
+                            </li>
+                            <li><label for="upECity">City<i class="required-fields">*</i></label>
+                                <input class="update-event" name="upECity" type="text" id="upECity" placeholder="City"
+                                    required>
+                            </li>
+                            <li><label for="upEState">State:<i class="required-fields">*</i></label>
+                                <select class="update-event" name="upEState" id="upEState" required>
+                                    <option id="First-option" value=""></option>
+                                </select>
+                            </li>
+                            <li><label for="upEZip">ZIP Code<i class="required-fields">*</i></label>
+                                <input class="update-event" type="text" id="upEZip" name="upEZip" pattern="^\d{5}$"
+                                    title="Enter a valid ZIP Code (e.g., 12345 or 12345-6789)" required>
+                            </li>
+                            <li id="li-UpEeditor"><label for="upEeditor">Details</label>
+                                <div id="upEeditor"></div>
+                                <input type="hidden" name="upeditorDelta" id="upeditorDelta">
+                            </li>
+                            <li><img id="upEImg" src="" alt=""></li>
+                            <li id="upSelectEImgLI"><label for="upSelectEImg">Select new image:</label><input
+                                    type="file" name="upSelectEImg" id="upSelectEImg"
+                                    accept="image/jpeg,image/png,image/gif"></li>
                             <li>
-                                <br>
-                                <button id="event-edit-btn" type="button" onclick="disableInputs(false)">Edit
+                                <button class="cancelUpdate" type="button" onclick="closeUpdateField(6)">close</button>
+                            </li>
+                            <li id="li-event-edit-btn">
+                                <button class="cancelUpdate" type="button" onclick="disableInputs(false)">Edit
                                     Event</button>
                             </li>
                             <li>
                                 <!-- submit button to send update information to config.php -->
-                                <input type="submit" id="event-update-submit" name="event-update-submit" value="Submit">
+                                <!-- <input type="submit"  name="event-update-submit" value="Submit"> -->
+                                <button class="cancelUpdate" id="event-update-submit" type="submit"
+                                    name="event-update-submit" style="margin-top:25px">Submit</button>
                             </li>
-                    </ul>
-                    <ul class="event-detail-second-col">
-                        <li><label for="upSelectEImg">New Image:</label><input type="file" name="upSelectEImg"
-                                id="upSelectEImg" accept="image/jpeg,image/png,image/gif">
-                        </li>
-                        <li><label for="upEeditor">Details</label>
-                            <div id="upEeditor"></div>
-                            <input type="hidden" name="upeditorDelta" id="upeditorDelta">
-                        </li>
-                        <li><label>Address:</label>
-                        </li>
-                        <li><label for="upEstreet">Street<i class="required-fields">*</i></label>
-                            <input name="location_id" type="number" id="location_id" hidden>
-                            <input class="update-event" name="upEstreet" type="text" id="upEstreet" placeholder="Street"
-                                required>
-                        </li>
-                        <li><label for="upEUnit">Unit</label>
-                            <input class="update-event" name="upEUnit" type="text" id="upEUnit" placeholder="Street">
-                        </li>
-                        <li><label for="upECity">City<i class="required-fields">*</i></label>
-                            <input class="update-event" name="upECity" type="text" id="upECity" placeholder="City"
-                                required>
-                        </li>
-                        <li><label for="upEState">State:<i class="required-fields">*</i></label>
-                            <select class="update-event" name="upEState" id="upEState" required>
-                                <option id="First-option" value=""></option>
-                            </select>
-                        </li>
-                        <li><label for="upEZip">ZIP Code<i class="required-fields">*</i></label>
-                            <input class="update-event" type="text" id="upEZip" name="upEZip" pattern="^\d{5}$"
-                                title="Enter a valid ZIP Code (e.g., 12345 or 12345-6789)" required>
-                        </li>
-                        </form>
-                        <li>
-                            <br>
-                            <button type="button" onclick="closeUpdateField(6)">close</button>
-                        </li>
-                    </ul>
+                        </ul>
+                    </form>
                 </section>
 
-                 <!-- Delete Event Message Box -->
-                 <div class="messageBoxUser">
+                <!-- Delete Event Message Box -->
+                <div class="messageBoxUser">
                     <div class="qustion">
                         <p>Are you sure you want to delete this record?</p>
                     </div>
@@ -769,7 +905,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         <!-- ************************************************ user Tab Cantain -->
         <div id="users" class="tab">
             <div class="header">Users</div>
-            <p>tickets content is displayed here.</p>
+            <p> </p>
             <div class="tabContainer">
                 <div class="btnBar">
                     <button onclick="tugglelist(2)">Users List</button> <button onclick="tugglelist(3)">Add New
@@ -814,8 +950,8 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 <!-- Add New User From -->
                 <div class="newUserForm">
                     <h3>Add New User</h3>
-                    <ul class="newAdminul">
-                        <form action="config.php" method="POST">
+                    <ul class="ul-container">
+                        <form action="config.php" method="POST" id="form-new-user">
                             <li><label for="fnameUser">First Name </label>
                                 <input type="text" name="fnameUser" id="fnameUser" placeholder="First Name" required>
                             </li>
@@ -824,7 +960,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                             </li>
                             <li><label for="prefixUser">Prefix</label>
                                 <select name="prefixUser" id="prefixUser" placeholder="Prefix" disabled>
-                                    <option value="option">option</option>
+                                    <option value="option">Disabled</option>
                                 </select>
                             </li>
                             <li><label for="emailUser">E-mail</label>
@@ -843,9 +979,12 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                                     id="privilegeUser">
                                     <option value="0">User</option>
                                 </select></li>
-                            <li><input name="addNewUser" type="submit" value="addNewUser"></li>
+                            <!-- <li><input name="addNewUser" type="submit" value="addNewUser"></li> -->
+                            <li><button type="button" class="cancelUpdate" onclick="closeUpdateField(4)">Cancel</button>
+                            </li>
+                            <li><button class="cancelUpdate" id="addNewUser" name="addNewUser" type="submit"
+                                    value="addNewUser">Add New User</button></li>
                         </form>
-                        <li><button class="cancelUpdate" onclick="closeUpdateField(4)">Cancel</button></li>
                     </ul>
                 </div>
                 <!-- Delete Message Box -->
@@ -863,16 +1002,16 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 <!-- Update User Field -->
                 <div class="updateUserForm">
                     <h3>Update User Information</h3>
-                    <ul class="newAdminul">
-                        <form action="config.php" method="POST">
-                            <li><input type="text" name="userIDUpdate" id="userIDUpdate" value='' hidden></li>
+                    <ul class="ul-container">
+                        <form action="config.php" method="POST" id="form-user-update">
+                            <input class="hidden-lis" type="text" name="userIDUpdate" id="userIDUpdate" value='' hidden>
                             <li><label for="fnameUpdateUser">First Name </label><input type="text"
                                     name="fnameUpdateUser" id="fnameUpdateUser" placeholder="First Name" required></li>
                             <li><label for="lnameUpdateUser">Last Name </label><input name="lnameUpdateUser" type="text"
                                     id="lnameUpdateUser" placeholder="Last Name" required></li>
                             <li><label for="prefixUpdate">Prefix</label><select name="prefixUpdateUser"
                                     id="prefixUpdateUser" placeholder="Prefix" disabled>
-                                    <option value="option">option</option>
+                                    <option value="option">Disabled</option>
                                 </select>
                             </li>
                             <li><label for="emailUpdateUser">E-mail</label><input name="emailUpdateUser" type="email"
@@ -884,9 +1023,10 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                                     <option value="2">suspend</option>
                                     <option value="0">User</option>
                                 </select></li>
-                            <li><input name="updateUserSubmit" type="submit" value="Update Admin"></li>
+                            <li><button type="button" class="cancelUpdate" onclick="closeUpdateField(3)">Cancel</button>
+                            </li>
+                            <li><button name="updateUserSubmit" type="submit" class="cancelUpdate">Update</button></li>
                         </form>
-                        <li><button class="cancelUpdate" onclick="closeUpdateField(3)">Cancel</button></li>
                     </ul>
                 </div>
             </div><!-- .tabContainer end-->
@@ -894,7 +1034,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         <!-- ************************************************ Tab : Admins -->
         <div id="admins" class="tab">
             <div class="header">Admins</div>
-            <p>tickets content is displayed here.</p>
+            <p> </p>
             <div class="tabContainer">
                 <div class="btnBar">
                     <button onclick="tugglelist(0)">Accounts List</button> <button onclick="tugglelist(1)">Add New
@@ -939,15 +1079,15 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 <!-- Add New Admin From -->
                 <div class="newAdminForm">
                     <h3>Add New Administrator</h3>
-                    <ul class="newAdminul">
-                        <form action="config.php" method="POST">
+                    <ul class="ul-container">
+                        <form action="config.php" method="POST" id="formNewAdmin">
                             <li><label for="fnameAdmin">First Name </label><input type="text" name="fnameAdmin"
                                     id="fnameAdmin" placeholder="First Name" required></li>
                             <li><label for="lnameAdmin">Last Name </label><input name="lnameAdmin" type="text"
                                     id="lnameAdmin" placeholder="Last Name" required></li>
                             <li><label for="prefixAdmin">Prefix</label><select name="prefixAdmin" id="prefixAdmin"
                                     placeholder="Prefix" disabled>
-                                    <option value="option">option</option>
+                                    <option value="option">Disabled</option>
                                 </select>
                             </li>
                             <li><label for="emailAdmin">E-mail</label><input name="emailAdmin" type="email"
@@ -965,9 +1105,12 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                                     <option value="3">Read Only</option>
                                     <option value="2">suspend</option>
                                 </select></li>
-                            <li><input name="addNewAdmin" type="submit" value="addNewAdmin"></li>
+                            <!-- <li><input name="addNewAdmin" type="submit" value="addNewAdmin"></li> -->
+                            <li><button type="button" class="cancelUpdate" onclick="closeUpdateField(2)">Cancel</button>
+                            </li>
+                            <li><button class="cancelUpdate" name="addNewAdmin" type="submit" value="addNewAdmin">Add
+                                    New Admin</button></li>
                         </form>
-                        <li><button class="cancelUpdate" onclick="closeUpdateField(2)">Cancel</button></li>
                     </ul>
 
                 </div>
@@ -986,7 +1129,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 <!-- Update admin Field -->
                 <div class="updateAdminForm">
                     <h3>Update Administrator</h3>
-                    <ul class="newAdminul">
+                    <ul class="ul-container">
                         <form action="config.php" method="POST">
                             <li><input type="text" name="adminIDUpdate" id="adminIDUpdate" value='' hidden></li>
                             <li><label for="fnameUpdate">First Name </label>
@@ -998,7 +1141,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                             </li>
                             <li><label for="prefixUpdate">Prefix</label><select name="prefixUpdate" id="prefixUpdate"
                                     placeholder="Prefix" disabled>
-                                    <option value="option">option</option>
+                                    <option value="option">Disabled</option>
                                 </select>
                             </li>
                             <li><label for="emailUpdate">E-mail</label>
@@ -1025,7 +1168,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         <!-- ************************************************************  Tab : Settings -->
         <div id="settings" class="tab">
             <div class="header">Settings</div>
-            <p>Settings content is displayed here.</p>
+            <p> </p>
         </div>
         <!-- ************************************************************  Tab : Logout -->
         <div id="logout" class="tab">
@@ -1034,9 +1177,11 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 <p>Are you sure you want to log out?</p>
                 <div>
                     <form action="signupin-action.php" method="POST">
-                        <input id="leave" name="leave" type="submit" value="Log Out"></input>
+                        <button type="button" onclick="showTab('home')" id="cancel" name="cancel"><i
+                                class="fa-solid fa-arrow-left"></i> Back</button>
+                        <button id="leave" name="leave" type="submit" value="Log Out"> Leave <i
+                                class="fa-solid fa-person-walking-arrow-right"></i></button>
                     </form>
-                    <button onclick="showTab('home')" id="cancel" name="cancel">Back</button>
                 </div>
             </div>
         </div>
@@ -1184,7 +1329,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     setTimeout(() => {
                         if (params.get("successDelUser") == 1) {
                             alert("Record successfully removed.");
-                        }else{
+                        } else {
                             alert("Query Failed: User not removed.");
                         }
                     }, 500)
@@ -1199,7 +1344,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     setTimeout(() => {
                         if (params.get("successDelEvent") == 1) {
                             alert("Event successfully removed.");
-                        }else{
+                        } else {
                             alert("Query Failed: Event not removed.");
                         }
                     }, 500)
@@ -1275,11 +1420,11 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 input.disabled = value;
             });
             if (value == false) {
-                document.querySelector(".event-detail-second-col li:first-child").style.visibility = "visible";
+                document.querySelector("#upSelectEImgLI").style.visibility = "visible";
                 inputs.forEach(input => {
                     input.classList.add("act-input");
-                    document.querySelector('.event-detail-first-col h3:first-child').innerHTML = "Update Form";
-                    document.querySelector('#event-edit-btn').style.display = "none";
+                    document.querySelector('.eventDetailsSec h3:first-child').innerHTML = "Update Form";
+                    document.querySelector('#li-event-edit-btn').style.display = "none";
                     document.querySelector('#event-update-submit').style.display = "block";
                 });
             }
@@ -1331,7 +1476,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                     document.querySelector('#adminli').className = 'selected';
                     document.querySelector('#admins .updateAdminForm').style.display = 'block';
                     document.querySelector('#admins .containerBudy').style.display = 'none';
-                    document.querySelector('.updateAdminForm #IDUpdate').value = '" . $users[$userIndex]['id_user'] . "';
+                    document.querySelector('.updateAdminForm #adminIDUpdate').value = '" . $users[$userIndex]['id_user'] . "';
                     document.querySelector('.updateAdminForm #fnameUpdate').value = '" . $users[$userIndex]['fname'] . "';
                     document.querySelector('.updateAdminForm #lnameUpdate').value = '" . $users[$userIndex]['lname'] . "';
                     document.querySelector('.updateAdminForm #emailUpdate').value = '" . $users[$userIndex]['email'] . "';
@@ -1366,7 +1511,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             echo "showTab('events');
                     dashItems.forEach(item => { item.classList.remove('selected'); });
                     document.querySelector('#eventli').className = 'selected';
-                    document.querySelector('.eventDetailsSec').style.display = 'flex';
+                    document.querySelector('.eventDetailsSec').style.display = 'block';
                     document.querySelector('#events .containerBudy').style.display = 'none';
                     document.querySelector('#events .containerBudy').style.display = 'none';
                     document.querySelector('#upEImg').src = '" . $upDetImg . "';
