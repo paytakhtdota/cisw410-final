@@ -400,7 +400,8 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         #formNewEvent,
         #form-new-user,
         #formNewAdmin,
-        #form-user-update {
+        #form-user-update,
+        #form-update-admin {
             display: flex;
             flex-wrap: wrap;
             gap: 2%;
@@ -523,11 +524,11 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         .messageBox,
         .messageBoxUser {
             width: 400px;
-            height: 150px;
-            border: solid 1px #e3b04b;
-            background-color: rgba(227, 176, 75, 0.06);
+            height: fit-content;
+            border-radius: 8px;
+            background-color: rgb(247, 247, 247);
             text-align: center;
-            padding: 15px 10px;
+            padding: 10px;
             margin: 15px auto;
             display: none;
         }
@@ -537,12 +538,15 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             justify-content: space-evenly;
         }
 
-        .conformBTN input[type="submit"],
-        .conformBTN button {
-            width: 90px;
-            height: 35px;
-            font-size: 16px;
+        .conformBTN form {
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            gap: 20px;
+            margin-top: 0;
+            padding-top: 0;
         }
+
 
         .qustion {
             margin-bottom: 25px;
@@ -681,7 +685,8 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         .act-input {
             border: 2px solid #ffebb5 !important;
         }
-        .hidden-lis{
+
+        .hidden-lis {
             visibility: hidden;
             height: 1px;
         }
@@ -893,10 +898,13 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                         <p>Are you sure you want to delete this record?</p>
                     </div>
                     <div class="conformBTN">
-                        <form action="config.php" method="POST"><input type='hidden' name='delEventID'
-                                value='<?php echo $_POST['deleteEvent']; ?>'><input type="submit" value="Remove"></form>
-                        <!-- cancel button -->
-                        <button id="delEventCancel">Cancle</button>
+                        <form action="config.php" method="POST">
+                            <input class="hidden-lis" type='hidden' name='delEventID'
+                                value='<?php echo $_POST['deleteEvent']; ?>'>
+                            <button class="cancelUpdate" type="submit">Remove Record</button>
+                            <!-- cancel button -->
+                            <button type='button' class="cancelUpdate" id="delEventCancel">Cancle</button>
+                        </form>
                     </div>
                 </div>
 
@@ -993,10 +1001,12 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                         <p>Are you sure you want to delete this record?</p>
                     </div>
                     <div class="conformBTN">
-                        <form action="config.php" method="POST"><input type='hidden' name='delUserID'
-                                value='<?php echo $_POST['deleteUser']; ?>'><input type="submit" value="Remove"></form>
-                        <!-- cancel button -->
-                        <button id="delUserCancel">Cancle</button>
+                        <form action="config.php" method="POST">
+                            <input type='hidden' name='delUserID' value='<?php echo $_POST['deleteUser']; ?>'>
+                            <input class="cancelUpdate" type="submit" value="Remove">
+                            <!-- cancel button -->
+                            <button class="cancelUpdate" type="button" id="delUserCancel">Cancle</button>
+                        </form>
                     </div>
                 </div>
                 <!-- Update User Field -->
@@ -1121,17 +1131,20 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                         <p>Are you sure you want to delete this record?</p>
                     </div>
                     <div class="conformBTN">
-                        <form action="config.php" method="POST"><input type='hidden' name='delAdminUserID'
-                                value='<?php echo $_POST['deleteAdmin']; ?>'><input type="submit" value="Remove"></form>
-                        <button>Cancle</button>
+                        <form action="config.php" method="POST">
+                            <input type='hidden' name='delAdminUserID' value='<?php echo $_POST['deleteAdmin']; ?>'>
+                            <input class="cancelUpdate" type="submit" value="Remove">
+                            <button class="cancelUpdate" type="button" >Cancle</button>
+                        </form>
                     </div>
                 </div>
                 <!-- Update admin Field -->
                 <div class="updateAdminForm">
                     <h3>Update Administrator</h3>
                     <ul class="ul-container">
-                        <form action="config.php" method="POST">
-                            <li><input type="text" name="adminIDUpdate" id="adminIDUpdate" value='' hidden></li>
+                        <form action="config.php" method="POST" id="form-update-admin">
+                            <input class="hidden-lis" type="text" name="adminIDUpdate" id="adminIDUpdate" value=''
+                                hidden>
                             <li><label for="fnameUpdate">First Name </label>
                                 <input type="text" name="fnameUpdate" id="fnameUpdate" placeholder="First Name"
                                     required>
@@ -1158,9 +1171,12 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                                     <option value="2">suspend</option>
 
                                 </select></li>
-                            <li><input name="updateAdminSubmit" type="submit" value="Update Admin"></li>
+                            <!-- <li><input class="cancelUpdate" name="updateAdminSubmit" type="submit" value="Update Admin"></li> -->
+                            <li><button type="button" class="cancelUpdate" onclick="closeUpdateField(1)">Cancel</button>
+                            </li>
+                            <li><button class="cancelUpdate" id="updateAdminSubmit" type="submit">Update Admin</button>
+                            </li>
                         </form>
-                        <li><button class="cancelUpdate" onclick="closeUpdateField(1)">Cancel</button></li>
                     </ul>
                 </div>
             </div>
@@ -1283,12 +1299,32 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
         function handleSuccessMessages() {
             const params = new URLSearchParams(window.location.search);
 
-            if (params.get("successAdd")) {
+            if (params.get("successAdd") == 1) {
                 showTab('admins');
                 dashItems.forEach(item => { item.classList.remove('selected'); });
                 document.querySelector('#adminli').className = 'selected';
                 window.onload = function () {
                     setTimeout(() => { alert("New record successfully added."); }, 500)
+                };
+            } else if (params.get("successAdd") == 0) {
+                showTab('admins');
+                dashItems.forEach(item => { item.classList.remove('selected'); });
+                document.querySelector('#adminli').className = 'selected';
+                tugglelist(1);
+                window.onload = function () {
+                    setTimeout(() => {
+                        alert(`Email: "${params.get("EmailAddress")}" is already associated with another account. Please enter a different email address.`);
+                    }, 500)
+                };
+            } else if (params.get("successAdd") == 2) {
+                showTab('admins');
+                dashItems.forEach(item => { item.classList.remove('selected'); });
+                document.querySelector('#adminli').className = 'selected';
+                tugglelist(1);
+                window.onload = function () {
+                    setTimeout(() => {
+                        alert(`Password and Confirm Password are NOT matched.`);
+                    }, 500)
                 };
             }
 
@@ -1351,14 +1387,33 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                 };
             }
 
-            if (params.get("successUserAdd")) {
+            if (params.get("successUserAdd") == 1) {
                 showTab('users');
                 dashItems.forEach(item => { item.classList.remove('selected'); });
                 document.querySelector('#userli').className = 'selected';
                 window.onload = function () {
                     setTimeout(() => { alert("User record successfully added."); }, 500)
                 };
+            } else if (params.get("successUserAdd") == 2) {
+                showTab('users');
+                dashItems.forEach(item => { item.classList.remove('selected'); });
+                document.querySelector('#userli').className = 'selected';
+                tugglelist(3);
+                window.onload = function () {
+                    setTimeout(() => { alert(`Password and Confirm Password are NOT matched.`); }, 500)
+                };
+            } else if (params.get("successUserAdd") == 0) {
+                showTab('users');
+                dashItems.forEach(item => { item.classList.remove('selected'); });
+                document.querySelector('#userli').className = 'selected';
+                tugglelist(3);
+                window.onload = function () {
+                    setTimeout(() => {
+                        alert(`Email: "${params.get("EmailAddress")}" is already associated with another account. Please enter a different email address.`);
+                    }, 500)
+                };
             }
+
 
             if (params.get("successEventAdd")) {
                 showTab('events');
@@ -1560,16 +1615,18 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             theme: 'snow'
         });
 
-        function upEditorEvent() {
+        window.addEventListener('popstate', function (event) {
+            let emailError = sessionStorage.getItem('emailError');
+            if (emailError) {
+                // نمایش پیام خطا
+                alert(emailError);
+                // پاک کردن پیام پس از نمایش
+                sessionStorage.removeItem('emailError');
+            }
+        });
 
-        }
 
-        function editorEvent() {
-            document.getElementById("addNewEvent").addEventListener("mouseenter", function () {
-                document.getElementById('neweditorDelta').value = JSON.stringify(quill.getContents());
-                console.log(JSON.stringify(quill.getContents()));
-            });
-        }
+
 
     </script>
 </body>

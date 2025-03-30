@@ -8,11 +8,17 @@ function addNewAdmin($data_aa)
         if (!(isset($input) || $input == '') && ($index != "prefixNA" || $index != "phoneNA")) {
             $error[] = "You need to enter a $index";
         } elseif ($data_aa['passwordNA'] != $data_aa['confirmNA']) {
-            $error[] = 'Passwords are not matchs';
+            if ($data_aa['privilegeNA'] == 0) {
+                header("Location: admin.php?successUserAdd=2");
+                exit();
+            } else {
+                header("Location: admin.php?successAdd=2");
+                exit();
+            }
         }
     }
 
-    if (empty($error) && $data_aa['passwordNA'] == $data_aa['confirmNA']) {
+    if (empty($error)) {
 
         $data_aa['fnameNA'] = ucfirst(strtolower($data_aa['fnameNA']));
         $data_aa['lnameNA'] = ucfirst(strtolower($data_aa['lnameNA']));
@@ -23,7 +29,15 @@ function addNewAdmin($data_aa)
         $emailCheck = $pdo->prepare("SELECT email FROM users WHERE email = :emailNA");
         $emailCheck->execute([":emailNA" => $data_aa['emailNA']]);
         if ($emailCheck->rowCount() > 0) {
-            echo "Email exist, already!";
+            if ($data_aa['privilegeNA'] == 0) {
+                header("Location: admin.php?successUserAdd=0&EmailAddress=" . $data_aa['emailNA']);
+                exit();
+            } else {
+                header("Location: admin.php?successAdd=0&EmailAddress=" . $data_aa['emailNA']);
+                exit();
+            }
+
+
         } else {
             $data_aa['passwordNA'] = password_hash($data_aa['passwordNA'], PASSWORD_DEFAULT);
             unset($data_aa['confirmNA']);
@@ -367,14 +381,14 @@ if (isset($_POST['emailAdmin'])) {
     addNewAdmin($data_aa);
 } elseif (isset($_POST['delAdminUserID'])) {
     deladmin($_POST['delAdminUserID']);
-} elseif (isset($_POST['updateAdminSubmit'])) {
+} elseif (isset($_POST['adminIDUpdate'])) {
     $updateAdmin['fname'] = ($_POST['fnameUpdate']);
     $updateAdmin['lname'] = ($_POST['lnameUpdate']);
     $updateAdmin['phone'] = ($_POST['phoneUpdate']);
     $updateAdmin['priv'] = ($_POST['privilegeUpdate']);
     $updateAdmin['id'] = ($_POST['adminIDUpdate']);
     updateActionAdmin($updateAdmin);
-} elseif (isset($_POST['updateUserSubmit'])) {
+} elseif (isset($_POST['userIDUpdate'])) {
     $updateUser['fname'] = ($_POST['fnameUpdateUser']);
     $updateUser['lname'] = ($_POST['lnameUpdateUser']);
     $updateUser['phone'] = ($_POST['phoneUpdateUser']);

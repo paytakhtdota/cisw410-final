@@ -294,8 +294,13 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
             font-size: 18px;
         }
 
+        .ticket-info-container-label>i {
+            font-style: normal;
+        }
+
         .ticket-info-container-information {
             margin-bottom: 8px;
+            text-wrap: wrap;
         }
 
         .ticket-info-container-tail {
@@ -320,6 +325,121 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
             width: 40px;
             height: 42px;
             margin-right: 10px;
+        }
+
+        .link-style-btn {
+            display: inline;
+            width: fit-content;
+            height: fit-content;
+            float: right;
+            color: rgb(255, 255, 255);
+            border: 1px solid transparent;
+            font-weight: 400;
+            font-size: 15px;
+            padding: 2px 3px;
+            margin-top: -3px;
+        }
+
+        .link-style-btn:hover {
+            text-decoration: underline;
+            color: #B8860B;
+            border: 1px solid;
+        }
+
+        .dialog-box-container {
+            display: none;
+            box-sizing: border-box;
+            position: fixed;
+            left: 0;
+            top: 0;
+            min-width: 100%;
+            min-height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: grayscale(100%);
+            z-index: 999;
+        }
+
+        .dialog-box {
+            box-sizing: border-box;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 460px;
+            min-height: fit-content;
+            background-color: rgb(248, 248, 248);
+            border-radius: 8px;
+            font-family: "Poppins";
+            padding-bottom: 15px;
+
+        }
+
+        .title-bar {
+            width: 100%;
+            height: 53px;
+            font-size: 24px;
+            padding: 7px 7px 5px 10px;
+            background-color: #B8860B;
+            line-height: 1.7;
+            color: rgb(255, 255, 255);
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-family: "Poppins";
+        }
+
+        .fa-xmark {
+            font-size: 24px;
+            float: right;
+            padding: 4px 7px;
+            border: 2px solid white;
+            border-radius: 5px;
+        }
+
+        .fa-xmark:hover {
+            float: right;
+            border: 2px solid #c10000;
+            cursor: pointer;
+            color: #c10000;
+            background-color: antiquewhite;
+        }
+
+        .dialog-box p {
+            margin: 25px 15px 3px 25px;
+        }
+
+        .dialog-box input {
+            margin: 0 10px 10px 19px;
+            padding: 6px 12px;
+            font-size: 20px;
+            width: 420px;
+            height: 50px;
+        }
+
+        .dialog-box input {
+            margin: 5px 10px 10px 19px;
+            padding: 6px 12px;
+            font-size: 20px;
+            width: 420px;
+            height: 50px;
+            border-radius: 5px;
+            border: 1px solid rgb(57, 57, 57);
+        }
+
+        .dialog-box input:focus {
+            margin: 5px 10px 10px 19px;
+            padding: 6px 12px;
+            font-size: 20px;
+            width: 420px;
+            height: 50px;
+            border-radius: 5px;
+            outline: 1px solid rgb(255, 199, 56);
+            border: #B8860B;
+        }
+
+        .dialog-box-btn-container {
+            margin: 2px 19px;
+            display: flex;
+            gap: 20px
         }
     </style>
 </head>
@@ -369,13 +489,15 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
         <ul class="selected-seats-info">
             <li>Your Ticket(s):</li>
             <li class="ticket-list" id="ticket-list-li">
-                <!-- <div class="ticket-container">
+                <div class="ticket-container">
                     <div class="ticket-card">
                         <div class="ticket-title-container">Music Festival</div>
                         <div class="ticket-info-container">
                             <ul class="ticket-info-container-ul">
-                                <li class="ticket-info-container-label">Guest Name:</li>
-                                <li class="ticket-info-container-information">First and Last Name</li>
+                                <li class="ticket-info-container-label"><i>Guest Name</i><button
+                                        class="link-style-btn">Edit <i class="fa-solid fa-pencil"></i></button></li>
+                                <li class="ticket-info-container-information">First and Last Name First and Last Name
+                                </li>
                                 <li class="ticket-info-container-label">Date and Time:</li>
                                 <li class="ticket-info-container-information"><?php echo $dateForEcho; ?></li>
                                 <li class="ticket-info-container-label">Event:</li>
@@ -392,7 +514,7 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
                         <span class="left-corner"></span>
                         <span class="right-corner"></span>
                     </div>
-                </div> -->
+                </div>
             </li>
             <li></li>
 
@@ -403,6 +525,18 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
             <a href=""> <button>Next <i class="fa-solid fa-arrow-right"></i></button></a>
         </div>
     </div>
+
+    <section class="dialog-box-container" id="dialogBoxContain">
+        <div class="dialog-box">
+            <div class="title-bar">Edit guest name<i onclick='dialogBoxSwitch(2,this)' class="fa-solid fa-xmark"></i></div>
+            <p>Name on the Ticket:</p>
+            <input type="text" id="nameInPut">
+            <div class="dialog-box-btn-container">
+                <button onclick='dialogBoxSwitch(2,this)'>Cancel</button>
+                <button id="updateNameBTN" onclick='dialogBoxSwitch(3,this)' data-id3="" >Update</button>
+            </div>
+        </div>
+    </section>
 
     <footer>
         <?php
@@ -443,21 +577,24 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
             }
             seatIcon.alt = "Seat-Icon";
 
-
             const ticketDetails = [
-                { label: "Guest Name:", value: guestName },
+                { label: `<i>Guest Name</i><button onclick='dialogBoxSwitch(1,this)' class='link-style-btn' data-id='${seatSelectedID}'>Edit <i class='fa-solid fa-pencil'></i></button>`, value: guestName },
                 { label: "Date and Time:", value: date },
                 { label: "Event:", value: name }
             ];
-
+            let counter = 1;
             ticketDetails.forEach(detail => {
                 const labelLi = document.createElement("li");
                 labelLi.className = "ticket-info-container-label";
-                labelLi.textContent = detail.label;
-
+                labelLi.innerHTML = detail.label;
+                
                 const valueLi = document.createElement("li");
                 valueLi.className = "ticket-info-container-information";
                 valueLi.textContent = detail.value;
+                if (counter == 1) {
+                    valueLi.setAttribute("data-id2", `${seatSelectedID}`);
+                    counter++;
+                }
 
 
                 ticketInfoList.appendChild(labelLi);
@@ -469,6 +606,7 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
             const ticketTail = document.createElement("div");
             const seatNameP = document.createElement("p");
             seatNameP.textContent = seatName;
+            ticketInfoContainer.id=seatName;
             ticketTail.className = "ticket-info-container-tail";
 
             ticketTail.appendChild(seatIcon);
@@ -495,10 +633,39 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
 
             ticketListItem.appendChild(ticketContainer);
         }
+        let dataIdValue;
+        function dialogBoxSwitch(key, element) {
+            const diaBox = document.getElementById("dialogBoxContain");
+            dataIdValue = element.getAttribute("data-id");
+            if (key == 1) {
+                diaBox.style.display = "block";
+                document.documentElement.style.overflow = "hidden";
+                document.body.style.overflow = "hidden";
+                document.getElementById('updateNameBTN').setAttribute("data-id", dataIdValue);
+                document.getElementById('nameInPut').setAttribute("data-id", dataIdValue);
+                console.log(dataIdValue);
+            } else if (key == 2) {
+                diaBox.style.display = "none";
+                document.documentElement.style.overflow = "auto";
+                document.body.style.overflow = "auto";
+            } else if (key == 3) {
+                let guestNameInput = document.getElementById("nameInPut").value;
+                printName(dataIdValue,guestNameInput);
+                document.getElementById("nameInPut").value = "";
+                diaBox.style.display = "none";
+                document.documentElement.style.overflow = "auto";
+                document.body.style.overflow = "auto";
+            }
+        }
+
+        function printName(elementID,guestName){
+            let element = document.querySelector(`[data-id2='${elementID}']`);
+            element.textContent = guestName;
+        }
 
         <?php foreach ($seats as $seatID => $P) {
-        echo "createTicket('".$userSession['fname']." ".$userSession['lname']."', '". $dateForEcho ."', '".$event['name']."', '".$seatID . "', '".$P . "');";
-    } ?>
+            echo "createTicket('" . $userSession['fname'] . " " . $userSession['lname'] . "', '" . $dateForEcho . "', '" . $event['name'] . "', '" . $seatID . "', '" . $P . "');";
+        } ?>
 
     </script>
 </body>
