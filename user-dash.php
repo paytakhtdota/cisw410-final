@@ -12,8 +12,13 @@ if (!isset($_SESSION['user_data'])) {
     $quiry->execute([":id_user" => $tempData['id_user']]);
     $userData = $quiry->fetch(PDO::FETCH_ASSOC);
 
-    // query events
     $search = "";
+    if (isset($_POST['search-submit'])) {
+        $searchTerm = trim($_POST['searchBar-event']);
+        $search = preg_replace('/[%&*)($@#!+=]/', '', $searchTerm);
+    }
+
+    // query events
     $rowCountQuery = $pdo->prepare("SELECT COUNT(id_event) as count FROM events WHERE name LIKE :search");
     $rowCountQuery->bindValue(':search', '%' . $search . '%');
     $rowCountQuery->execute();
@@ -23,9 +28,12 @@ if (!isset($_SESSION['user_data'])) {
 
 
 
+
+
+
     if (isset($_GET['pageNumber'])) {
         $pgs = (int) $_GET['pageNumber'];
-        $start = ($pgs-1)*10;
+        $start = ($pgs - 1) * 10;
         $eventsQuery = $pdo->prepare("SELECT * FROM events WHERE name LIKE :search ORDER BY date LIMIT :start, 10");
         $eventsQuery->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
         $eventsQuery->bindValue(':start', $start, PDO::PARAM_INT);
@@ -379,17 +387,58 @@ function pagenationNumber($rows)
             align-items: center;
             justify-content: center;
             margin-bottom: 40px;
+            overflow: hidden;
         }
 
-        .searchbar-div label {
-            font-size: 1.6em;
-            padding-right: 15px;
+        .searchbar-div form {
+            width: 70%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .searchbar-div input {
-            width: 50%;
+        #searchBar-event,
+        #searchBar-event:hover {
+            margin: 0;
+            padding: 6px 12px;
+            min-width: 50%;
+            flex-grow: 1;
             height: 50px;
             font-size: 1.4em;
+            border: 2px solid #B8860B;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border-right: none;
+            transition: all 0.3s;
+        }
+
+        #searchBar-event:focus {
+            outline: none;
+            border: 2px solid #B8860B;
+            border-right: none;
+        }
+
+        #search-submit {
+            width: 130px;
+            margin: 0;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            height: 50px;
+            border: 2px solid #B8860B;
+            background-color: #B8860B;
+            color: #ffffff;
+            font-family: "Roboto", sans-serif;
+            font-size: 18px;
+            outline: none;
+            border-left: none;
+            transition: all 0.3s;
+        }
+
+        #search-submit:hover {
+            color: #000000;
+            background-color: #f1be3b;
+            border-left: none;
+            cursor: pointer;
         }
 
         .event-card {
@@ -502,7 +551,6 @@ function pagenationNumber($rows)
             font-size: 20px;
             color: #656565;
             transition: all 0.2s;
-            /* box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset; */
         }
 
         .page-number:hover {
@@ -518,7 +566,6 @@ function pagenationNumber($rows)
             height: 40px;
             border: 1px solid #B8860B;
             background-color: #B8860B;
-            ;
             justify-content: center;
             align-items: center;
             border-radius: 5px;
@@ -541,6 +588,7 @@ function pagenationNumber($rows)
             tabs.forEach(tab => tab.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
         }
+
     </script>
 
 </head>
@@ -669,8 +717,11 @@ function pagenationNumber($rows)
             <div id="events" class="tab">
                 <div class="header">Up coming events</div>
                 <div class="searchbar-div">
-                    <label for="searchBar-event">Search</label><input id="searchBar-event" name="searchBar-event"
-                        type="text">
+                    <form action="user-dash.php" method="POST">
+                        <input id="searchBar-event" name="searchBar-event" placeholder="Search for a Event Title"
+                            type="text">
+                        <input type="submit" name="search-submit" id="search-submit" value="Search">
+                    </form>
                 </div>
 
                 <div class="tab-container" id="tab-container-event">
@@ -909,7 +960,6 @@ function pagenationNumber($rows)
         };
 
 
-
         <?php
         foreach ($events as $index => $event) {
             $date = new DateTime($event['date']);
@@ -925,6 +975,12 @@ function pagenationNumber($rows)
 
         if (isset($_GET['logout'])) {
             echo "showTab('logout');";
+        }
+
+        if (isset($_POST['search-submit'])) {
+            echo "showTab('events');";
+            echo 'dashItems.forEach(i => i.classList.remove("selected"));';
+            echo 'document.getElementById("eventsli").classList.add("selected");';
         }
         ?>
 
