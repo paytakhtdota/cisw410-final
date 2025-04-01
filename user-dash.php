@@ -13,11 +13,26 @@ if (!isset($_SESSION['user_data'])) {
     $userData = $quiry->fetch(PDO::FETCH_ASSOC);
 
     // query events
-    $eventsQuery = $pdo->prepare("SELECT * FROM events");
+    $search = "";
+    $rowCountQuery = $pdo->prepare("SELECT COUNT(id_event) as count FROM events WHERE name LIKE :search");
+    $rowCountQuery->bindValue(':search', '%' . $search . '%');
+    $rowCountQuery->execute();
+    $rowCount = $rowCountQuery->fetch();
+    $totalRows = $rowCount['count'];
+    echo '<script>console.log(' . $totalRows . ')</script>';
+
+    $eventsQuery = $pdo->prepare("SELECT * FROM events WHERE name LIKE :search ORDER BY date LIMIT 10");
+    $eventsQuery->bindValue(':search', '%' . $search . '%');
     $eventsQuery->execute();
     $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function pagenationNumber($rows)
+{
+    for ($i = 1; $i <= ceil($rows / 10); $i++) {
+        echo "<li><a class='page-number' href='#'>" . $i . "</a></li>";
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -338,6 +353,8 @@ if (!isset($_SESSION['user_data'])) {
             gap: 25px;
             flex-wrap: wrap;
             justify-content: flex-start;
+            max-width: 1720px;
+            margin: 0 auto;
         }
 
         .searchbar-div {
@@ -441,8 +458,70 @@ if (!isset($_SESSION['user_data'])) {
             overflow-wrap: break-word;
             letter-spacing: 1px;
         }
-    </style>
 
+        .pagination-sention {
+            display: flex;
+            height: 75px;
+            width: 100%;
+            justify-content: center;
+            margin-top: 50px;
+            font-family: "Poppins";
+        }
+
+        .pagination-ul {
+            display: flex;
+            height: 71px;
+            width: 100%;
+            justify-content: center;
+            gap: 20px;
+        }
+
+
+        .page-number,
+        .page-number:visited {
+            display: flex;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #20202075;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            font-size: 20px;
+            color: #656565;
+            transition: all 0.2s;
+            /* box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset; */
+        }
+
+        .page-number:hover {
+            border: 1px solid #ffb700;
+            color: #B8860B;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+            scale: 1.06;
+        }
+
+        .page-number-selected {
+            display: flex;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #B8860B;
+            background-color: #B8860B;
+            ;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            font-size: 20px;
+            color: rgb(255, 255, 255);
+            box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+        }
+    </style>
+    <script>
+        function selectedPage(pageNum) {
+            const selectedPageli = document.querySelector(`.pagination-ul li:nth-child(${pageNum}) a`);
+            if (selectedPageli) {
+                selectedPageli.classList.replace("page-number", "page-number-selected");
+            }
+        }
+    </script>
 
 </head>
 
@@ -476,6 +555,7 @@ if (!isset($_SESSION['user_data'])) {
                 <?php foreach ($userData as $data) {
                     echo "<script> console.log('" . $data . "');</script>";
                 } ?>
+
 
                 <div class="dash-cards">
 
@@ -572,6 +652,7 @@ if (!isset($_SESSION['user_data'])) {
                     <label for="searchBar-event">Search</label><input id="searchBar-event" name="searchBar-event"
                         type="text">
                 </div>
+
                 <div class="tab-container" id="tab-container-event">
 
                     <!-- <div class="event-card">
@@ -586,7 +667,17 @@ if (!isset($_SESSION['user_data'])) {
                             </ul>
                         </div>
                     </div> -->
+
                 </div>
+                <section class="pagination-sention">
+                    <ul class="pagination-ul">
+                        <?php
+                        pagenationNumber($totalRows);
+
+                        ?>
+                    </ul>
+                </section>
+
             </div>
 
 
@@ -613,6 +704,7 @@ if (!isset($_SESSION['user_data'])) {
         ?>
     </footer>
     <script>
+
         function showTab(tabId) {
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(tab => tab.classList.remove('active'));
@@ -796,6 +888,8 @@ if (!isset($_SESSION['user_data'])) {
             dateTime: "here context from database"
         };
 
+
+
         <?php
         foreach ($events as $index => $event) {
             $date = new DateTime($event['date']);
@@ -805,9 +899,11 @@ if (!isset($_SESSION['user_data'])) {
                 imageUrl: '" . $event['img'] . "',
                 title: '" . $event['name'] . "',
                 dateTime: '" . $date->format('F jS') . " at " . $time->format('g:i a') . "'
-            };";
+                };";
             echo "createEventCard(eventData);";
         }
+
+        echo 'selectedPage(1)';
         ?>
 
     </script>
