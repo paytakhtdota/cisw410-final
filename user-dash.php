@@ -21,18 +21,31 @@ if (!isset($_SESSION['user_data'])) {
     $totalRows = $rowCount['count'];
     echo '<script>console.log(' . $totalRows . ')</script>';
 
-    $eventsQuery = $pdo->prepare("SELECT * FROM events WHERE name LIKE :search ORDER BY date LIMIT 10");
-    $eventsQuery->bindValue(':search', '%' . $search . '%');
-    $eventsQuery->execute();
-    $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
+
+
+    if (isset($_GET['pageNumber'])) {
+        $pgs = (int) $_GET['pageNumber'];
+        $start = ($pgs-1)*10;
+        $eventsQuery = $pdo->prepare("SELECT * FROM events WHERE name LIKE :search ORDER BY date LIMIT :start, 10");
+        $eventsQuery->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+        $eventsQuery->bindValue(':start', $start, PDO::PARAM_INT);
+        $eventsQuery->execute();
+        $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        $eventsQuery = $pdo->prepare("SELECT * FROM events WHERE name LIKE :search ORDER BY date LIMIT 10");
+        $eventsQuery->bindValue(':search', '%' . $search . '%');
+        $eventsQuery->execute();
+        $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 function pagenationNumber($rows)
 {
     for ($i = 1; $i <= ceil($rows / 10); $i++) {
-        echo "<li><a class='page-number' href='#'>" . $i . "</a></li>";
+        echo "<li><a class='page-number' href='user-dash.php?pageNumber=" . $i . "'>" . $i . "</a></li>";
     }
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -516,10 +529,17 @@ function pagenationNumber($rows)
     </style>
     <script>
         function selectedPage(pageNum) {
+            console.log("page number >>>> " + pageNum);
             const selectedPageli = document.querySelector(`.pagination-ul li:nth-child(${pageNum}) a`);
             if (selectedPageli) {
                 selectedPageli.classList.replace("page-number", "page-number-selected");
             }
+        }
+
+        function showTab(tabId) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
         }
     </script>
 
@@ -673,7 +693,17 @@ function pagenationNumber($rows)
                     <ul class="pagination-ul">
                         <?php
                         pagenationNumber($totalRows);
-
+                        if (!isset($_GET['pageNumber'])) {
+                            echo '<script>';
+                            echo 'selectedPage(1);';
+                            echo '</script>';
+                        } else {
+                            $pageNumber = $_GET['pageNumber'];
+                            echo '<script>';
+                            echo "showTab('events');";
+                            echo 'selectedPage(' . $pageNumber . ');';
+                            echo '</script>';
+                        }
                         ?>
                     </ul>
                 </section>
@@ -705,15 +735,7 @@ function pagenationNumber($rows)
     </footer>
     <script>
 
-        function showTab(tabId) {
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            if (tabId == "home") {
-                document.querySelector(".sidebar ul li:last-child").classList.remove("selected");
-                document.querySelector(".sidebar ul li:first-child").classList.add("selected");
-            }
-        }
+
         let dashItems = document.querySelectorAll(".sidebar ul li");
         console.log(dashItems);
         dashItems.forEach(item => {
@@ -768,9 +790,7 @@ function pagenationNumber($rows)
         initImagePreview("updatePhoto", "photoPreview");
 
         <?php
-        if (isset($_GET['logout'])) {
-            echo "showTab('logout');";
-        }
+
         ?>
 
         function handleSuccessMessages() {
@@ -903,10 +923,14 @@ function pagenationNumber($rows)
             echo "createEventCard(eventData);";
         }
 
-        echo 'selectedPage(1)';
+        if (isset($_GET['logout'])) {
+            echo "showTab('logout');";
+        }
         ?>
 
     </script>
 </body>
+<?php
+?>
 
 </html>
