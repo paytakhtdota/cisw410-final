@@ -573,6 +573,19 @@ function pagenationNumber($rows)
             color: rgb(255, 255, 255);
             box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
         }
+
+        .dialog-box-container {
+            display: none;
+            box-sizing: border-box;
+            position: fixed;
+            left: 0;
+            top: 0;
+            min-width: 100%;
+            min-height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: grayscale(100%);
+            z-index: 999;
+        }
     </style>
     <script>
         function selectedPage(pageNum) {
@@ -985,6 +998,7 @@ function pagenationNumber($rows)
         ?>
 
     </script>
+
 </body>
 <?php
 ?>

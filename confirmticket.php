@@ -489,7 +489,7 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
         <ul class="selected-seats-info">
             <li>Your Ticket(s):</li>
             <li class="ticket-list" id="ticket-list-li">
-                <div class="ticket-container">
+                <!-- <div class="ticket-container">
                     <div class="ticket-card">
                         <div class="ticket-title-container">Music Festival</div>
                         <div class="ticket-info-container">
@@ -514,7 +514,7 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
                         <span class="left-corner"></span>
                         <span class="right-corner"></span>
                     </div>
-                </div>
+                </div> -->
             </li>
             <li></li>
 

@@ -7,6 +7,7 @@
         <a href="admin.php">Admin Panel</a>
     </div>
     <div class="right-side">
+        <button id="searchBTN" ><i class="fa-solid fa-magnifying-glass"></i></button>
         <?php
         if (!isset($_SESSION['user_data'])) {
             echo '<a class="signin-up" href="user-login-form.php?signup=true">Sign Up</a>
@@ -16,7 +17,6 @@
         <a class="signin-up" href="user-dash.php?logout=1">Sign Out</a>';
         }
         ?>
-
     </div>
     <script>
         const myLogo = document.getElementById("mylogo");
@@ -26,5 +26,6 @@
         myLogo.addEventListener("mouseleave", function () {
             myLogo.src = "public/images/logo2.png";
         });
+
     </script>
 </nav>
