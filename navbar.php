@@ -2,7 +2,7 @@
     <div class="left-side">
         <a href="#"><img id="mylogo" src="public/images/logo2.png" alt="logo"></a>
         <a href="index.php">Home</a>
-        <a href="#">Reservation</a>
+        <a href="eventslist.php">Events</a>
         <a href="contact.php">Contact</a>
         <a href="admin.php">Admin Panel</a>
     </div>

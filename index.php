@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once("connection.php");
-$eventsQuery = $pdo->prepare("SELECT * FROM events");
+$eventsQuery = $pdo->prepare("SELECT * FROM events LIMIT 7");
 $eventsQuery->execute();
 $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
 
