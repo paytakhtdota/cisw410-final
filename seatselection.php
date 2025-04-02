@@ -519,7 +519,7 @@ if (!isset($_SESSION['user_data'])) {
 
                 const rowLabelRight = rowLabelLeft.cloneNode(true);
 
-              
+
                 const seatGroupContainer = document.createElement("div");
                 seatGroupContainer.classList.add("seat-group-container");
 
@@ -627,7 +627,7 @@ if (!isset($_SESSION['user_data'])) {
             });
 
             if (Object.keys(seatsIDs).length > 0) {
-             
+
                 const form = document.createElement("form");
                 form.method = "POST";
                 form.action = "confirmticket.php?event_id=<?php echo $event['id_event'] ?>";
@@ -635,17 +635,18 @@ if (!isset($_SESSION['user_data'])) {
                 for (const [seatID, seatName] of Object.entries(seatsIDs)) {
                     const inputID = document.createElement("input");
                     inputID.type = "hidden";
-                    inputID.name = `seats[${seatID}]`; 
+                    inputID.name = `seats[${seatID}]`;
                     inputID.value = seatName;
                     form.appendChild(inputID);
                 }
 
                 document.body.appendChild(form);
-                form.submit(); 
+                form.submit();
             } else {
                 console.warn("No valid seat IDs to send.");
             }
         }
+
 
         generateSeats();
         addEventListenerToSeats();

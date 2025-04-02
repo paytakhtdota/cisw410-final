@@ -222,6 +222,7 @@ if ($eventId > 0) {
                 echo "};";
             }
             ?>
+            
         </script>
         <?php include("footer.php");
         ?>

@@ -44,14 +44,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
 
     </section>
 
-    <section class="dialog-box-container" id="dialogBoxContain">
-        <div class="dialog-box">
-            <form action="searchProcess.php" method="POST" id="indexSearchForm">
-                <input type="text" class="search-input" name="searchInput" id="searchInput" placeholder="Tite of the event"><input type="submit" name="searchSubmit" id="searchSubmit" value="Search">
-           </form>
-            <span id="closeSearch">Close X</span>
-        </div>
-    </section>
+
 
     <footer>
         <?php include("footer.php");
@@ -125,14 +118,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
             }
         }
 
-        document.getElementById("searchBTN").addEventListener('click', ()=>{
-            document.getElementById("dialogBoxContain").style.display = "block";
-        });
-
-        document.getElementById("closeSearch").addEventListener('click', ()=>{
-            document.getElementById("dialogBoxContain").style.display = "none";
-        });
-
+      
         const timerInterval = setInterval(updateCounter, 1000);
 
 

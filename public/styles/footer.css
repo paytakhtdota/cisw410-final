@@ -85,26 +85,26 @@ footer a:hover{
   line-height: 1.7;
 }
 
-footer input,
-footer button {
+.forth-column input,
+.forth-column button {
   width: 100%;
   border-radius: 7px;
   height: 60px;
   margin-bottom: 10px;
 }
 
-footer input {
+.forth-column input {
   padding: 5px 5px 0 25px;
   font-size: 18px;
 }
 
-footer input::placeholder {
+.forth-column input::placeholder {
   font-size: 18px;
   letter-spacing: 1px;
   font-weight: 300;
 }
 
-footer button {
+.forth-column button {
   font-size: 18px;
   background-color: #B8860B;
   color: #ffffff;

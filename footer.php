@@ -1,3 +1,11 @@
+<section class="dialog-box-container" id="dialogBoxContain">
+        <div class="dialog-box">
+            <form action="searchProcess.php" method="POST" id="indexSearchForm">
+                <input type="text" class="search-input" name="searchInput" id="searchInput" placeholder="Tite of the event"><input type="submit" name="searchSubmit" id="searchSubmit" value="Search">
+           </form>
+            <span id="closeSearch">Close X</span>
+        </div>
+    </section>
 <div class="footer-main-container">
   <div class="first-column">
     <ul>
@@ -57,3 +65,4 @@
   </ul>
   <p>Copyright © 2025 <i class="letsdesign">Lets Design</i></p>
 </div>
+<script src="public/js/main.js"></script>

@@ -127,7 +127,7 @@ nav {
     min-width: 36px;
     min-height: 36px;
     width: 36px;
-    height: 36px;
+    height: 36px !important;
     background-color: transparent;
     color: #B8860B;
     font-size: 20px;
