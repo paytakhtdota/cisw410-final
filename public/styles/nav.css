@@ -93,7 +93,7 @@ nav {
     min-width: 64px;
     outline: none;
     overflow: visible;
-    padding: 0 20px;
+    padding: 0 14px;
     position: relative;
     text-align: center;
     text-decoration: none;
@@ -135,6 +135,7 @@ nav {
     border: 2px solid #B8860B;
     border-radius: 50%;
     transition: all 0.3s;
+    margin-right: 15px;
 }
 
 #searchBTN:hover{

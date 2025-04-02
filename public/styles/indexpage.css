@@ -153,6 +153,8 @@
 
 #indexSearchForm {
     width: 70%;
+    max-width: 999px;
+    min-width: 460px;
     border: 2px solid #B8860B;
     position: absolute;
     top: 50%;

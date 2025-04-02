@@ -27,10 +27,6 @@ if (!isset($_SESSION['user_data'])) {
     echo '<script>console.log(' . $totalRows . ')</script>';
 
 
-
-
-
-
     if (isset($_GET['pageNumber'])) {
         $pgs = (int) $_GET['pageNumber'];
         $start = ($pgs - 1) * 10;

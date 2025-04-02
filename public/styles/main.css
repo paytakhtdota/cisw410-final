@@ -30,3 +30,7 @@ li {
     height: 100vh;
 }
 
+i.bold{
+    font-weight: 600;
+    font-style: normal;
+}
