@@ -36,14 +36,15 @@ function signinAction()
 
         } else {
             header("Location: user-login-form.php?signin=true&emailorpass=true");
-                echo '<script>alert ("Email or Password is wrong.")</script>';
+            echo '<script>alert ("Email or Password is wrong.")</script>';
 
         }
 
 
     } else {
         // redirect to fix error(s)
-        echo 'Fill all fields';
+        header('Location: error.php');
+        exit();
     }
 }
 
@@ -112,10 +113,11 @@ if (isset($_POST['username-signin']) && trim($_POST['username-signin']) != '') {
     signinAction();
 } elseif (isset($_POST['email-signup']) && trim($_POST['email-signup']) != '') {
     singupAction();
-} elseif (isset($_POST['leave'])){
+} elseif (isset($_POST['leave'])) {
     session_destroy();
     header("Location: index.php");
     exit();
 } else {
-    echo 'something is wrong';
+    header('Location: error.php');
+        exit();
 }

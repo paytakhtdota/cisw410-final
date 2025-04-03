@@ -4,7 +4,7 @@
         <a href="index.php">Home</a>
         <a href="eventslist.php">Events</a>
         <a href="contact.php">Contact</a>
-        <a href="admin.php">Admin Panel</a>
+        <a href="adminlf.php">Admin Panel</a>
     </div>
     <div class="right-side">
         <button id="searchBTN" ><i class="fa-solid fa-magnifying-glass"></i></button>

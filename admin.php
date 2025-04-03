@@ -1,23 +1,34 @@
 <?php
-require_once("connection.php");
+session_start();
+if (!isset($_SESSION['admin_data'])) {
+    header("Location: adminlf.php?msg=0");
+    exit();
+} else {
+    if (isset($_GET['msg'])) {
+        echo '<script>setTimeout(function() {';
+        echo 'alert("' . $_GET["msg"] . '");';
+        echo '}, 200);</script>';
+    }
 
-$usersQuery = $pdo->prepare("SELECT * FROM users");
-$usersQuery->execute();
-$users = $usersQuery->fetchAll(PDO::FETCH_ASSOC);
+    require_once("connection.php");
 
-$ticketsQuery = $pdo->prepare("SELECT * FROM tickets");
-$ticketsQuery->execute();
-$tickets = $ticketsQuery->fetchAll(PDO::FETCH_ASSOC);
+    $usersQuery = $pdo->prepare("SELECT * FROM users");
+    $usersQuery->execute();
+    $users = $usersQuery->fetchAll(PDO::FETCH_ASSOC);
 
-$eventsQuery = $pdo->prepare("SELECT events.*, address.*
+    $ticketsQuery = $pdo->prepare("SELECT * FROM tickets");
+    $ticketsQuery->execute();
+    $tickets = $ticketsQuery->fetchAll(PDO::FETCH_ASSOC);
+
+    $eventsQuery = $pdo->prepare("SELECT events.*, address.*
     FROM events
     JOIN address ON events.location_id = address.location_id
 ");
-$eventsQuery->execute();
-$events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
+    $eventsQuery->execute();
+    $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
 
 
-
+}
 ?>
 
 <!DOCTYPE html>
@@ -1134,7 +1145,7 @@ $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
                         <form action="config.php" method="POST">
                             <input type='hidden' name='delAdminUserID' value='<?php echo $_POST['deleteAdmin']; ?>'>
                             <input class="cancelUpdate" type="submit" value="Remove">
-                            <button class="cancelUpdate" type="button" >Cancle</button>
+                            <button class="cancelUpdate" type="button">Cancle</button>
                         </form>
                     </div>
                 </div>

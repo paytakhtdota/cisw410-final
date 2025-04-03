@@ -434,5 +434,6 @@ if (isset($_POST['emailAdmin'])) {
 } elseif (isset($_POST['delEventID'])) {
     delEvent($_POST['delEventID']);
 } else {
-    echo "Error";
+    header("Location: index.php");
+    exit();
 }

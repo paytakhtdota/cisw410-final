@@ -1,3 +1,45 @@
+<?php
+
+if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST["Login"] == "Log in") {
+  if (isset($_POST["password"]) && isset($_POST["email"])) {
+    $email = trim($_POST["email"]);
+    $pass = trim($_POST["password"]);
+
+    require_once("connection.php");
+
+    $quiry = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+    $quiry->execute([":email" => $email]);
+    if ($quiry->rowCount() > 0) {
+      $adminData = $quiry->fetch(PDO::FETCH_ASSOC);
+      if (password_verify($pass, $adminData['password']) && (3 <= $adminData['privilege_level'])) {
+        session_start();
+        $_SESSION['admin_data'] = $adminData;
+        header('Location: admin.php?msg=login');
+        exit();
+      } else {
+        $msg = urlencode("Invalid E-mail or password");
+        header("Location: adminlf.php?msg=" . $msg);
+        exit();
+      }
+
+    } else {
+      $msg = urlencode("Invalid E-mail or password");
+      header("Location: adminlf.php?msg=" . $msg);
+      exit();
+
+    }
+  }
+}
+
+if (isset($_GET['msg'])) {
+  echo '<script>setTimeout(function() {';
+  echo 'alert("' . $_GET["msg"] . '");';
+  echo '}, 200);</script>';
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,22 +116,24 @@
       outline: none;
     }
 
-    .login-forgot-pass , .back-home{
+    .login-forgot-pass,
+    .back-home {
       display: flex;
       margin: 0 auto;
-      color:rgb(193, 193, 193);
+      color: rgb(193, 193, 193);
       font-size: 125%;
       opacity: 0.8;
-      padding: 10px 5px 25px 5px ;
+      padding: 10px 5px 25px 5px;
       text-align: center;
       text-decoration: none;
       max-width: fit-content;
       transition: all 0.3s ease-out;
     }
 
-    .login-forgot-pass:hover , .back-home:hover{
+    .login-forgot-pass:hover,
+    .back-home:hover {
       cursor: pointer;
-      color:rgb(255, 255, 255);
+      color: rgb(255, 255, 255);
       opacity: 1;
     }
 
@@ -144,23 +188,22 @@
       color: #B8860B;
     }
 
-    .fa-arrow-left{
+    .fa-arrow-left {
       margin: 3px 5px 0 5px;
       font-size: 18px;
       transition: all 0.3s ease-out;
     }
 
-    .back-home:hover > .fa-arrow-left{
+    .back-home:hover>.fa-arrow-left {
       margin: 3px 10px 0 0;
     }
-    
   </style>
 </head>
 
 <body>
   <div id="layout-adj">
     <div id="form-container">
-      <form class="login-form" action="" method="POST">
+      <form class="login-form" action="adminlf.php" method="POST">
         <p class="login-text">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle fa-stack-2x"></i>
@@ -170,15 +213,19 @@
         </p>
         <label for="email">E-mail</label>
         <input name="email" type="email" class="login-username" autofocus="true" required="true" placeholder="Email" />
-        <label for="password">E-mail</label>
+        <label for="password">Password</label>
         <input name="password" type="password" class="login-password" required="true" placeholder="Password" />
-        <input type="submit" name="Login" value="Login" class="login-submit" />
+        <input type="submit" name="Login" value="Log in" class="login-submit" />
       </form>
       <a href="#" class="login-forgot-pass">Forgot password?</a>
       <a href="index.php" class="back-home"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
     </div>
 
   </div>
+
+  <script>
+    setTimeout
+  </script>
 
 </body>
 
