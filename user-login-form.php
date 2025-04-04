@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="w-100">
                                         <p class="social-media d-flex justify-content-end">
-                                            
+
                                         </p>
                                     </div>
                                 </div>
@@ -196,6 +196,13 @@
         document.getElementById("signin-link").addEventListener("click", function () {
             document.getElementById("singin-form-container").style.display = "block"; document.getElementById("singup-form-container").style.display = "none";
         });
+        <?php
+        if (isset($_GET["message"])) {
+           echo "setTimeout(function(){
+                alert('".htmlspecialchars(urldecode($_GET["message"]))."');},200);";
+        }
+        ?>
+        
     </script>
 </body>
 
