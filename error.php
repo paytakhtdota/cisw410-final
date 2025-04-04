@@ -13,51 +13,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error Page</title>
     <style>
-        body{
+        body {
             background-color: #f1f1f0;
         }
-#screen{
-    min-height: 100vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column  ;
-    padding-top:110px;
-    box-sizing: border-box;
-}
 
-#screen h2{
-    line-height: 0.5;
-    padding-bottom: 25px;
-    font-family: "Poppins";
-}
+        #screen {
+            min-height: 100vh;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
+            padding-top: 110px;
+            box-sizing: border-box;
+        }
 
-h2 a{
-    color:rgb(64, 153, 255);
-    transition: all 0.2s;
-    margin-bottom: 60px;
-   }
+        #screen h2 {
+            line-height: 0.5;
+            padding-bottom: 25px;
+            font-family: "Poppins";
+        }
 
-h2 a:visited{
-    color:rgb(64, 153, 255);
-}
+        h2 a {
+            color: rgb(64, 153, 255);
+            transition: all 0.2s;
+            margin-bottom: 60px;
+        }
 
-h2 a:hover{
-    color: #b8860b;
-}
+        h2 a:visited {
+            color: rgb(64, 153, 255);
+        }
 
-#section-1{
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-width: 800px;
-height: 600px;
-background-image: url("public/images/error.gif");
-background-size: cover;
-background-position: center;
-border-radius: 10px;
-}
+        h2 a:hover {
+            color: #b8860b;
+        }
 
+        #section-1 {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            width: 800px;
+            height: 600px;
+            background-image: url("public/images/error.gif");
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+        }
     </style>
 </head>
 
@@ -67,9 +67,9 @@ border-radius: 10px;
     ?>
     <div id="screen">
         <div id="section-1">
-        <h2>Please return to <a href="index.php">Home Page</a></h2>
+            <h2>Please return to <a href="index.php">Home Page</a></h2>
         </div>
-       
+
         <footer>
             <?php
             include("footer.php");
@@ -79,3 +79,10 @@ border-radius: 10px;
 </body>
 
 </html>
+
+<?php
+if (isset($_GET["msg"])) {
+    echo "setTimeout(function(){
+                alert('" . htmlspecialchars(urldecode($_GET["msg"])) . "');},200);";
+}
+?>

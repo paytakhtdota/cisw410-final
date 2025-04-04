@@ -31,12 +31,12 @@ function signinAction()
                 exit();
             } else {
                 header("Location: user-login-form.php?signin=true&emailorpass=true");
-                echo '<script>alert ("Email or Password is wrong")</script>';
+                exit();
             }
 
         } else {
             header("Location: user-login-form.php?signin=true&emailorpass=true");
-            echo '<script>alert ("Email or Password is wrong.")</script>';
+            exit();
 
         }
 
@@ -94,7 +94,10 @@ function singupAction()
 
     } else {
         // redirect to fix error(s) 
-        echo 'Error on the form';
+        $message = urlencode("Password and Confirm-Pass are not match!");
+        $url = "user-login-form.php?signup=true&msg=" . $message;
+        header("Location: " . $url);
+        exit();
     }
 }
 

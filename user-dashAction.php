@@ -11,7 +11,7 @@ function updateUserInfo($dataArray)
         }
     }
 
-   
+
 
     if (empty($error)) {
         try {
@@ -45,7 +45,7 @@ function updateUserInfo($dataArray)
 function updatePhoto()
 {
 
-    if($_FILES["updatePhoto"]["error"] === UPLOAD_ERR_NO_FILE){
+    if ($_FILES["updatePhoto"]["error"] === UPLOAD_ERR_NO_FILE) {
         header("Location: user-dash.php?successUpUser=6");
         exit();
     }
@@ -80,11 +80,16 @@ function updatePhoto()
             exit();
 
         } catch (PDOException $e) {
-            die('Query Faild:' . $e->getMessage());
+            
+            exit();
+            $message = urlencode($e->getMessage());
+            $url = "error.php&msg=" . $message;
+            header("Location: " . $url);
+            exit();
         }
     } else {
         header("Location: user-dash.php?successUpUser=2");
-            exit();
+        exit();
     }
 }
 

@@ -197,9 +197,9 @@
             document.getElementById("singin-form-container").style.display = "block"; document.getElementById("singup-form-container").style.display = "none";
         });
         <?php
-        if (isset($_GET["message"])) {
+        if (isset($_GET["msg"])) {
            echo "setTimeout(function(){
-                alert('".htmlspecialchars(urldecode($_GET["message"]))."');},200);";
+                alert('".htmlspecialchars(urldecode($_GET["msg"]))."');},200);";
         }
         ?>
         
