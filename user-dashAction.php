@@ -80,8 +80,7 @@ function updatePhoto()
             exit();
 
         } catch (PDOException $e) {
-            
-            exit();
+
             $message = urlencode($e->getMessage());
             $url = "error.php&msg=" . $message;
             header("Location: " . $url);
@@ -92,7 +91,6 @@ function updatePhoto()
         exit();
     }
 }
-
 
 if (isset($_POST['updateUserSubmit'])) {
     $data_up['userIDUpdate'] = trim($_POST['userIDUpdate']);
