@@ -1,5 +1,5 @@
 <?php
-
+include("func.php");
 if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST["Login"] == "Log in") {
   if (isset($_POST["password"]) && isset($_POST["email"])) {
     $email = trim($_POST["email"]);
@@ -31,11 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST["Login"] == "Log in") {
   }
 }
 
-if (isset($_GET['msg'])) {
-  echo '<script>setTimeout(function() {';
-  echo 'alert("' . $_GET["msg"] . '");';
-  echo '}, 200);</script>';
-}
+echo_msg();
 
 
 ?>

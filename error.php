@@ -73,16 +73,11 @@
         <footer>
             <?php
             include("footer.php");
+            include_once("func.php");
+            echo_msg();
             ?>
         </footer>
     </div>
 </body>
 
 </html>
-
-<?php
-if (isset($_GET["msg"])) {
-    echo "setTimeout(function(){
-                alert('" . htmlspecialchars(urldecode($_GET["msg"])) . "');},200);";
-}
-?>

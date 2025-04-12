@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+include_once("func.php");
 function signinAction()
 {
     $error = array();
@@ -101,15 +103,7 @@ function singupAction()
     }
 }
 
-function logout()
-{
-    session_start();
-    session_unset();
-    session_destroy();
 
-    header("Location: index.php");
-    exit();
-}
 
 
 if (isset($_POST['username-signin']) && trim($_POST['username-signin']) != '') {
@@ -117,9 +111,7 @@ if (isset($_POST['username-signin']) && trim($_POST['username-signin']) != '') {
 } elseif (isset($_POST['email-signup']) && trim($_POST['email-signup']) != '') {
     singupAction();
 } elseif (isset($_POST['leave'])) {
-    session_destroy();
-    header("Location: index.php");
-    exit();
+    logout();
 } else {
     header('Location: error.php');
         exit();

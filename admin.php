@@ -1,14 +1,12 @@
 <?php
 session_start();
+include("func.php");
 if (!isset($_SESSION['admin_data'])) {
     header("Location: adminlf.php?msg=0");
     exit();
 } else {
-    if (isset($_GET['msg'])) {
-        echo '<script>setTimeout(function() {';
-        echo 'alert("' . $_GET["msg"] . '");';
-        echo '}, 200);</script>';
-    }
+    echo_msg();
+}
 
     require_once("connection.php");
 
@@ -28,7 +26,7 @@ if (!isset($_SESSION['admin_data'])) {
     $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
 
 
-}
+
 ?>
 
 <!DOCTYPE html>

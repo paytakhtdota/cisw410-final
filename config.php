@@ -1,5 +1,4 @@
 <?php
-
 function addNewAdmin($data_aa)
 {
     $error = array();
