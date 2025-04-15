@@ -531,7 +531,7 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
         <div class="BTN-container">
             <a href="eventdetails.php?event_id=<?php echo $event['id_event'] ?>"><button><i
                         class="fa-solid fa-arrow-left"></i> Back</button></a>
-            <a href=""> <button>Next <i class="fa-solid fa-arrow-right"></i></button></a>
+            <a onclick="submitHiddenForm()"> <button >Next <i class="fa-solid fa-arrow-right"></i></button></a>
         </div>
     </div>
 
@@ -548,7 +548,8 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
         </div>
     </section>
 
-    <form class="hidden-form" id="ticketHiddenForm">
+    <form class="hidden-form" id="ticketHiddenForm" action="ticketprocess.php" method="POST">
+        <input type="text" name="ticketList" value="sat">
     </form>
 
     <footer>
@@ -563,10 +564,10 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
             const container = document.getElementById("ticketHiddenForm");
             const fieldset = document.createElement("fieldset");
             fieldset.innerHTML = `
-            <input type="text" name="ticket[${id_seat}][guest_name]" value="${guestName}">
-            <input type="number" name="ticket[${id_seat}][id_user]" value="${id_usr}">
-            <input type="number" name="ticket[${id_seat}][id_event]" value="${id_vnt}">
-            <input type="number" name="ticket[${id_seat}][id_seat]" value="${id_seat}">
+            <input type="text" name="ticket[${i}][guest_name]" value="${guestName}">
+            <input type="number" name="ticket[${i}][id_user]" value="${id_usr}">
+            <input type="number" name="ticket[${i}][id_event]" value="${id_vnt}">
+            <input type="number" name="ticket[${i}][id_seat]" value="${id_seat}">
             `;
             container.appendChild(fieldset);
         }
@@ -691,6 +692,13 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
             input.value = guestName;
         }
 
+        function submitHiddenForm() {
+            let fieldsetArr = document.querySelectorAll("#ticketHiddenForm fieldset");
+            if (fieldsetArr.length > 0) {
+                document.getElementById("ticketHiddenForm").submit();
+            }
+        }
+
         <?php
         $ticketsArr = [];
         $i = 0;
@@ -701,6 +709,8 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
             echo "addInputField('" . $fullName . "','" . $_SESSION['user_data']['id_user'] . "','" . $_GET['event_id'] . "','" . $seatID . "','" . $i . "');\n";
             $i++;
         } ?>
+
+
 
     </script>
 </body>

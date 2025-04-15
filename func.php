@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 function logout()
 {
@@ -10,7 +10,8 @@ function logout()
     exit();
 }
 
-function echo_msg(){
+function echo_msg()
+{
     if (isset($_GET["msg"])) {
         $msg = htmlspecialchars(urldecode($_GET["msg"]), ENT_QUOTES, 'UTF-8');
         echo '<script>
@@ -20,3 +21,10 @@ function echo_msg(){
         </script>';
     }
 }
+
+function redirectToErrorPage($msg)
+{
+    $url = "error.php&msg=" . urlencode($msg);
+    header("Location: " . $url);
+}
+;
