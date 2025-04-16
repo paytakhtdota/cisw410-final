@@ -795,16 +795,17 @@ function pagenationNumber($rows)
     </footer>
     <script>
 
-
-        let dashItems = document.querySelectorAll(".sidebar ul li");
-        console.log(dashItems);
-        dashItems.forEach(item => {
-            item.addEventListener("click", function (e) {
-                dashItems.forEach(i => i.classList.remove("selected"));
-                e.target.classList.add("selected");
+        function selectSidebarEle() {
+            let dashItems = document.querySelectorAll(".sidebar ul li");
+            dashItems.forEach(item => {
+                item.addEventListener("click", function (e) {
+                    dashItems.forEach(i => i.classList.remove("selected"));
+                    e.target.classList.add("selected");
+                });
             });
-        });
+        }
 
+        selectSidebarEle();
         function toggleList(key) {
             if (key == 1) {
                 document.querySelector("#home .dash-cards").style.display = "none";
@@ -984,6 +985,13 @@ function pagenationNumber($rows)
 
         if (isset($_GET['logout'])) {
             echo "showTab('logout');";
+        }
+
+        if (isset($_GET['tickets'])) {
+            echo "showTab('tickets');";
+            echo 'let dashItems = document.querySelectorAll(".sidebar ul li");';
+            echo 'dashItems.forEach(i => i.classList.remove("selected"));';
+            echo 'document.getElementById("ticketsli").classList.add("selected");';
         }
 
         if (isset($_POST['search-submit'])) {

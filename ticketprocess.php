@@ -1,20 +1,20 @@
 <?php
 session_start();
 include("func.php");
+
 if (!isset($_SESSION['user_data'])) {
     header("Location: index.php");
     exit();
 } else {
     echo_msg();
-    echo "OK!";
 }
 
 
-function InsertTicket($guestName,$idUser,$idEvent,$idSeat){
-    require_once("connection.php");
+function InsertTicket($guestName, $idUser, $idEvent, $idSeat)
+{
+    include("connection.php");
     try {
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $upQuery = $pdo->prepare("INSERT INTO address(guest_name, id_seat, id_event, id_user) VALUES (:guest_name,:id_seat,:id_event,:id_user)");
+        $upQuery = $pdo->prepare("INSERT INTO tickets(guest_name, id_seat, id_event, id_user) VALUES (:guest_name,:id_seat,:id_event,:id_user)");
         if (
             $upQuery->execute([
                 ":guest_name" => $guestName,
@@ -23,9 +23,11 @@ function InsertTicket($guestName,$idUser,$idEvent,$idSeat){
                 ":id_user" => $idUser
             ])
         ) {
-            echo "<script>Ticket added Successfuly!</script>";
+            header("Location: user-dash.php?tickets=true");
+            exit();
         } else {
-            echo "<script>Ticket insert failed!</script>";
+            $msg = "fail: to insert date into database";
+            redirectToErrorPage($msg);
         }
 
     } catch (PDOException $e) {
@@ -45,8 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $idEvent = isset($seatData['id_event']) ? $seatData['id_event'] : '';
             $idSeat = isset($seatData['id_seat']) ? $seatData['id_seat'] : '';
 
-            InsertTicket($guestName,$idUser,$idEvent,$idSeat);            
+            InsertTicket($guestName, $idUser, $idEvent, $idSeat);
         }
+        // header("Location: user-dash.php");
+
     } else {
         redirectToErrorPage("Sorry! It seems something wrong; Plese try again later!");
     }

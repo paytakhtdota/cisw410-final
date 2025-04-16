@@ -17,9 +17,18 @@ if (!isset($_SESSION['user_data'])) {
         $eventsQuery->bindParam(':event_id', $eventId, PDO::PARAM_INT);
         $eventsQuery->execute();
         $event = $eventsQuery->fetch(PDO::FETCH_ASSOC);
-        if ($event['id_event'] != $eventId) {
+
+        if (!$event) {
             header("Location: error.php");
+            exit();
         }
+
+        $seatResQuery = $pdo->prepare("SELECT * FROM tickets WHERE id_event = :event_id");
+        $seatResQuery->bindParam(':event_id', $eventId, PDO::PARAM_INT);
+        $seatResQuery->execute();
+        $reservedSeats = $seatResQuery->fetchAll(PDO::FETCH_ASSOC);
+
+
     } else {
         header("Location: error.php");
     }
@@ -427,11 +436,11 @@ if (!isset($_SESSION['user_data'])) {
         <div class="sample-icons">
             <ul class="seat-group sam-ico">
                 <li class="sam-lab"> Available </li>
-                <li class="seat" id="12">1</li>
+                <li class="seat" id="1200">1</li>
                 <li class="sam-lab"> Select </li>
-                <li class="seat-selected" id="14">2</li>
+                <li class="seat-selected" id="1400">2</li>
                 <li class="sam-lab"> Reserved </li>
-                <li class="seat-reserved" id="15">R</li>
+                <li class="seat-reserved" id="1500">R</li>
             </ul>
 
         </div>
@@ -554,7 +563,7 @@ if (!isset($_SESSION['user_data'])) {
         }
 
         function addEventListenerToSeats() {
-            const allSeats = document.querySelectorAll(".seat-group li");
+            const allSeats = document.querySelectorAll(".seat-group li.seat");
 
             allSeats.forEach((seat) => {
                 seat.addEventListener("click", (e) => {
@@ -647,8 +656,19 @@ if (!isset($_SESSION['user_data'])) {
             }
         }
 
+        function reservedSeats(seat) {
+            document.getElementById(`${seat}`).classList.replace("seat", "seat-reserved");
+        }
 
         generateSeats();
+        <?php
+
+        foreach ($reservedSeats as $ticket) {
+            echo "reservedSeats(" . $ticket['id_seat'] . ");";
+        }
+
+        ?>
+
         addEventListenerToSeats();
 
     </script>
