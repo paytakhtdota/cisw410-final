@@ -531,7 +531,7 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
         <div class="BTN-container">
             <a href="eventdetails.php?event_id=<?php echo $event['id_event'] ?>"><button><i
                         class="fa-solid fa-arrow-left"></i> Back</button></a>
-            <a onclick="submitHiddenForm()"> <button >Next <i class="fa-solid fa-arrow-right"></i></button></a>
+            <a onclick="submitHiddenForm()"> <button>Next <i class="fa-solid fa-arrow-right"></i></button></a>
         </div>
     </div>
 
@@ -560,19 +560,20 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
 
     <script>
 
-        function addInputField(guestName, id_usr, id_vnt, id_seat, i) {
+        function addInputField(guestName, id_usr, id_vnt, id_seat, i, seatName) {
             const container = document.getElementById("ticketHiddenForm");
             const fieldset = document.createElement("fieldset");
             fieldset.innerHTML = `
-            <input type="text" name="ticket[${i}][guest_name]" value="${guestName}">
+            <input type="text" id="gNameF${i}" name="ticket[${i}][guest_name]" value="${guestName}">
             <input type="number" name="ticket[${i}][id_user]" value="${id_usr}">
             <input type="number" name="ticket[${i}][id_event]" value="${id_vnt}">
             <input type="number" name="ticket[${i}][id_seat]" value="${id_seat}">
+            <input type="text" name="ticket[${i}][seat_name]" value="${seatName}">
             `;
             container.appendChild(fieldset);
         }
 
-        function createTicket(guestName, date, name, seatSelectedID, seatName) {
+        function createTicket(guestName, date, name, seatSelectedID, seatName, i) {
 
             const ticketListItem = document.getElementById("ticket-list-li");
 
@@ -605,7 +606,7 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
             seatIcon.alt = "Seat-Icon";
 
             const ticketDetails = [
-                { label: `<i>Guest Name</i><button onclick='dialogBoxSwitch(1,this)' class='link-style-btn' data-id='${seatSelectedID}'>Edit <i class='fa-solid fa-pencil'></i></button>`, value: guestName },
+                { label: `<i>Guest Name</i><button onclick='dialogBoxSwitch(1,this, ${i})' class='link-style-btn' data-id='${seatSelectedID}'>Edit <i class='fa-solid fa-pencil'></i></button>`, value: guestName },
                 { label: "Date and Time:", value: date },
                 { label: "Event:", value: name }
             ];
@@ -660,35 +661,13 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
 
             ticketListItem.appendChild(ticketContainer);
         }
-        let dataIdValue;
-        function dialogBoxSwitch(key, element) {
-            const diaBox = document.getElementById("dialogBoxContain");
-            dataIdValue = element.getAttribute("data-id");
-            if (key == 1) {
-                diaBox.style.display = "block";
-                document.documentElement.style.overflow = "hidden";
-                document.body.style.overflow = "hidden";
-                document.getElementById('updateNameBTN').setAttribute("data-id", dataIdValue);
-                document.getElementById('nameInPut').setAttribute("data-id", dataIdValue);
-                console.log(dataIdValue);
-            } else if (key == 2) {
-                diaBox.style.display = "none";
-                document.documentElement.style.overflow = "auto";
-                document.body.style.overflow = "auto";
-            } else if (key == 3) {
-                let guestNameInput = document.getElementById("nameInPut").value;
-                printName(dataIdValue, guestNameInput);
-                document.getElementById("nameInPut").value = "";
-                diaBox.style.display = "none";
-                document.documentElement.style.overflow = "auto";
-                document.body.style.overflow = "auto";
-            }
-        }
 
-        function printName(elementID, guestName) {
+
+        let dataIdValue;
+        function printName(elementID, guestName,i) {
             let element = document.querySelector(`[data-id2='${elementID}']`);
             element.textContent = guestName;
-            const input = document.querySelector(`[name="ticket[${elementID}][guest_name]"]`);
+            let input = document.getElementById(`gNameF${i}`);
             input.value = guestName;
         }
 
@@ -699,14 +678,42 @@ $dateForEcho = $date->format("F jS") . " start at " . $time->format('g:i a');
             }
         }
 
+
+        function dialogBoxSwitch(key, element, i) {
+            const diaBox = document.getElementById("dialogBoxContain");
+            dataIdValue = element.getAttribute("data-id");
+            if (key == 1) {
+                diaBox.style.display = "block";
+                document.documentElement.style.overflow = "hidden";
+                document.body.style.overflow = "hidden";
+                document.getElementById('updateNameBTN').setAttribute("data-id", dataIdValue);
+                document.getElementById('updateNameBTN').setAttribute("data-id3", i);
+                document.getElementById('nameInPut').setAttribute("data-id", dataIdValue);
+            } else if (key == 2) {
+                diaBox.style.display = "none";
+                document.documentElement.style.overflow = "auto";
+                document.body.style.overflow = "auto";
+            } else if (key == 3) {
+                let guestNameInput = document.getElementById("nameInPut").value;
+                dataId3Value = element.getAttribute("data-id3");
+                printName(dataIdValue, guestNameInput, dataId3Value);
+                document.documentElement.style.overflow = "auto";
+                document.body.style.overflow = "auto";
+                document.getElementById("nameInPut").value = "";
+                diaBox.style.display = "none";
+            }
+        }
+
+
+
         <?php
         $ticketsArr = [];
         $i = 0;
         foreach ($seats as $seatID => $seatIndex) {
 
-            echo "createTicket('" . $userSession['fname'] . " " . $userSession['lname'] . "', '" . $dateForEcho . "', '" . $event['name'] . "', '" . $seatID . "', '" . $seatIndex . "');";
+            echo "createTicket('" . $userSession['fname'] . " " . $userSession['lname'] . "', '" . $dateForEcho . "', '" . $event['name'] . "', '" . $seatID . "', '" . $seatIndex . "','" . $i . "');";
             $fullName = $userSession['fname'] . " " . $userSession['lname'];
-            echo "addInputField('" . $fullName . "','" . $_SESSION['user_data']['id_user'] . "','" . $_GET['event_id'] . "','" . $seatID . "','" . $i . "');\n";
+            echo "addInputField('" . $fullName . "','" . $_SESSION['user_data']['id_user'] . "','" . $_GET['event_id'] . "','" . $seatID . "','" . $i . "', '" . $seatIndex . "');\n";
             $i++;
         } ?>
 

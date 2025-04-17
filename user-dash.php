@@ -1,5 +1,6 @@
 <?php
 session_start();
+include("func.php");
 
 // login check
 if (!isset($_SESSION['user_data'])) {
@@ -40,6 +41,24 @@ if (!isset($_SESSION['user_data'])) {
         $eventsQuery->bindValue(':search', '%' . $search . '%');
         $eventsQuery->execute();
         $events = $eventsQuery->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getAllTickets()
+    {
+        require_once("connection.php");
+        global $pdo;
+        $tempData = $_SESSION['user_data'];
+        // $quiry = $pdo->prepare("SELECT * FROM tickets WHERE id_user=:id_user");
+        $quiry = $pdo->prepare("SELECT tickets.*, events.* FROM tickets JOIN events ON tickets.id_event = events.id_event WHERE tickets.id_user = :id_user ");
+        $quiry->execute([":id_user" => $tempData['id_user']]);
+        $userData = $quiry->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($userData as $key => $value) {
+            $date = new DateTime($value['date']);
+            $time = new DateTime($value['start_time']);
+            // ticketCardGenerator(eventTitle, eventID, ticketID, dateTime, seatID, ImgAdd, gName)
+            echo "<script>ticketCardGenerator('" . $value['name'] . "','" . $value['id_event'] . "','" . $value['id_ticket'] . "','" . $date->format('F jS') . " at " . $time->format('g:i a') . "','" . $value['seat_name'] . "','" . $value['img'] . "','" . $value['guest_name'] . "');</script>";
+        }
     }
 }
 
@@ -374,6 +393,8 @@ function pagenationNumber($rows)
             margin: 0 auto;
         }
 
+
+
         .searchbar-div {
             min-height: 70px;
             box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
@@ -582,10 +603,199 @@ function pagenationNumber($rows)
             backdrop-filter: grayscale(100%);
             z-index: 999;
         }
+
+        /* ticket tab styles ****************ticket tab styles */
+        #tab-container-tickets {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            max-width: 1720px;
+            margin: 0 auto;
+            padding-top: 30px;
+
+        }
+
+        .ticket-card-container {
+            width: 470px;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+            border-bottom: 1px rgba(0, 0, 0, 0.4) solid;
+
+        }
+
+        .ticket-card-container:hover {
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+
+        }
+
+        .ticket-button {
+            width: 470px;
+            padding: 100px 25px 0 25px;
+            height: 100%;
+            display: flex;
+            gap: 25px;
+            opacity: 0;
+            position: absolute;
+            z-index: 3;
+            top: 0;
+            right: 0;
+            backdrop-filter: blur(3px);
+            background-color: #20202088;
+            transition: all 0.4s ease;
+            flex-wrap: wrap;
+        }
+
+        .ticket-button-confirm-container {
+            display: none;
+            width: 470px;
+            padding: 100px 25px 0 25px;
+            height: 100%;
+            opacity: 1;
+            position: absolute;
+            z-index: 9;
+            top: 0;
+            right: 0;
+            backdrop-filter: blur(3px);
+            background-color: #20202088;
+            transition: all 0.4s ease;
+        }
+
+        .ticket-button-confirm-container p {
+            color: #ddd;
+            position: relative;
+            font-size: 20px;
+            text-align: center;
+            z-index: 5;
+        }
+
+        .ticket-button-confirm {
+            width: 470px;
+            padding: 10px 25px 0 25px;
+            opacity: 1;
+            position: absolute;
+            z-index: 4;
+            top: 110px;
+            right: 0;
+            backdrop-filter: blur(3px);
+            background-color: #20202088;
+            transition: all 0.4s ease;
+            flex-wrap: wrap;
+
+        }
+
+        .ticket-button p {
+            width: 100%;
+        }
+
+        .ticket-button button,
+        .ticket-button-confirm button {
+            width: 45%;
+            box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+        }
+
+        .ticket-button-confirm button {
+            margin: 15px 8px 5px 8px;
+        }
+
+        .ticket-button button:hover,
+        .ticket-button-confirm button:hover {
+            width: 45%;
+        }
+
+        .ticket-card-container:hover .ticket-button {
+            opacity: 1;
+            transition: all 0.3s ease;
+        }
+
+        .ticket-card {
+            width: 470px;
+            height: 250;
+            display: flex;
+            background-color: #202020;
+            border-radius: 8px;
+            font-family: "Poppins";
+            color: #efae0a;
+            overflow: hidden;
+        }
+
+        .event-bg-ticket {
+            width: 240px;
+            height: 250px;
+            background-color: #656565;
+            background-size: cover;
+        }
+
+        .ticket-card-into {
+            flex-grow: 1;
+            padding: 10px;
+        }
+
+        .ticket-card-into ul {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            word-wrap: break-word;
+            height: 100%;
+        }
+
+        .event-bg-ticket {
+            padding: 0 10px 10px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: end;
+        }
+
+        .event-bg-ticket p {
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #FFFFFF;
+            text-align: center;
+            backdrop-filter: blur(2px);
+        }
     </style>
     <script>
+
+        function sendViaForm(dataValue) {
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = "ticketprocess.php";
+
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "delTicket";
+            input.value = dataValue;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        function showConfirmBox(ticketID) {
+            const confirmBox = document.getElementById(`confirm${ticketID}`);
+            if (confirmBox) {
+                confirmBox.style.display = 'block';
+            }
+        }
+
+        function hideConfirmBox(ticketID) {
+            const confirmBox = document.getElementById(`confirm${ticketID}`);
+            if (confirmBox) {
+                confirmBox.style.display = 'none';
+            }
+        }
+
+        function removeTicket(ticketID) {
+            const ticketCard = document.getElementById(`ticket${ticketID}`);
+            if (ticketCard) {
+                ticketCard.remove();
+            }
+        }
+
         function selectedPage(pageNum) {
-            console.log("page number >>>> " + pageNum);
             const selectedPageli = document.querySelector(`.pagination-ul li:nth-child(${pageNum}) a`);
             if (selectedPageli) {
                 selectedPageli.classList.replace("page-number", "page-number-selected");
@@ -596,6 +806,38 @@ function pagenationNumber($rows)
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(tab => tab.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
+        }
+
+        function ticketCardGenerator(eventTitle, eventID, ticketID, dateTime, seatID, ImgAdd, gName) {
+            const container = document.getElementById('tab-container-tickets');
+            container.insertAdjacentHTML('beforeend', `
+            <div class="ticket-card-container">
+                <div class="ticket-card">
+                    <div class="event-bg-ticket" style="background-image: url('${ImgAdd}')">
+                        <p>${eventTitle}</p>
+                    </div>
+                    <div class="ticket-card-into">
+                        <ul>
+                            <li><i class="labels-details">Ticket# </i><i class="note-details">${ticketID}</i></li>
+                            <li><i class="labels-details">Date and Time:</i><i class="note-details">${dateTime}</i></li>
+                            <li><i class="labels-details">Seat#</i><i class="note-details">${seatID}</i></li>
+                            <li><i class="labels-details">Guest Name:</i><i class="note-details">${gName}</i></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="ticket-button">
+                    <button onclick="window.location.href='eventdetails.php?event_id=${eventID}'" class="button-1">Event Details</button>
+                    <button class="button-1" onclick="showConfirmBox(${ticketID})">Cancel Ticket</button>
+                </div>
+                <div class="ticket-button-confirm-container" id="confirm${ticketID}">
+                    <p>Are you sure you want to remove the ticket?</p>
+                    <div class="ticket-button-confirm">
+                        <button class="button-1" onclick="sendViaForm(${ticketID})">Remove Ticket</button>
+                        <button class="button-1" onclick="hideConfirmBox(${ticketID})">Keep</button>
+                    </div>
+                </div>
+            </div>
+    `);
         }
 
     </script>
@@ -631,6 +873,7 @@ function pagenationNumber($rows)
 
                 <?php foreach ($userData as $data) {
                     echo "<script> console.log('" . $data . "');</script>";
+
                 } ?>
 
 
@@ -720,7 +963,10 @@ function pagenationNumber($rows)
             </div>
             <div id="tickets" class="tab">
                 <div class="header">Tickets</div>
-                <p>tickets content is displayed here.</p>
+                <div class="tab-container" id="tab-container-tickets">
+                    <?php getAllTickets() ?>
+
+                </div>
             </div>
             <!-- ********list of events************list of events**********list of events************** list of events -->
             <div id="events" class="tab">
@@ -900,7 +1146,6 @@ function pagenationNumber($rows)
                     setTimeout(() => { alert("Select a Image before submit."); }, 500)
                 };
             }
-
         }
 
         handleSuccessMessages();
@@ -969,7 +1214,6 @@ function pagenationNumber($rows)
             dateTime: "here context from database"
         };
 
-
         <?php
         foreach ($events as $index => $event) {
             $date = new DateTime($event['date']);
@@ -987,7 +1231,7 @@ function pagenationNumber($rows)
             echo "showTab('logout');";
         }
 
-        if (isset($_GET['tickets'])) {
+        if ($_GET['tickets']) {
             echo "showTab('tickets');";
             echo 'let dashItems = document.querySelectorAll(".sidebar ul li");';
             echo 'dashItems.forEach(i => i.classList.remove("selected"));';
@@ -999,12 +1243,14 @@ function pagenationNumber($rows)
             echo 'dashItems.forEach(i => i.classList.remove("selected"));';
             echo 'document.getElementById("eventsli").classList.add("selected");';
         }
+
+
         ?>
-
     </script>
-
+    <?php
+    echo_msg();
+    ?>
 </body>
-<?php
-?>
+
 
 </html>
