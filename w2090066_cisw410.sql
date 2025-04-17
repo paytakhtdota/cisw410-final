@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 04, 2025 at 04:51 PM
+-- Generation Time: Apr 17, 2025 at 06:32 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -326,13 +326,25 @@ INSERT INTO `seats` (`id_seat`, `seat_type`) VALUES
 
 CREATE TABLE `tickets` (
   `id_ticket` mediumint(9) NOT NULL COMMENT 'id primary key',
-  `guest_fname` int(11) DEFAULT NULL,
-  `guest_lname` int(11) DEFAULT NULL,
+  `guest_name` varchar(128) DEFAULT NULL,
   `purchase_time` timestamp NOT NULL DEFAULT current_timestamp(),
   `id_seat` smallint(6) NOT NULL,
   `id_event` smallint(6) NOT NULL,
-  `id_user` int(11) NOT NULL
+  `id_user` int(11) NOT NULL,
+  `seat_name` varchar(8) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tickets`
+--
+
+INSERT INTO `tickets` (`id_ticket`, `guest_name`, `purchase_time`, `id_seat`, `id_event`, `id_user`, `seat_name`) VALUES
+(117, 'User Test', '2025-04-17 07:04:07', 25, 1, 36, 'B10'),
+(118, 'User Test', '2025-04-17 07:07:21', 1, 89, 36, 'VIP-1'),
+(123, 'User Test', '2025-04-17 07:08:44', 12, 116, 36, 'VIP-12'),
+(127, 'fgsdf', '2025-04-17 08:09:38', 70, 7, 36, 'E10'),
+(128, '3242zxcv cv', '2025-04-17 08:37:07', 34, 7, 36, 'C4'),
+(129, 'asdfasdf', '2025-04-17 08:37:07', 35, 7, 36, 'C5');
 
 -- --------------------------------------------------------
 
@@ -358,16 +370,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `fname`, `lname`, `prefix`, `email`, `password`, `phone`, `create_at`, `privilege_level`, `img_path`) VALUES
-(5, 'Mohammad', 'Ansari', NULL, 'admin@admin.com', '$2y$10$Zr6RIkTynk9.4IFkpfb43Oi15MUPurJDacaTl3pFEfoTQnBRI9K1K', '2076151337', '2025-03-02 21:41:40', 5, 'public/upload/notset2.png'),
-(25, 'New admin', 'New', NULL, 'new@admin.com', '$2y$10$ap7STD5SBqEnynatPhVlkemfkcXmSsW2lxhcBNKMoEq.QCq1VkpAq', '2076151337', '2025-03-06 21:54:47', 5, 'public/upload/notset2.png'),
-(28, 'Mohammad', 'Ansari', NULL, 'paytakhtdota12312312@gmail.com', '$2y$10$TT2zykC/r76pLbzDj50KaObl1cHLB.zG.Xi6azBoCJ5nR/N2hXdFa', '2076151337', '2025-03-07 07:26:36', 4, 'public/upload/notset2.png'),
-(29, 'Mohammad', 'Ansari', NULL, 'paytakht234234234dota@gmail.com', '$2y$10$Jn2KFd4.Qrv9UpNJmwv4We9CEqIPSPib/YUBKfnx/lRVzuETzXrMu', '2076151337', '2025-03-07 07:29:43', 4, 'public/upload/notset2.png'),
-(31, 'Mohammad', 'Ansari2', NULL, 'paytsadfasdfakhtdota@gmail.com', '$2y$10$oOzrfO79/E1kdgLYe62T.ukCcMBr1SzfiUiO/2CyNVdJNJzpiw4t.', '2076151337', '2025-03-07 08:05:23', 0, 'public/upload/notset2.png'),
-(32, 'Mohammad', 'Ansari', NULL, 'takhtasddota@gmail.com', '$2y$10$1JlUqBY7qAhhyNSnwsnjEu4MuHIwqW67.7ekIKmCedOvd3NxAO0YW', '2076151337', '2025-03-07 08:10:15', 0, 'public/upload/notset2.png'),
-(35, 'Test', 'Test', NULL, 'user@user.com', '$2y$10$hglBCThy2NaE9.dJyjU2m.cp55XX0LvOvTvgmuyw4nGLGZJ6ppl3q', '916 000 1234', '2025-03-09 19:32:39', 0, 'public/upload/notset2.png'),
 (36, 'User', 'Test', NULL, 'test@test', '$2y$10$gdJV0Wj.kLde8Mgm3IwLrOtylIEyiDwkW8bhtrH.FclVq8bH2HHV6', '207222123123', '2025-03-15 20:33:01', 0, 'public/upload/67e64da19a547profile-2.jpg'),
-(38, 'Mohammad', 'Ansari', NULL, 'paytakhtdota@gmail.com', '$2y$10$aZzoJS4QQZcKP1YV.J0HT.qDTMozA5StoIzUf6j0utyegCP.NFSlW', '2076151337', '2025-03-29 22:54:04', 4, 'public/upload/notset2.png'),
-(39, 'Mohammad', 'Ansari', NULL, 'pay123123@gmail.com', '$2y$10$xCckYp04AtuyQimTPh.v/.UFbSt0ix3ScquyadS6h1TXMOoPrF5VO', '2076151337', '2025-03-29 23:43:33', 4, 'public/upload/notset2.png');
+(42, 'Admin', 'Admin', NULL, 'admin@admin', '$2y$10$6P53RWYJbeiTBuBlSktNJeotDMBLMZmOLeyfi0KE3yVQvwRRDmgj6', '2076151337', '2025-04-12 23:25:59', 5, 'public/upload/notset2.png');
 
 --
 -- Indexes for dumped tables
@@ -397,9 +401,9 @@ ALTER TABLE `seats`
 --
 ALTER TABLE `tickets`
   ADD PRIMARY KEY (`id_ticket`),
-  ADD UNIQUE KEY `ticket_seat` (`id_event`,`id_seat`),
-  ADD KEY `id_seat` (`id_seat`),
-  ADD KEY `tickets_ibfk_1` (`id_user`);
+  ADD UNIQUE KEY `event_seat` (`id_event`,`id_seat`) USING BTREE,
+  ADD KEY `users` (`id_user`) USING BTREE,
+  ADD KEY `seats` (`id_seat`) USING BTREE;
 
 --
 -- Indexes for table `users`
@@ -428,13 +432,13 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id_ticket` mediumint(9) NOT NULL AUTO_INCREMENT COMMENT 'id primary key';
+  MODIFY `id_ticket` mediumint(9) NOT NULL AUTO_INCREMENT COMMENT 'id primary key', AUTO_INCREMENT=130;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT COMMENT 'user id', AUTO_INCREMENT=42;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT COMMENT 'user id', AUTO_INCREMENT=43;
 
 --
 -- Constraints for dumped tables
